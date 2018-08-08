@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ContentConductorDemoModule } from './content-conductor-demo/content-conductor-demo.module';
+
+import { ContentConductorModule } from '@uat/dvk';
 
 @NgModule({
   declarations: [
@@ -10,7 +13,11 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ContentConductorDemoModule,
+
+
+    ContentConductorModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

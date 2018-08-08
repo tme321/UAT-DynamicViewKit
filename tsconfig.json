@@ -18,10 +18,10 @@
       "dom"
     ],
     "paths": {
-      "dvk": [
+      "@uat/dvk": [
         "dist/dvk"
       ],
-      "dvk/*": [
+      "@uat/dvk/*": [
         "dist/dvk/*"
       ]
     }
