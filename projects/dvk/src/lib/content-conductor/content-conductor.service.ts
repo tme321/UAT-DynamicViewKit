@@ -20,7 +20,7 @@ import { ContentConductor } from './content-conductor.model';
  * for moving content around a component's template,
  * 
  * @example
- * constructor(private conductorService: BBContentConductorService) {}
+ * constructor(private conductorService: ContentConductorService) {}
  */
 @Injectable()
 export class ContentConductorService {

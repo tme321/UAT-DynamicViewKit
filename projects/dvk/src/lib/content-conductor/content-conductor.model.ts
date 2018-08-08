@@ -40,7 +40,7 @@ import { ContentContainer } from './content-container/content-container.model';
  *   }
  * 
  * And then move the content around with string names mapped to the
- * names of the bb-content-container directives:
+ * names of the dvk-content-container directives:
  * 
  *   moveToTwo() {
  *     this.conductor.moveViews("one","two");

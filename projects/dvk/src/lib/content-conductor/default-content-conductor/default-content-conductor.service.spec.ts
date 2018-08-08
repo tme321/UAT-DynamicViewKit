@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { DefaultContentConductorService } from './default-content-conductor.service';
 
-describe('BBDefaultContentConductorService', () => {
+describe('DefaultContentConductorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [DefaultContentConductorService]

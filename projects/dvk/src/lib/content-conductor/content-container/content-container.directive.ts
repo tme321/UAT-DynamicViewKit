@@ -11,7 +11,7 @@ import { ContentContainer } from './content-container.model';
  * this container by the {@link ContentConductor}.
  * 
  * @example
- * <div bb-content-container="my-container"></div>
+ * <div dvk-content-container="my-container"></div>
  */
 @Directive({
   selector: '[dvk-content-container]'

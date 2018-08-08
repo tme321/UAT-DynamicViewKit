@@ -1,34 +1,13 @@
 <div>
-  <h4>One</h4>
-  <!--
-  <ng-container bb-content-container='one' *ngTemplateOutlet="contents.toArray()"></ng-container>
-  -->
+  <h4>Conatiner One</h4>
   <div >
     <div dvk-content-container="one"></div>
   </div>
-
-  <!--
-  <ng-container *ngIf="cont === 'one'">
-    <ng-container *ngFor="let template of contents.toArray()">
-      <ng-container *ngTemplateOutlet="template"></ng-container>
-    </ng-container>
-  </ng-container>
-  -->
-  
 </div>
 <div>
-  <h4>Two</h4>
-
+  <h4>Container Two</h4>
   <div >
     <div dvk-content-container="two"></div>
   </div>
-
-  <!--
-  <ng-container *ngIf="cont === 'two'">
-    <ng-container *ngFor="let template of contents.toArray()">
-      <ng-container *ngTemplateOutlet="template"></ng-container>
-    </ng-container>
-  </ng-container>
-  -->
 </div>
 <button (click)="onToggle()">Toggle</button>

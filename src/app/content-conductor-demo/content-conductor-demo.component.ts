@@ -13,7 +13,7 @@ export class ContentConductorDemoComponent implements OnInit {
   @ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true }) 
   contents: QueryList<TemplateRef<any>>;
 
-  @ViewChildren(ContentContainerDirective) // BBContentContainerDirective) 
+  @ViewChildren(ContentContainerDirective) // ContentContainerDirective) 
   containers: QueryList<ContentContainerDirective>;
 
   cont: 'one' | 'two' = 'one';

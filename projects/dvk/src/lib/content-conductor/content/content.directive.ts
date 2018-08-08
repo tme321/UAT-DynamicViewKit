@@ -8,7 +8,7 @@ import { Directive, TemplateRef } from '@angular/core';
  * It can be attached to any element.
  * 
  * @example
- * <span *bb-content>Some Content To Display In A Container</span>
+ * <span *dvk-content>Some Content To Display In A Container</span>
  */
 @Directive({
   selector: '[dvk-content]'
