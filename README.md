@@ -1,5 +1,21 @@
 # UATDynamicViewKit
 
+This project contains the @uat/dvk library which provides tools 
+for building full featured but unopinioanted components.
+
+The dvk project must be compiled before the demo will work.  To
+run the demo first execute:
+
+    ng build dvk
+
+Then execute:
+  
+    ng serve
+
+as normal.
+
+It is still under development at this time.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.2.
 
 ## Development server

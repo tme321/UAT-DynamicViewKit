@@ -12,8 +12,13 @@ export class DynamicAnimationsDemoComponent implements OnInit {
     'open': { 'closed':  upSlide},
     'closed': { 'open':  downSlide},
   };
+  
   state: string = 'open';
-  cssMap = { 'open': 'dad-open', 'closed' : 'dad-closed'};
+
+  cssMap = { 
+    'open': 'dad-open', 
+    'closed' : 'dad-closed'
+  };
 
   constructor() { }
 
@@ -21,8 +26,12 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   }
 
   toggleState() {
-    if(this.state === 'closed') { this.state = 'open'; }
-    else if(this.state === 'open') { this.state = 'closed'; }
+    if(this.state === 'closed') { 
+      this.state = 'open'; 
+    }
+    else if(this.state === 'open') { 
+      this.state = 'closed'; 
+    }
   }
 
 }

@@ -68,12 +68,6 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
   }
 
   init() {  
-    console.log('init: ',
-      this.cssMapperService,
-      this.animationStatesBuilder
-    );
-
-
     if(this.animationsStateMachine) {
       this.animationsStateMachine.init(
         this.stateCache,

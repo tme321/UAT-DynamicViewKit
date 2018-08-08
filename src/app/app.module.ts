@@ -6,8 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentConductorDemoModule } from './content-conductor-demo/content-conductor-demo.module';
 
-import { ContentConductorModule, DynamicAnimationsModule } from '@uat/dvk';
+import { ContentConductorModule, DynamicAnimationsModule, DynamicComponentsModule } from '@uat/dvk';
 import { DynamicAnimationsDemoModule } from './dynamic-animations-demo/dynamic-animations-demo.module';
+import { DynamicComponentsDemoModule } from './dynamic-components-demo/dynamic-components-demo.module';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,12 @@ import { DynamicAnimationsDemoModule } from './dynamic-animations-demo/dynamic-a
     AppRoutingModule,
     ContentConductorDemoModule,
     DynamicAnimationsDemoModule,
+    DynamicComponentsDemoModule,
 
 
     ContentConductorModule.forRoot(),
-    DynamicAnimationsModule.forRoot()
+    DynamicAnimationsModule.forRoot(),
+    DynamicComponentsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
