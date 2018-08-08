@@ -121,6 +121,46 @@
           }
         }
       }
+    },
+    "dvk": {
+      "root": "projects/dvk",
+      "sourceRoot": "projects/dvk/src",
+      "projectType": "library",
+      "prefix": "dvk",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/dvk/tsconfig.lib.json",
+            "project": "projects/dvk/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/dvk/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dvk/src/test.ts",
+            "tsConfig": "projects/dvk/tsconfig.spec.json",
+            "karmaConfig": "projects/dvk/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/dvk/tsconfig.lib.json",
+              "projects/dvk/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "UAT-DynamicViewKit"
