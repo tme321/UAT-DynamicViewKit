@@ -16,6 +16,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "dvk": [
+        "dist/dvk"
+      ],
+      "dvk/*": [
+        "dist/dvk/*"
+      ]
+    }
   }
 }
