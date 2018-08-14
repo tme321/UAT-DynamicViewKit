@@ -1,0 +1,25 @@
+nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right:0;
+    z-index: 9000;
+    background-color:#4B4B4B;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+a {
+    margin: 15px;
+    color: #ffffff;
+    text-decoration: none;
+    padding:14px;
+}
+
+a:hover {
+    background-color: #666666;
+}

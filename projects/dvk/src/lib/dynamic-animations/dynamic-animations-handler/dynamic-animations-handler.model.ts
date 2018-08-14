@@ -10,7 +10,6 @@ import { StateCSSMap } from '../state-css-map/state-css-map.model';
  * @method nextState Transition to the next state.
  * @method setTransitions Set the map of animations to make on specific state 
  * transitions.
- * @method init Initialize the handler.  Should usually be called in ngOnInit
  * @method destroy Release the references for garbage collection.  Should 
  * usually be called in ngOnDestroy.
  */
@@ -18,6 +17,5 @@ export interface DynamicAnimationsHandler {
     setCSSMap: (map: StateCSSMap) =>void;
     nextState: (toState:string) => void;
     setTransitions: (transitions: AnimationTransitions) => void;
-    init: () => void;
     destroy: () => void;
 }

@@ -37,16 +37,29 @@ import { AnimationTransitions } from './animation-transitions/animation-transiti
 export abstract class DynamicAnimationsBase implements OnInit, OnDestroy {
     protected animationsHandler: DynamicAnimationsHandler;
 
+    private cssMapCache: StateCSSMap;
+    private stateCache: string;
+    private transitionsCache: AnimationTransitions;
+
     @Input() set cssMap (map: StateCSSMap) {
-        this.animationsHandler.setCSSMap(map);
+        this.cssMapCache = map;
+        if(this.animationsHandler){
+            this.animationsHandler.setCSSMap(this.cssMapCache);
+        }
     }
     
     @Input() set state(toState: string) {
-        this.animationsHandler.nextState(toState);
+        this.stateCache = toState;
+        if(this.animationsHandler) {
+            this.animationsHandler.nextState(this.stateCache);
+        }
     }
     
     @Input() set transitions(transitions: AnimationTransitions) {
-        this.animationsHandler.setTransitions(transitions);
+        this.transitionsCache = transitions;
+        if(this.animationsHandler) {
+            this.animationsHandler.setTransitions(this.transitionsCache);
+        }
     }
      
     /**
@@ -58,8 +71,6 @@ export abstract class DynamicAnimationsBase implements OnInit, OnDestroy {
         protected element: any,
         protected dynamicAnimationsService: DynamicAnimationsService,
     ) {
-        this.animationsHandler = this.dynamicAnimationsService
-          .createAnimationsHandler(this.element);
 
         /*
          * Override the behaviour of ngOnInit and 
@@ -81,14 +92,25 @@ export abstract class DynamicAnimationsBase implements OnInit, OnDestroy {
         };          
     }
 
+    /**
+     * Implemented to satisfy OnInit, noop
+     */
     ngOnInit() {  
     }
-    
+
+    /**
+     * Implemented to satisfy OnDestroy, noop
+     */
     ngOnDestroy() {
     }
 
     private baseInit() {
-        this.animationsHandler.init();
+        this.animationsHandler = this.dynamicAnimationsService
+            .createAnimationsHandler(
+                this.element,
+                this.stateCache,
+                this.transitionsCache,
+                this.cssMapCache);
     }
 
     private baseDestroy() {

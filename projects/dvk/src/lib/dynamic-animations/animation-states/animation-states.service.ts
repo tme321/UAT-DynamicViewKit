@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { AnimationPlayer, AnimationBuilder } from '@angular/animations';
 import { AnimationTransitions } from '../animation-transitions/animation-transitions.model';
-import { AnimationPlayers } from '../animation-players/animation-players.model';
 import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
+import { AnimationStateMachineConstructorToken } from '../animation-state-machine/animation-state-machine.token';
+import { AnimationStateMachineConstructor } from '../animation-state-machine/animation-state-machine.constructor';
 
 /**
  * This service creates an animation transition 
@@ -20,7 +21,11 @@ import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
 export class AnimationStatesService {
 
   constructor(
-    private builder: AnimationBuilder) {}
+    private builder: AnimationBuilder,
+    @Inject(AnimationStateMachineConstructorToken)
+    private stateMachineConstructor: AnimationStateMachineConstructor) {}
+
+  /*
 
   /**
    * Build a group of [Animation Players]{@link @angular/animations#AnimationPlayer}.
@@ -29,7 +34,7 @@ export class AnimationStatesService {
    * @param transitions The map of state transition animations for the element.
    * @returns A data structure representing the transition names and animation
    * players in the shape of [AnimationPlayers]{@link AnimationPlayers}
-   */
+   * /
   buildPlayers(
     element: any, 
     transitions: AnimationTransitions) {
@@ -58,7 +63,7 @@ export class AnimationStatesService {
    * @param state The string that represents the state.
    * @param mapper The [StateCSSMapper]{@link StateCSSMapper}
    * that modifies the css of an element.
-   */
+   * / 
   onAnimationStart = (
     state: string, 
     mapper: StateCSSMapper = null) => () => {
@@ -76,7 +81,7 @@ export class AnimationStatesService {
    * @param state The string that represents the state.
    * @param mapper The [StateCSSMapper]{@link StateCSSMapper}
    * that modifies the css of an element.
-   */
+   * /
   onAnimationDone = (
     state: string, 
     mapper: StateCSSMapper = null) => () => {
@@ -90,7 +95,7 @@ export class AnimationStatesService {
    * @param fromState The current state.
    * @param toState The next state.
    * @param players The {@link AnimationPlayers} to look up the player in.
-   */
+   * / 
   getPlayer(
     fromState: string, 
     toState: string, 
@@ -104,7 +109,7 @@ export class AnimationStatesService {
    * Destroy the {@link @angular/animations#AnimationPlayer} objects
    * inside the {@link AnimationPlayers}.
    * @param players 
-   */
+   * /
   destroyAllPlayers(players: AnimationPlayers) {
     if(players) {
       Object.keys(players).forEach(fromState=>{
@@ -114,6 +119,7 @@ export class AnimationStatesService {
       });
     }
   }
+  */
 
   /**
    * Create a {@link AnimationStateMachine} to apply to an
@@ -126,6 +132,13 @@ export class AnimationStatesService {
     element: any, 
     transitions: AnimationTransitions = {}) {
 
+    return new this.stateMachineConstructor(
+      element,
+      transitions,
+      this.builder
+    );
+
+    /*
     let players = this.buildPlayers(element, transitions);
     let currentState: string = '';
     let currentPlayer: AnimationPlayer;
@@ -154,7 +167,7 @@ export class AnimationStatesService {
               /*
                * Reseting the player clears the callbacks
                * so reregister them each time before playing.
-               */
+               * /
               currentPlayer.onStart(
                 this.onAnimationStart(currentState,mapper));
               currentPlayer.onDone(
@@ -168,7 +181,7 @@ export class AnimationStatesService {
              * that by explicitly swapping out  the css 
              * classes when the transition player doesn't 
              * exist.
-             */
+             * /
             else {
               if(mapper) {
                 mapper.remove(currentState);
@@ -188,7 +201,8 @@ export class AnimationStatesService {
           currentPlayer = null;
           players = null;
         }
-    } 
+    }
+    */ 
 
   }
 }

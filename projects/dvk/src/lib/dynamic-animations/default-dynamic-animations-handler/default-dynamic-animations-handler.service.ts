@@ -8,21 +8,72 @@ import { StateCssMapperService } from '../state-css-mapper/state-css-mapper.serv
 
 export class DefaultDynamicAnimationsHandlerService implements DynamicAnimationsHandler {
 
-  constructor( 
-    private element: any,
-    private cssMapperService: StateCssMapperService,
-    private animationStatesBuilder: AnimationStatesService
-) {}
-
   private animationsStateMachine: AnimationStateMachine;
   private cssMapper: StateCSSMapper;
-  private stateCache: string = '';
-  private mapCache: StateCSSMap = {};
-  private transitionsCache: AnimationTransitions = {};
 
+  constructor(
+    private element: any,
+    private state: string,
+    private transitions: AnimationTransitions,
+    private cssMap: StateCSSMap,
+    private cssMapperService: StateCssMapperService,
+    private animationStatesBuilder: AnimationStatesService
+  ) {
+    this.createCSSMapper(cssMap);
+    this.createStateMachine(this.transitions);
+  }
+  
   setCSSMap(map: StateCSSMap) {
-    if(this.mapCache !== map) {
-      this.mapCache = map;
+    this.createCSSMapper(map);
+  }
+
+  nextState(toState:string) {
+    if(this.state !== toState) {
+      this.state = toState;
+
+      if(this.animationsStateMachine) {
+        this.animationsStateMachine.next(
+          this.state, 
+          this.cssMapper);
+      }
+    }
+  }
+
+  setTransitions(transitions: AnimationTransitions) {
+    this.createStateMachine(transitions);
+  }
+
+  destroy() {
+    this.animationsStateMachine.destroy();
+    this.cssMapper.destroy();
+    this.state = null;
+    this.cssMap = null;
+    this.transitions = null;
+  }
+
+  private createStateMachine(transitions: AnimationTransitions) {
+    if(this.animationsStateMachine) {
+      this.animationsStateMachine.destroy();
+    }
+
+    if(this.transitions !== transitions || !this.animationsStateMachine) {
+      this.transitions = transitions;
+
+      this.animationsStateMachine = 
+        this.animationStatesBuilder
+          .createAnimationStateMachine(
+            this.element,
+            this.transitions);
+
+      this.animationsStateMachine.init(
+        this.state,
+        this.cssMapper);
+    }
+  }
+
+  private createCSSMapper(map: StateCSSMap = {}) {
+    if(this.cssMap !== map || !this.cssMapper) {
+      this.cssMap = map;
 
       if(this.cssMapper) {
         this.cssMapper.removeAll();
@@ -30,56 +81,9 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
       }
 
       this.cssMapper = this.cssMapperService
-        .createStateCSSMapper(this.element,this.mapCache);
+        .createStateCSSMapper(this.element,this.cssMap);
+
+      this.cssMapper.add(this.state);
     }
-  }
-
-  nextState(toState:string) {
-    if(this.stateCache !== toState) {
-      this.stateCache = toState;
-
-      if(this.animationsStateMachine) {
-        this.animationsStateMachine.next(
-          this.stateCache, 
-          this.cssMapper);
-      }
-    }
-  }
-
-  setTransitions(transitions: AnimationTransitions) {
-    if(this.transitionsCache !== transitions) {
-      this.transitionsCache = transitions;
-
-      if(this.animationsStateMachine) {
-
-        if(this.cssMapper) {
-          this.cssMapper.removeAll();
-        }
-
-        this.animationsStateMachine.destroy();
-      }    
-
-      this.animationsStateMachine = 
-        this.animationStatesBuilder
-          .createAnimationStateMachine(
-            this.element,
-            this.transitionsCache);
-    }
-  }
-
-  init() {  
-    if(this.animationsStateMachine) {
-      this.animationsStateMachine.init(
-        this.stateCache,
-        this.cssMapper);
-    }
-  }
-
-  destroy() {
-    this.animationsStateMachine.destroy();
-    this.cssMapper.destroy();
-    this.stateCache = null;
-    this.mapCache = null;
-    this.transitionsCache = null;
   }
 }

@@ -1,3 +1,5 @@
+import { StateCSSMap } from './state-css-map/state-css-map.model';
+import { AnimationTransitions } from './animation-transitions/animation-transitions.model';
 import { Injectable, Inject } from '@angular/core';
 import { DynamicAnimationsHandlerConstructor } from './dynamic-animations-handler/dynamic-animations-handler.constructor';
 import { DynamicAnimationsHandlerConstructorToken } from './dynamic-animations-handler/dynamic-animations-handler.token';
@@ -77,12 +79,25 @@ export class DynamicAnimationsService {
    * 
    * @param element The element to attach the animations
    * handler to. 
+   * 
+   * @param initialState The initial state of the {@link AnimationStateMachine}
+   * @param transitions The {@link AnimationTransitions} for the {@link AnimationStateMachine}
+   * @param cssMap The {@link StateCSSMap} for the {@link AnimationStateMachine}
+   * 
    */
-  createAnimationsHandler(element: any) {
-    return new this.animationsHandlerConstructor(
-      element,
-      this.cssMapperService,
-      this.animationStatesBuilder);
+  createAnimationsHandler(
+    element: any, 
+    initialState: string, 
+    transitions: AnimationTransitions, 
+    cssMap: StateCSSMap = {}) {
+
+      return new this.animationsHandlerConstructor(
+        element,
+        initialState,
+        transitions,
+        cssMap,
+        this.cssMapperService,
+        this.animationStatesBuilder);
   }
 }
 

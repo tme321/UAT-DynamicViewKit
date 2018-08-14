@@ -1,4 +1,16 @@
+div.content {
+    min-height:900px;
+}
+
 div.dad-panel {
     border: 1px black solid;
     height: 250px;
+}
+
+div.dad-open {
+    height: 250px;
+}
+
+div.dad-closed {
+    transform: scaleY(0.0);
 }
