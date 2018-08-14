@@ -13,7 +13,8 @@ export class DynamicAnimationsDemoComponent implements OnInit {
     'closed': { 'open':  downSlide},
   };
   
-  state: string = 'open';
+  componentState: string = 'closed';
+  directiveState: string = 'open';
 
   cssMap = { 
     'open': 'dad-open', 
@@ -25,12 +26,21 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleState() {
-    if(this.state === 'closed') { 
-      this.state = 'open'; 
+  toggleDirective() {
+    if(this.directiveState === 'closed') { 
+      this.directiveState = 'open'; 
     }
-    else if(this.state === 'open') { 
-      this.state = 'closed'; 
+    else if(this.directiveState === 'open') { 
+      this.directiveState = 'closed'; 
+    }
+  }
+
+  toggleComponent() {
+    if(this.componentState === 'closed') { 
+      this.componentState = 'open'; 
+    }
+    else if(this.componentState === 'open') { 
+      this.componentState = 'closed'; 
     }
   }
 

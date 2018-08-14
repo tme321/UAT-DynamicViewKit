@@ -10,28 +10,44 @@ import { DynamicAnimationsService, AnimationTransitions, DynamicAnimationsHandle
 export class AlternatingPanelDirective {
   private animationsHandler: DynamicAnimationsHandler;
 
+  private cssMapCache: StateCSSMap;
+  private stateCache: string;
+  private transitionsCache: AnimationTransitions;
+
   @Input() set cssMap (map: StateCSSMap) {
-    this.animationsHandler.setCSSMap(map);
+    this.cssMapCache = map;
+    if(this.animationsHandler) {
+      this.animationsHandler.setCSSMap(this.cssMapCache);
+    }
   }
 
   @Input() set state(toState: string) {
-    this.animationsHandler.nextState(toState);
+    this.stateCache = toState;
+    if(this.animationsHandler) {
+      this.animationsHandler.nextState(this.stateCache);
+    }
   }
 
   @Input() set transitions(transitions: AnimationTransitions) {
-    this.animationsHandler.setTransitions(transitions);
+    this.transitionsCache = transitions;
+    if(this.animationsHandler) {
+      this.animationsHandler.setTransitions(this.transitionsCache);
+    }
   }
 
   constructor(
     private elRef: ElementRef,
     private daServ: DynamicAnimationsService,
-  ) {
-    this.animationsHandler = this.daServ
-      .createAnimationsHandler(this.elRef.nativeElement);
-  }
+  ) {}
 
   ngOnInit() {  
-    this.animationsHandler.init();
+    this.animationsHandler = this.daServ
+      .createAnimationsHandler(
+        this.elRef.nativeElement,
+        this.stateCache,
+        this.transitionsCache,
+        this.cssMapCache
+      );
   }
 
   ngOnDestroy() {

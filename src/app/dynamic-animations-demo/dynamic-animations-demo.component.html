@@ -1,9 +1,25 @@
 <h3>Dynamic Animations Demo</h3>
-<button (click)="toggleState()">Toggle</button>
-<div aternating-panel
-	class="dad-panel"
-	[transitions]="transitions" 
-	[state]="state"
-	[cssMap]="cssMap"
-	>
+<div class="content">
+	<div>
+		<h4>Animated Directive</h4>
+		<button (click)="toggleDirective()">Toggle</button>
+		<div aternating-panel
+			class="dad-panel"
+			[transitions]="transitions" 
+			[state]="directiveState"
+			[cssMap]="cssMap"
+			>
+		</div>
+	</div>
+	<div>
+		<h4>Animated Component</h4>
+		<button (click)="toggleComponent()">Toggle</button>
+		<div alt-panel
+			class="dad-panel"
+			[transitions]="transitions" 
+			[state]="componentState"
+			[cssMap]="cssMap"
+			>
+		</div>
+	</div>
 </div>

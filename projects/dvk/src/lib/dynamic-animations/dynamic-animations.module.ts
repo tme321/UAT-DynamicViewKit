@@ -5,6 +5,9 @@ import { AnimationStatesService } from './animation-states/animation-states.serv
 import { DynamicAnimationsHandlerConstructor } from './dynamic-animations-handler/dynamic-animations-handler.constructor';
 import { DefaultDynamicAnimationsHandlerService } from './default-dynamic-animations-handler/default-dynamic-animations-handler.service';
 import { DynamicAnimationsHandlerConstructorToken } from './dynamic-animations-handler/dynamic-animations-handler.token';
+import { AnimationStateMachineConstructorToken } from './animation-state-machine/animation-state-machine.token';
+import { DefaultAnimationsStateMachine } from './default-animations-state-machine/default-animations-state-machine.service';
+import { AnimationStateMachineConstructor } from './animation-state-machine/animation-state-machine.constructor';
 
 @NgModule({
   providers: [
@@ -15,7 +18,8 @@ import { DynamicAnimationsHandlerConstructorToken } from './dynamic-animations-h
 })
 export class DynamicAnimationsModule {
   static forRoot(
-    animationsHandlerConstructor: DynamicAnimationsHandlerConstructor = DefaultDynamicAnimationsHandlerService
+    animationsHandlerConstructor: DynamicAnimationsHandlerConstructor = DefaultDynamicAnimationsHandlerService,
+    animationsStateMachineConstructor: AnimationStateMachineConstructor = DefaultAnimationsStateMachine 
   ): ModuleWithProviders {
     return {
       ngModule: DynamicAnimationsModule,
@@ -23,6 +27,10 @@ export class DynamicAnimationsModule {
         { 
           provide: DynamicAnimationsHandlerConstructorToken, 
           useValue: animationsHandlerConstructor 
+        },
+        {
+          provide: AnimationStateMachineConstructorToken,
+          useValue: animationsStateMachineConstructor
         }
       ]
     };
