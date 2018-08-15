@@ -4,6 +4,9 @@ import { StateCssMapperService } from '../state-css-mapper/state-css-mapper.serv
 import { AnimationTransitions } from '../animation-transitions/animation-transitions.model';
 import { StateCSSMap } from '../state-css-map/state-css-map.model';
 
+/**
+ * The shape of a constructor for an object that can act as the Animations Handler.
+ */
 export interface DynamicAnimationsHandlerConstructor {
     new( 
         element: any,

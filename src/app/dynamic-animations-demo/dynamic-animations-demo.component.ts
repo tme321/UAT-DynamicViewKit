@@ -11,12 +11,14 @@ import { upSlide, downSlide } from './animations/animations';
 export class DynamicAnimationsDemoComponent implements OnInit {
 
   transitions: AnimationTransitions = {
-    initial: style({ 
-      transform: `scaleY(0.0)`,
-      height: '250px', 
-      'transform-origin': 'top' 
-    }),
-    transitions: {
+    initialStyles: {
+      'closed': style({ 
+          transform: `scaleY(0.0)`,
+          'transform-origin': 'top' 
+        }),
+      'open': style({})
+    },
+    onTransitions: {
       'open': { 'closed':  upSlide},
       'closed': { 'open':  downSlide},
     }
