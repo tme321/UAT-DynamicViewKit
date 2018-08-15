@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { style } from '@angular/animations';
+import { AnimationTransitions } from '@uat/dvk/uat-dvk';
 import { upSlide, downSlide } from './animations/animations';
 
 @Component({
@@ -8,9 +10,16 @@ import { upSlide, downSlide } from './animations/animations';
 })
 export class DynamicAnimationsDemoComponent implements OnInit {
 
-  transitions = {
-    'open': { 'closed':  upSlide},
-    'closed': { 'open':  downSlide},
+  transitions: AnimationTransitions = {
+    initial: style({ 
+      transform: `scaleY(0.0)`,
+      height: '250px', 
+      'transform-origin': 'top' 
+    }),
+    transitions: {
+      'open': { 'closed':  upSlide},
+      'closed': { 'open':  downSlide},
+    }
   };
   
   componentState: string = 'closed';

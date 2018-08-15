@@ -1,3 +1,4 @@
+import { animate } from '@angular/animations';
 import { AnimationPlayer, AnimationBuilder } from '@angular/animations';
 import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
@@ -21,6 +22,14 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
 
     if(mapper) {
       mapper.add(this.currentState);
+    }
+
+    if(this.transitions.initial) {
+      this.builder.build(
+        animate('0ms', 
+          this.transitions.initial)
+      )
+        .create(this.element).play();
     }
   }
 
@@ -87,13 +96,13 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     element: any, 
     transitions: AnimationTransitions) {
 
-    return Object.keys(transitions).reduce<AnimationPlayers>(
+    return Object.keys(transitions.transitions).reduce<AnimationPlayers>(
       (players,fromState)=>{
-        players[fromState] = Object.keys(transitions[fromState])
+        players[fromState] = Object.keys(transitions.transitions[fromState])
           .reduce<{[toState:string]: AnimationPlayer}>(
             (prev,toState)=>{
               const player = this.builder
-                .build(transitions[fromState][toState])
+                .build(transitions.transitions[fromState][toState])
                 .create(element);
               prev[toState] = player; 
               return prev;

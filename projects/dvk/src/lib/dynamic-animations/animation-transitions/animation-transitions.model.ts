@@ -1,4 +1,4 @@
-import { AnimationMetadata } from "@angular/animations";
+import { AnimationMetadata, AnimationStyleMetadata } from "@angular/animations";
 
 /**
  * A map of states and {@link @angular/animations#AnimationMetadata}.
@@ -36,8 +36,13 @@ import { AnimationMetadata } from "@angular/animations";
  *   ]}
  * }
  */
-export interface AnimationTransitions {
+export interface AnimationTransitionsMap {
   [fromState: string]: {
     [toState: string]: AnimationMetadata | AnimationMetadata[];
   }
-}  
+} 
+
+export interface AnimationTransitions {
+  initial?: AnimationStyleMetadata;
+  transitions?: AnimationTransitionsMap;
+}
