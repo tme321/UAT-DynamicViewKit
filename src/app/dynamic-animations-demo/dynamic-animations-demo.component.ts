@@ -1,3 +1,4 @@
+import { transition, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { style } from '@angular/animations';
 import { AnimationTransitions } from '@uat/dvk/uat-dvk';
@@ -36,6 +37,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
 
   ngOnInit() {
     console.log(transTest);
+    
   }
 
   toggleDirective() {
@@ -53,6 +55,25 @@ export class DynamicAnimationsDemoComponent implements OnInit {
     }
     else if(this.componentState === 'open') { 
       this.componentState = 'closed'; 
+    }
+  }
+
+  newState = 'closed';
+  newShow = true;
+  newTrans = [
+    transition('*=>closed',upSlide),
+    transition('closed=>*',downSlide),
+    transition('void=>closed',upSlide),
+    transition('void=>open',downSlide),
+    transition('*=>void',upSlide),
+  ];
+
+  toggleNewState() {
+    if(this.newState === 'closed') { 
+      this.newState = 'open'; 
+    }
+    else if(this.newState === 'open') { 
+      this.newState = 'closed'; 
     }
   }
 

@@ -9,5 +9,6 @@ export * from './state-css-map/state-css-map.model';
 export * from './state-css-mapper/state-css-mapper.model';
 export * from './state-css-mapper/state-css-mapper.service';
 export * from './dynamic-animations.base';
+export * from './dynamic-animations.directive';
 export * from './dynamic-animations.module';
 export * from './dynamic-animations.service';

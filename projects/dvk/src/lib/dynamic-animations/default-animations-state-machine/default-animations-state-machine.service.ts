@@ -4,6 +4,7 @@ import { AnimationStateMachine } from '../animation-state-machine/animation-stat
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
 import { AnimationPlayers } from '../animation-players/animation-players.model';
 import { AnimationTransitions } from '../animation-transitions/animation-transitions.model';
+import { NgTransitionStates } from '../ng-transition/ng-transition.states';
 
 export class DefaultAnimationsStateMachine implements AnimationStateMachine {
   private players;
@@ -152,9 +153,14 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     fromState: string, 
     toState: string, 
     players: AnimationPlayers) {
-      return players && 
-        players[fromState] && 
-        players[fromState][toState];
+      if(players && players[fromState]) { 
+        return players[fromState][toState] ||
+          players[fromState][NgTransitionStates.WildCard]
+      }
+      else if(players[NgTransitionStates.WildCard]) { 
+        return players[NgTransitionStates.WildCard][toState] ||
+          players[NgTransitionStates.WildCard][NgTransitionStates.WildCard];
+      }
   }
 
   /**
@@ -177,7 +183,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * if it is defined.
    */
   setInitialState() {
-    if(this.transitions.initialStyles[this.currentState]) {
+    if(this.transitions.initialStyles && this.transitions.initialStyles[this.currentState]) {
       this.builder.build(
         animate('0ms', 
           this.transitions.initialStyles[this.currentState])

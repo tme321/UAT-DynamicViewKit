@@ -1,6 +1,20 @@
 <h3>Dynamic Animations Demo</h3>
 <div class="content">
 	<div>
+		<h4>New Directive</h4>
+		<button (click)="toggleNewState()">Toggle</button>
+		<button (click)="newShow = !newShow">Hide</button>
+		<div *ngIf="newShow"
+		    dvk-da
+			class="dad-panel" 
+			[state]="newState"
+			[transitions]="newTrans">
+
+		</div>
+	</div>
+
+
+	<div>
 		<h4>Animated Directive</h4>
 		<button (click)="toggleDirective()">Toggle</button>
 		<div aternating-panel
@@ -22,4 +36,5 @@
 			>
 		</div>
 	</div>
+
 </div>
