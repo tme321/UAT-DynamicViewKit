@@ -1,4 +1,4 @@
-import { style, animate } from "@angular/animations";
+import { style, animate, transition } from "@angular/animations";
 import { AnimationMetadata } from '@angular/animations';
 
 export const downSlide: AnimationMetadata[] = [
@@ -10,7 +10,7 @@ export const downSlide: AnimationMetadata[] = [
     animate('500ms', 
       style({ 
           transform: `scaleY(1.0)`, 
-          height: '250px',          
+          //height: '250px',          
           'transform-origin': 'top' 
     }))
   ]; 
@@ -24,7 +24,9 @@ export const upSlide: AnimationMetadata[] = [
     animate('500ms', 
         style({ 
             transform: `scaleY(0.0)`, 
-            height: '250px',            
+            //height: '250px',            
             'transform-origin': 'top' 
     }))
 ]; 
+
+export const transTest = transition('closed => open',upSlide);

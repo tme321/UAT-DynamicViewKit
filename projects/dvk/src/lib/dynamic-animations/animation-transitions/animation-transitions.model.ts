@@ -56,13 +56,13 @@ export interface AnimationTransitionsMap {
  *   })
  * }
  */
-export interface AnimationInitialStatesMap {
+export interface AnimationInitialStylesMap {
   [state: string]: AnimationStyleMetadata; 
 }
 
 /**
  * A data structure representing both the initial styles 
- * of a give state with initialStyles: {@link AnimationInitialStatesMap}
+ * of a give state with initialStyles: {@link AnimationInitialStylesMap}
  * and a map of animations to play during transitions between 
  * states as onTransitions: {@link AnimationTransitionsMap}
  * 
@@ -107,6 +107,6 @@ export interface AnimationInitialStatesMap {
  *  };
  */
 export interface AnimationTransitions {
-  initialStyles?: AnimationInitialStatesMap;
+  initialStyles?: AnimationInitialStylesMap;
   onTransitions?: AnimationTransitionsMap;
 }

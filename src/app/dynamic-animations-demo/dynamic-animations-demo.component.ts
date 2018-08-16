@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { style } from '@angular/animations';
 import { AnimationTransitions } from '@uat/dvk/uat-dvk';
-import { upSlide, downSlide } from './animations/animations';
+import { upSlide, downSlide, transTest } from './animations/animations';
 
 @Component({
   selector: 'dynamic-animations-demo',
@@ -35,6 +35,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(transTest);
   }
 
   toggleDirective() {
