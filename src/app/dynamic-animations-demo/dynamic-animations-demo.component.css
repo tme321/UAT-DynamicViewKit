@@ -8,9 +8,9 @@ div.dad-panel {
 }
 
 div.dad-open {
-    height: 250px;
+    /* transform: scaleY(1.0); */
 }
 
 div.dad-closed {
-    transform: scaleY(0.0);
+    /* transform: scaleY(0.0); */
 }

@@ -1,3 +1,4 @@
+import { animate } from '@angular/animations';
 import { AnimationPlayer, AnimationBuilder } from '@angular/animations';
 import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
@@ -22,12 +23,17 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     if(mapper) {
       mapper.add(this.currentState);
     }
+
+    this.setInitialState();
   }
 
   next(nextState: string, mapper: StateCSSMapper = null) {
     if(this.currentState !== nextState) {
 
-      const newPlayer = this.getPlayer(this.currentState, nextState, this.players);
+      const newPlayer = this.getPlayer(
+        this.currentState, 
+        nextState, 
+        this.players);
 
       if(this.currentPlayer) {
         this.currentPlayer.reset();
@@ -87,13 +93,13 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     element: any, 
     transitions: AnimationTransitions) {
 
-    return Object.keys(transitions).reduce<AnimationPlayers>(
+    return Object.keys(transitions.onTransitions).reduce<AnimationPlayers>(
       (players,fromState)=>{
-        players[fromState] = Object.keys(transitions[fromState])
+        players[fromState] = Object.keys(transitions.onTransitions[fromState])
           .reduce<{[toState:string]: AnimationPlayer}>(
             (prev,toState)=>{
               const player = this.builder
-                .build(transitions[fromState][toState])
+                .build(transitions.onTransitions[fromState][toState])
                 .create(element);
               prev[toState] = player; 
               return prev;
@@ -163,6 +169,19 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
           players[fromState][toState].destroy();
         })
       });
+    }
+  }
+
+  /**
+   * Set the initial state from the {@link AnimationTransitions}
+   * if it is defined.
+   */
+  setInitialState() {
+    if(this.transitions.initialStyles[this.currentState]) {
+      this.builder.build(
+        animate('0ms', 
+          this.transitions.initialStyles[this.currentState])
+      ).create(this.element).play();
     }
   }
 

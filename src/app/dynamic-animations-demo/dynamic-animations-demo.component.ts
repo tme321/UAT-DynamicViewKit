@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { upSlide, downSlide } from './animations/animations';
+import { style } from '@angular/animations';
+import { AnimationTransitions } from '@uat/dvk/uat-dvk';
+import { upSlide, downSlide, transTest } from './animations/animations';
 
 @Component({
   selector: 'dynamic-animations-demo',
@@ -8,9 +10,18 @@ import { upSlide, downSlide } from './animations/animations';
 })
 export class DynamicAnimationsDemoComponent implements OnInit {
 
-  transitions = {
-    'open': { 'closed':  upSlide},
-    'closed': { 'open':  downSlide},
+  transitions: AnimationTransitions = {
+    initialStyles: {
+      'closed': style({ 
+          transform: `scaleY(0.0)`,
+          'transform-origin': 'top' 
+        }),
+      'open': style({})
+    },
+    onTransitions: {
+      'open': { 'closed':  upSlide},
+      'closed': { 'open':  downSlide},
+    }
   };
   
   componentState: string = 'closed';
@@ -24,6 +35,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(transTest);
   }
 
   toggleDirective() {
