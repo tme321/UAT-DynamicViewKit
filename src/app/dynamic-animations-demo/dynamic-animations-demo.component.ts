@@ -1,32 +1,17 @@
-import { transition, animate } from '@angular/animations';
+import { transition, animate, state } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { style } from '@angular/animations';
-import { AnimationTransitions } from '@uat/dvk/uat-dvk';
-import { upSlide, downSlide, transTest } from './animations/animations';
+import { AnimationTransitionsMap, dvkLeave } from '@uat/dvk';
+import { upSlide, downSlide, transTest, seqSlideUp, keyframesSlideDown, staggerSlideUp, stateTest, triggerTest, animStyle, groupSlideDown } from './animations/animations';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'dynamic-animations-demo',
   templateUrl: './dynamic-animations-demo.component.html',
-  styleUrls: ['./dynamic-animations-demo.component.css']
+  styleUrls: ['./dynamic-animations-demo.component.css'],
+  animations: [dvkLeave]
 })
 export class DynamicAnimationsDemoComponent implements OnInit {
-
-  transitions: AnimationTransitions = {
-    initialStyles: {
-      'closed': style({ 
-          transform: `scaleY(0.0)`,
-          'transform-origin': 'top' 
-        }),
-      'open': style({})
-    },
-    onTransitions: {
-      'open': { 'closed':  upSlide},
-      'closed': { 'open':  downSlide},
-    }
-  };
-  
-  componentState: string = 'closed';
-  directiveState: string = 'open';
 
   cssMap = { 
     'open': 'dad-open', 
@@ -36,37 +21,87 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(transTest);
-    
+    //console.log(transTest);
+    /*
+    console.log('stateTest',stateTest);
+    console.log('upSlide',upSlide);
+    console.log('keyframesSlideDown', keyframesSlideDown);
+    console.log('animate', animate('500ms'));
+    console.log('triggerTest',triggerTest);
+    console.log('animStyle',animStyle);
+    console.log('style',style({
+      transform: `scaleY(0.0)`,
+      'transform-origin': 'top' 
+    }));
+    console.log('groupSlideDown',groupSlideDown);
+
+    console.log('transition', 
+    transition('closed=>open',
+      animate('500ms',style({
+        transform: `scaleY(0.0)`,
+        'transform-origin': 'top' 
+      }))));
+
+    console.log('seqSlideUp',seqSlideUp);
+    */
   }
 
-  toggleDirective() {
-    if(this.directiveState === 'closed') { 
-      this.directiveState = 'open'; 
-    }
-    else if(this.directiveState === 'open') { 
-      this.directiveState = 'closed'; 
-    }
-  }
+  /*
+   * Ignore this for the moment: 
+   * Works:
+   * transition, animate, style, group, keyframes, sequence
+   * 
+   * 
+   * state?
+   * 
+   * 
+   * stagger seems to work, maybe, but needs more testing.
+   * animateChild not sure, maybe?
+  *
+   * query can't tell, definitely doesn't support triggers
+   * 
+   * trigger not sure how to support the state member of the
+   * animation directive is the same thing as the trigger?
+   * 
+   * animation - don't need to support because it returns 
+   * animation metadata? 
+   */
 
-  toggleComponent() {
-    if(this.componentState === 'closed') { 
-      this.componentState = 'open'; 
-    }
-    else if(this.componentState === 'open') { 
-      this.componentState = 'closed'; 
-    }
-  }
+   
 
   newState = 'closed';
   newShow = true;
   newTrans = [
-    transition('*=>closed',upSlide),
-    transition('closed=>*',downSlide),
-    transition('void=>closed',upSlide),
-    transition('void=>open',downSlide),
-    transition('*=>void',upSlide),
+    transition('open=>closed', 
+      animate('500ms')),
+
+    transition('closed=>open',
+      animate('500ms' //)), 
+      
+      , style({
+        transform: `scaleY(1.5)`,
+        'transform-origin': 'top',
+        'background-color': 'green' 
+      }))),
+      
+
+    state('closed', style({ 
+      transform: `scaleY(0.0)`,
+      'transform-origin': 'top' 
+    })),
+    state('open', style({
+      transform: `scaleY(1.0)`,
+      'transform-origin': 'top' 
+    }))    
   ];
+
+  divs$ = new BehaviorSubject<any[]>([]);
+
+  divs = 0;
+  addDiv() {
+    this.divs++;
+    this.divs$.next(new Array(this.divs).fill(true));
+  }
 
   toggleNewState() {
     if(this.newState === 'closed') { 

@@ -10,6 +10,7 @@ import { DefaultAnimationsStateMachine } from './default-animations-state-machin
 import { AnimationStateMachineConstructor } from './animation-state-machine/animation-state-machine.constructor';
 import { DynamicAnimationsDirective } from './dynamic-animations.directive';
 import { NgTransitionService } from './ng-transition/ng-transition.service';
+import { LeaveDirective } from './leave/leave.directive';
 
 @NgModule({
   providers: [
@@ -18,8 +19,8 @@ import { NgTransitionService } from './ng-transition/ng-transition.service';
     StateCssMapperService,
     NgTransitionService
   ],
-  declarations: [DynamicAnimationsDirective],
-  exports: [DynamicAnimationsDirective]
+  declarations: [DynamicAnimationsDirective, LeaveDirective],
+  exports: [DynamicAnimationsDirective, LeaveDirective]
 })
 export class DynamicAnimationsModule {
   static forRoot(

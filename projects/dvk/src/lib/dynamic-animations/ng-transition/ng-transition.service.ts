@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnimationTransitionMetadata } from '@angular/animations';
-import { AnimationTransitions, AnimationTransitionsMap } from '../animation-transitions/animation-transitions.model';
+import { AnimationTransitionsMap } from '../animation-transitions/animation-transitions.model';
 import { NgTransitionSymbols } from './ng-transition.symbols';
 import { NgTransitionStates } from './ng-transition.states';
 

@@ -1,21 +1,21 @@
-import { animate } from '@angular/animations';
+import { keyframes } from '@angular/animations';
+import { AnimationMetadata, style, AnimationAnimateMetadata, AnimationMetadataType, AnimationStyleMetadata, animate, sequence, AnimationSequenceMetadata } from '@angular/animations';
 import { AnimationPlayer, AnimationBuilder } from '@angular/animations';
 import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
-import { AnimationPlayers } from '../animation-players/animation-players.model';
-import { AnimationTransitions } from '../animation-transitions/animation-transitions.model';
+import { AnimationTransitionsMap, AnimationStylesMap } from '../animation-transitions/animation-transitions.model';
 import { NgTransitionStates } from '../ng-transition/ng-transition.states';
 
 export class DefaultAnimationsStateMachine implements AnimationStateMachine {
-  private players;
   private currentState: string;
+  private currentTransition: AnimationPlayer;
   private currentPlayer: AnimationPlayer;
 
   constructor(
     private element: any, 
-    private transitions: AnimationTransitions,
+    private transitions: AnimationTransitionsMap,
+    private styles: AnimationStylesMap,
     private builder: AnimationBuilder) { 
-      this.players = this.buildPlayers(this.element, this.transitions);
   }
 
   init(state:string, mapper: StateCSSMapper = null) { 
@@ -24,43 +24,42 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     if(mapper) {
       mapper.add(this.currentState);
     }
-
-    this.setInitialState();
   }
 
   next(nextState: string, mapper: StateCSSMapper = null) {
     if(this.currentState !== nextState) {
 
-      const newPlayer = this.getPlayer(
-        this.currentState, 
-        nextState, 
-        this.players);
+      let player: AnimationPlayer;
+      let factory = this.buildPlayer(        
+        this.currentState,
+        nextState,
+        this.transitions,
+        this.styles
+      );
 
-      if(this.currentPlayer) {
-        this.currentPlayer.reset();
+      if(factory) {
+        player = factory.create(this.element);
+      } 
+
+      if(player) {
+        if(this.currentPlayer) {
+          this.currentPlayer.reset();
+        }
+
+        player.onStart(this.onAnimationStart(this.currentState, mapper));
+        player.onDone(this.onAnimationDone(nextState,mapper,player));
+        player.onDestroy(()=>{console.log('destroying player')});
+        player.play();
+        
       }
 
-      if(newPlayer) {
-        this.currentPlayer = newPlayer;
-
-       /*
-        * Reseting the player clears the callbacks
-        * so reregister them each time before playing.
-        */
-        this.currentPlayer.onStart(
-          this.onAnimationStart(this.currentState, mapper));
-        this.currentPlayer.onDone(
-          this.onAnimationDone(nextState,mapper));
-
-        this.currentPlayer.play();
-      } 
       /*
-        * In case an animation isn't defined for
-        * the transition but a css class is handle
-        * that by explicitly swapping out  the css 
-        * classes when the transition player doesn't 
-        * exist.
-        */
+       * In case an animation isn't defined for
+       * the transition but a css class is handle
+       * that by explicitly swapping out  the css 
+       * classes when the transition player doesn't 
+       * exist.
+       */
       else {
         if(mapper) {
           mapper.remove(this.currentState);
@@ -74,39 +73,135 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
   }
 
   destroy() {
-    this.destroyAllPlayers(this.players);
-    this.currentPlayer = null;
+    if(this.currentTransition) { this.currentTransition.destroy; }
+    this.currentTransition = null;
     this.currentState = null;
-    this.currentPlayer = null;
-    this.players = null;
+    this.currentTransition = null;
   }
 
+  /**
+   * 
+   * 
+   * Using 
+   * [animation_timeline_builder.ts]{@link https://github.com/angular/angular/blob/master/packages/animations/browser/src/dsl/animation_timeline_builder.ts}
+   * as reference.
+   * 
+   * @param fromState 
+   * @param toState 
+   * @param transitions 
+   * @param styles 
+   */
+  buildPlayer(
+    fromState: string,
+    toState: string, 
+    transitions: AnimationTransitionsMap,
+    styles: AnimationStylesMap
+  ) {  
+    const transition = this.getTransition(fromState,toState,transitions);
+    const prevStyle = this.getStyle(fromState,styles);
+    const newStyle = this.getStyle(toState,styles);
+    
+    let builtAnimation: AnimationMetadata[];
+
+    if(transition){
+
+      if(Array.isArray(transition)) {
+        transition.forEach(t=>{
+          
+        });
+      }
+      else {
+        builtAnimation = this.parseAnimationMetadata(transition, prevStyle, newStyle);
+      }
+      
+      return this.builder.build(builtAnimation);
+    }
+
+    
+  }
 
   /**
-   * Build a group of [Animation Players]{@link @angular/animations#AnimationPlayer}.
    * 
-   * @param element The element to apply the animations to.
-   * @param transitions The map of state transition animations for the element.
-   * @returns A data structure representing the transition names and animation
-   * players in the shape of [AnimationPlayers]{@link AnimationPlayers}
+   * @param metadata 
+   * @param startStyle 
+   * @param endStyle 
    */
-  buildPlayers(
-    element: any, 
-    transitions: AnimationTransitions) {
+  parseAnimationMetadata(
+    metadata: AnimationMetadata,
+    startStyle: AnimationStyleMetadata,
+    endStyle: AnimationStyleMetadata) {
+    switch(metadata.type) {
+      case AnimationMetadataType.Animate: { 
+        const amd = (metadata as AnimationAnimateMetadata);
+        if(amd.styles) {
+          /*
+          amd.styles = {
+            ...amd.styles,
+            ...endStyle,
+          }
+          */
+         amd.styles = keyframes([
+          { ...amd.styles as AnimationStyleMetadata, offset:0 },
+          { ...endStyle, offset: 1 }
+         ]);
+          return [startStyle, amd];
+        }
+        else {
+          return [
+            startStyle, 
+            {...amd, styles: endStyle } as AnimationAnimateMetadata
+          ];
+        }
+          
+        
+        break; 
+      }
 
-    return Object.keys(transitions.onTransitions).reduce<AnimationPlayers>(
-      (players,fromState)=>{
-        players[fromState] = Object.keys(transitions.onTransitions[fromState])
-          .reduce<{[toState:string]: AnimationPlayer}>(
-            (prev,toState)=>{
-              const player = this.builder
-                .build(transitions.onTransitions[fromState][toState])
-                .create(element);
-              prev[toState] = player; 
-              return prev;
-            },{});
-      return players;
-    },{});
+      case AnimationMetadataType.Style: { 
+        console.error(`${metadata.type} type metadata is not an animation description.`);
+        break; 
+      }
+
+      case AnimationMetadataType.AnimateChild:
+      case AnimationMetadataType.Group: 
+      case AnimationMetadataType.Keyframes:
+      case AnimationMetadataType.Query: 
+      case AnimationMetadataType.Sequence:
+      case AnimationMetadataType.Stagger: {
+        console.error(`${metadata.type} type metadata is not currently supported by the dvk.`);
+        break;
+      }
+
+      case AnimationMetadataType.AnimateRef: { break; }
+      case AnimationMetadataType.Reference: { break; }
+
+      case AnimationMetadataType.State: 
+      case AnimationMetadataType.Transition: 
+      case AnimationMetadataType.Trigger: { 
+        console.error(`${metadata.type} type metadata is not supported by dynamic Angular animations.`);
+        break; 
+      }
+
+      default: { break;}
+    }
+  }
+
+  getTransition(fromState: string, toState: string, transitions: AnimationTransitionsMap) {
+    if(transitions && transitions[fromState]) { 
+      return transitions[fromState][toState] ||
+        transitions[fromState][NgTransitionStates.WildCard];
+    }
+    else if(transitions[NgTransitionStates.WildCard]) { 
+      return transitions[NgTransitionStates.WildCard][toState] ||
+        transitions[NgTransitionStates.WildCard][NgTransitionStates.WildCard];
+    }
+  }
+
+  getStyle(state: string, styles: AnimationStylesMap) {
+    if(styles && styles[state]) {
+      return styles[state];
+    }
+    return style({});
   }
 
   /**
@@ -119,12 +214,14 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * @param mapper The [StateCSSMapper]{@link StateCSSMapper}
    * that modifies the css of an element.
    */
-  onAnimationStart = (state: string, mapper: StateCSSMapper) => 
+  onAnimationStart = (
+    state: string, 
+    mapper: StateCSSMapper) => 
     () => {
       if(mapper) {
         mapper.remove(state);
       }
-    }
+  }
 
  /**
    * Create the callback function for an animation to 
@@ -136,59 +233,18 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * @param mapper The [StateCSSMapper]{@link StateCSSMapper}
    * that modifies the css of an element.
    */
-  onAnimationDone = (state: string, mapper: StateCSSMapper = null) => 
+  onAnimationDone = (
+    state: string, 
+    mapper: StateCSSMapper = null, 
+    player: AnimationPlayer) => 
     () => {
       if(mapper) {
         mapper.add(state);
       }
-    }
-
-  /**
-   * Get the player for a specific transition.
-   * @param fromState The current state.
-   * @param toState The next state.
-   * @param players The {@link AnimationPlayers} to look up the player in.
-   */
-  getPlayer(
-    fromState: string, 
-    toState: string, 
-    players: AnimationPlayers) {
-      if(players && players[fromState]) { 
-        return players[fromState][toState] ||
-          players[fromState][NgTransitionStates.WildCard]
+      if(this.currentPlayer) {
+        this.currentPlayer.destroy();
       }
-      else if(players[NgTransitionStates.WildCard]) { 
-        return players[NgTransitionStates.WildCard][toState] ||
-          players[NgTransitionStates.WildCard][NgTransitionStates.WildCard];
-      }
-  }
-
-  /**
-   * Destroy the {@link @angular/animations#AnimationPlayer} objects
-   * inside the {@link AnimationPlayers}.
-   * @param players 
-   */
-  destroyAllPlayers(players: AnimationPlayers) {
-    if(players) {
-      Object.keys(players).forEach(fromState=>{
-        Object.keys(players[fromState]).forEach(toState=>{
-          players[fromState][toState].destroy();
-        })
-      });
+      this.currentPlayer = player;
     }
-  }
-
-  /**
-   * Set the initial state from the {@link AnimationTransitions}
-   * if it is defined.
-   */
-  setInitialState() {
-    if(this.transitions.initialStyles && this.transitions.initialStyles[this.currentState]) {
-      this.builder.build(
-        animate('0ms', 
-          this.transitions.initialStyles[this.currentState])
-      ).create(this.element).play();
-    }
-  }
 
 }
