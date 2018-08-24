@@ -1,6 +1,7 @@
 import { sequence } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { sequenceEqual } from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-static-animations-test',
@@ -18,20 +19,34 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
           'transform-origin': 'top',
           'transform': `scaleY(0.0)`,
         })),
-      transition('open<=>closed',animate('500ms')),
-      /*
+      //transition('*<=>*',animate('500ms')),      
       transition('closed=>open',sequence([
         animate('500ms', style({
-          'transform-origin': 'bottom',
+          'transform-origin': 'top',
           'transform': `scaleY(2.0)`,
           'background-color': 'green'
         })),
-        animate('0ms 500ms',style({
-          'transform-origin': 'top',
-          'transform': `scaleY(1.0)`,
-        }))
-      ]))
-      */
+        animate('3000ms'),
+        sequence([
+          animate('2000ms'),
+          animate('500ms', style({
+            'transform-origin': 'top',
+            'transform': `scaleY(1.5)`,
+            'background-color': 'blue'
+          }))
+        ]),
+      ])),
+      transition('open=>closed',
+        style({
+          'background-color': 'red'
+        })),
+
+      /*sequence([
+        style({
+          'background-color': 'red'
+        }),
+        animate('500ms')
+      ])),*/
     ])
   ]
 })

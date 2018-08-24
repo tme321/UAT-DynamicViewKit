@@ -1,5 +1,4 @@
-import { keyframes } from '@angular/animations';
-import { AnimationMetadata, style, AnimationAnimateMetadata, AnimationMetadataType, AnimationStyleMetadata, animate, sequence, AnimationSequenceMetadata } from '@angular/animations';
+import { AnimationGroupMetadata, AnimationAnimateChildMetadata, AnimationQueryMetadata, AnimationStaggerMetadata, AnimationReferenceMetadata, AnimationAnimateRefMetadata, AnimationMetadata, style, AnimationAnimateMetadata, AnimationMetadataType, AnimationStyleMetadata, animate, sequence, AnimationSequenceMetadata, AnimationKeyframesSequenceMetadata } from '@angular/animations';
 import { AnimationPlayer, AnimationBuilder } from '@angular/animations';
 import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
@@ -100,24 +99,25 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     const transition = this.getTransition(fromState,toState,transitions);
     const prevStyle = this.getStyle(fromState,styles);
     const newStyle = this.getStyle(toState,styles);
+
+    console.log('preparsed transitions:', transitions);
     
-    let builtAnimation: AnimationMetadata[];
+    let builtAnimationData: {
+      sequence: AnimationSequenceMetadata,
+      unstyledAnimations: AnimationAnimateMetadata[]
+    }; // AnimationMetadata[];
 
     if(transition){
-
-      if(Array.isArray(transition)) {
-        transition.forEach(t=>{
-          
-        });
-      }
-      else {
-        builtAnimation = this.parseAnimationMetadata(transition, prevStyle, newStyle);
-      }
+      builtAnimationData = this.parseAnimationMetadata(transition, prevStyle, newStyle);
       
-      return this.builder.build(builtAnimation);
+      console.log('parsed transitions:', builtAnimationData);
+      
+      const factory = this.builder.build(builtAnimationData.sequence);
+      builtAnimationData.unstyledAnimations.forEach(animation=>{
+        animation.styles = null;
+      });
+      return factory;
     }
-
-    
   }
 
   /**
@@ -127,64 +127,235 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * @param endStyle 
    */
   parseAnimationMetadata(
-    metadata: AnimationMetadata,
+    metadata: AnimationMetadata | AnimationMetadata[],
     startStyle: AnimationStyleMetadata,
-    endStyle: AnimationStyleMetadata) {
-    switch(metadata.type) {
-      case AnimationMetadataType.Animate: { 
-        const amd = (metadata as AnimationAnimateMetadata);
-        if(amd.styles) {
-          /*
-          amd.styles = {
-            ...amd.styles,
-            ...endStyle,
+    endStyle: AnimationStyleMetadata): {
+      sequence: AnimationSequenceMetadata,
+      unstyledAnimations: AnimationAnimateMetadata[]
+    } {
+    const usedKeys = {};
+    let normalizedAnimation: AnimationMetadata[] = [];
+    this.addStyleKeys(startStyle, usedKeys);
+    let parsedData: ParsedAnimationMetadata;
+
+    if(Array.isArray(metadata)){
+      metadata.forEach(md=>{
+        this.parseAnimationStep(md, usedKeys);
+      });
+      normalizedAnimation = [...metadata]; 
+    } 
+    else if(this.isSequence(metadata) || this.isGroup(metadata)) {
+      metadata.steps.forEach(md=>{
+        this.parseAnimationStep(md, usedKeys);
+      });
+      normalizedAnimation = [metadata];
+    }
+    else {
+      parsedData = this.parseAnimationStep(metadata, usedKeys);
+      normalizedAnimation = [metadata];
+    }
+
+    parsedData.unStyledAnimations.forEach(animation=>{
+      animation.styles = endStyle;
+    });
+
+    console.log('normalizedAnimation',normalizedAnimation);
+
+    return {
+      sequence: sequence([
+        startStyle,
+        ...normalizedAnimation,
+        animate(1,endStyle)
+      ]),
+      unstyledAnimations: parsedData.unStyledAnimations
+    }
+    /*
+    if(parsedData.unStyledAnimations) {
+      parsedData.addLastStyleToAnimation.styles = endStyle;
+      return sequence([startStyle, ...parsedData.animation]);
+    }
+    else {
+      return sequence([
+        startStyle, 
+        ...parsedData.animation,
+        animate(1,endStyle)
+      ]);
+    }
+    */
+  }
+
+  parseAnimationStep(
+    metadata: AnimationMetadata, 
+    usedStyleKeys: {[key:string]:string}): ParsedAnimationMetadata {
+
+      const unstyledAnimations: AnimationAnimateMetadata[] = [];
+
+      switch(metadata.type) {
+        case AnimationMetadataType.Animate: { 
+          const amd = (metadata as AnimationAnimateMetadata);
+          if(amd.styles) {   
+            this.addStyleKeys(amd.styles, usedStyleKeys);
           }
-          */
-         amd.styles = keyframes([
-          { ...amd.styles as AnimationStyleMetadata, offset:0 },
-          { ...endStyle, offset: 1 }
-         ]);
-          return [startStyle, amd];
+          else {
+            unstyledAnimations.push(amd);
+          }
+          break; 
         }
-        else {
-          return [
-            startStyle, 
-            {...amd, styles: endStyle } as AnimationAnimateMetadata
-          ];
+  
+        case AnimationMetadataType.Style: { 
+          const amd = (metadata as AnimationStyleMetadata);
+          this.addStyleKeys(amd, usedStyleKeys);
+          break; 
         }
-          
+  
+        case AnimationMetadataType.Group: {
+          const amd = (metadata as AnimationGroupMetadata);
+          amd.steps.forEach(md=>{
+            this.parseAnimationStep(md,usedStyleKeys);
+          });
+          break;
+        }
+
+        case AnimationMetadataType.Sequence: {
+          const amd = (metadata as AnimationSequenceMetadata);
+          amd.steps.forEach(md=>{
+            this.parseAnimationStep(md,usedStyleKeys);
+          });
+          break;
+        }
+
+        case AnimationMetadataType.Keyframes: {
+          const amd = (metadata as AnimationKeyframesSequenceMetadata);
+          amd.steps.forEach(md=>{
+            this.parseAnimationStep(md,usedStyleKeys);
+          });
+          break;
+        }
+  
+        case AnimationMetadataType.AnimateChild: {
+          // Nothing required?
+          break;
+        }
+         
         
-        break; 
+        case AnimationMetadataType.Query: {
+          const amd = (metadata as AnimationQueryMetadata);
+          if(Array.isArray(amd.animation)) {
+            amd.animation.forEach(animation=>{
+              this.parseAnimationStep(animation,usedStyleKeys);
+            });
+          }
+          else {
+            this.parseAnimationStep(amd.animation,usedStyleKeys);
+          }
+          break;
+        }
+        
+        case AnimationMetadataType.Stagger: {
+          const amd = (metadata as AnimationStaggerMetadata);
+          if(Array.isArray(amd.animation)) {
+            amd.animation.forEach(animation=>{
+              this.parseAnimationStep(animation,usedStyleKeys);
+            });
+          }
+          else {
+            this.parseAnimationStep(amd.animation,usedStyleKeys);
+          }
+          break;
+        } 
+
+        case AnimationMetadataType.AnimateRef: { 
+          const amd = (metadata as AnimationAnimateRefMetadata);
+          if(Array.isArray(amd.animation)) {
+            amd.animation.forEach(animation=>{
+              this.parseAnimationStep(animation,usedStyleKeys);
+            });
+          }
+          else {
+            this.parseAnimationStep(amd.animation,usedStyleKeys);
+          }
+          break;
+        }
+
+        case AnimationMetadataType.Reference: {
+          const amd = (metadata as AnimationReferenceMetadata);
+          if(Array.isArray(amd.animation)) {
+            amd.animation.forEach(animation=>{
+              this.parseAnimationStep(animation,usedStyleKeys);
+            });
+          }
+          else {
+            this.parseAnimationStep(amd.animation,usedStyleKeys);
+          }
+          break;
+        }
+  
+        case AnimationMetadataType.State: {
+          console.error('Error: state is not valid inside a transition.');
+          break;
+        }
+
+        case AnimationMetadataType.Transition: {
+          console.error('Error: transition is not valid inside a transition.');
+          break;
+        }
+
+        case AnimationMetadataType.Trigger: { 
+          console.error('Error: Trigger is not currently supported by the dvk.');
+          break; 
+        }
+  
+        default: { break; }
       }
 
-      case AnimationMetadataType.Style: { 
-        console.error(`${metadata.type} type metadata is not an animation description.`);
-        break; 
-      }
-
-      case AnimationMetadataType.AnimateChild:
-      case AnimationMetadataType.Group: 
-      case AnimationMetadataType.Keyframes:
-      case AnimationMetadataType.Query: 
-      case AnimationMetadataType.Sequence:
-      case AnimationMetadataType.Stagger: {
-        console.error(`${metadata.type} type metadata is not currently supported by the dvk.`);
-        break;
-      }
-
-      case AnimationMetadataType.AnimateRef: { break; }
-      case AnimationMetadataType.Reference: { break; }
-
-      case AnimationMetadataType.State: 
-      case AnimationMetadataType.Transition: 
-      case AnimationMetadataType.Trigger: { 
-        console.error(`${metadata.type} type metadata is not supported by dynamic Angular animations.`);
-        break; 
-      }
-
-      default: { break;}
+    return {
+      unStyledAnimations: [...unstyledAnimations],
     }
   }
+
+  addStyleKeys(
+    metadata: AnimationStyleMetadata | AnimationKeyframesSequenceMetadata,
+    allKeys: { [key:string]: string }) {
+    if(this.isStyle(metadata)) {  
+      Object.keys(metadata.styles).forEach(key=>{
+        allKeys[key]=metadata.styles[key];
+      });
+    }
+    else {
+      allKeys = metadata.steps.reduce((allKeys,style)=>{
+        Object.keys(style).forEach(key=>{
+          allKeys[key]=style[key];
+        });
+        return allKeys;
+      },allKeys);
+    }
+  }
+
+  mergeStyleKeys(
+    style: AnimationStyleMetadata, 
+    usedKeys: { [key:string]: string }) {
+    Object.keys(usedKeys).forEach(key=>{
+      if(!style.styles[key]) {
+        style.styles[key] = "*";
+      }
+    });
+  }
+
+  isStyle(metadata: AnimationStyleMetadata | AnimationKeyframesSequenceMetadata): metadata is AnimationStyleMetadata {
+    return metadata.type === AnimationMetadataType.Style;
+  }
+
+  isAnimate(metadata: AnimationMetadata): metadata is AnimationAnimateMetadata {
+    return metadata.type === AnimationMetadataType.Animate;
+  }
+
+  isSequence(metadata: AnimationMetadata): metadata is AnimationSequenceMetadata {
+    return metadata.type === AnimationMetadataType.Sequence;
+  } 
+
+  isGroup(metadata: AnimationMetadata): metadata is AnimationGroupMetadata {
+    return metadata.type === AnimationMetadataType.Group;
+  } 
 
   getTransition(fromState: string, toState: string, transitions: AnimationTransitionsMap) {
     if(transitions && transitions[fromState]) { 
@@ -247,4 +418,8 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
       this.currentPlayer = player;
     }
 
+}
+
+interface ParsedAnimationMetadata {
+  unStyledAnimations: AnimationAnimateMetadata[];
 }

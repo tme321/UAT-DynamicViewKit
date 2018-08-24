@@ -21,6 +21,18 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    /*
+    console.log(style({
+      transform: `scaleY(0.0)`,
+      'transform-origin': 'top'       
+    }));
+
+    console.log(state('a', 
+      style({
+        transform: `scaleY(0.0)`,
+        'transform-origin': 'top'       
+      })));
+    */
     //console.log(transTest);
     /*
     console.log('stateTest',stateTest);
@@ -72,19 +84,27 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   newState = 'closed';
   newShow = true;
   newTrans = [
+    /*
     transition('open=>closed', 
       animate('500ms')),
-
+    */
+    transition('open=>closed',
+      animate('500ms')), 
+    /*
+      style({
+        'background-color': 'red'
+      })),
+    */
     transition('closed=>open',
-      animate('500ms' //)), 
-      
+      animate('500ms' )), 
+      /*
       , style({
         transform: `scaleY(1.5)`,
         'transform-origin': 'top',
         'background-color': 'green' 
       }))),
       
-
+    */
     state('closed', style({ 
       transform: `scaleY(0.0)`,
       'transform-origin': 'top' 
