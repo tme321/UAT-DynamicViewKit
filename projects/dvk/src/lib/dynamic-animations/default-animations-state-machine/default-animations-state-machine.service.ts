@@ -286,28 +286,22 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     metadata: AnimationMetadata | AnimationMetadata[]): DvkAnimationMetadata {
     const usedKeys = {};
     let normalizedAnimation: AnimationMetadata[] = [];
-    let parsedData: DvkAnimationStepMetadata;
+    let unstyledAnimations: AnimationAnimateMetadata[] = [];
 
-    if(Array.isArray(metadata)){
+    if(Array.isArray(metadata)) {
       metadata.forEach(md=>{
-        this.parseAnimationStep(md, usedKeys);
+        this.parseAnimationStep(md, usedKeys, unstyledAnimations);
       });
-      normalizedAnimation = [...metadata]; 
-    } 
-    else if(this.isSequence(metadata) || this.isGroup(metadata)) {
-      metadata.steps.forEach(md=>{
-        this.parseAnimationStep(md, usedKeys);
-      });
-      normalizedAnimation = [metadata];
+      normalizedAnimation = metadata; 
     }
     else {
-      parsedData = this.parseAnimationStep(metadata, usedKeys);
+      this.parseAnimationStep(metadata, usedKeys, unstyledAnimations);
       normalizedAnimation = [metadata];
     }
 
     return {
-      animation: [...normalizedAnimation],
-      unStyledAnimations: parsedData.unStyledAnimations,
+      animation: normalizedAnimation,
+      unStyledAnimations: unstyledAnimations,
       usedKeys: usedKeys
     }
   }
@@ -326,9 +320,8 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    */
   parseAnimationStep(
     metadata: AnimationMetadata, 
-    usedStyleKeys: {[key:string]:string}): DvkAnimationStepMetadata {
-
-      const unstyledAnimations: AnimationAnimateMetadata[] = [];
+    usedStyleKeys: {[key:string]:string},
+    unstyledAnimations: AnimationAnimateMetadata[]) {
 
       switch(metadata.type) {
         case AnimationMetadataType.Animate: { 
@@ -351,7 +344,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
         case AnimationMetadataType.Group: {
           const amd = (metadata as AnimationGroupMetadata);
           amd.steps.forEach(md=>{
-            this.parseAnimationStep(md,usedStyleKeys);
+            this.parseAnimationStep(md,usedStyleKeys, unstyledAnimations);
           });
           break;
         }
@@ -359,7 +352,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
         case AnimationMetadataType.Sequence: {
           const amd = (metadata as AnimationSequenceMetadata);
           amd.steps.forEach(md=>{
-            this.parseAnimationStep(md,usedStyleKeys);
+            this.parseAnimationStep(md,usedStyleKeys, unstyledAnimations);
           });
           break;
         }
@@ -367,7 +360,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
         case AnimationMetadataType.Keyframes: {
           const amd = (metadata as AnimationKeyframesSequenceMetadata);
           amd.steps.forEach(md=>{
-            this.parseAnimationStep(md,usedStyleKeys);
+            this.parseAnimationStep(md,usedStyleKeys, unstyledAnimations);
           });
           break;
         }
@@ -382,11 +375,11 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
           const amd = (metadata as AnimationQueryMetadata);
           if(Array.isArray(amd.animation)) {
             amd.animation.forEach(animation=>{
-              this.parseAnimationStep(animation,usedStyleKeys);
+              this.parseAnimationStep(animation,usedStyleKeys, unstyledAnimations);
             });
           }
           else {
-            this.parseAnimationStep(amd.animation,usedStyleKeys);
+            this.parseAnimationStep(amd.animation,usedStyleKeys, unstyledAnimations);
           }
           break;
         }
@@ -395,11 +388,11 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
           const amd = (metadata as AnimationStaggerMetadata);
           if(Array.isArray(amd.animation)) {
             amd.animation.forEach(animation=>{
-              this.parseAnimationStep(animation,usedStyleKeys);
+              this.parseAnimationStep(animation,usedStyleKeys, unstyledAnimations);
             });
           }
           else {
-            this.parseAnimationStep(amd.animation,usedStyleKeys);
+            this.parseAnimationStep(amd.animation,usedStyleKeys, unstyledAnimations);
           }
           break;
         } 
@@ -408,11 +401,11 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
           const amd = (metadata as AnimationAnimateRefMetadata);
           if(Array.isArray(amd.animation)) {
             amd.animation.forEach(animation=>{
-              this.parseAnimationStep(animation,usedStyleKeys);
+              this.parseAnimationStep(animation,usedStyleKeys, unstyledAnimations);
             });
           }
           else {
-            this.parseAnimationStep(amd.animation,usedStyleKeys);
+            this.parseAnimationStep(amd.animation,usedStyleKeys, unstyledAnimations);
           }
           break;
         }
@@ -421,11 +414,11 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
           const amd = (metadata as AnimationReferenceMetadata);
           if(Array.isArray(amd.animation)) {
             amd.animation.forEach(animation=>{
-              this.parseAnimationStep(animation,usedStyleKeys);
+              this.parseAnimationStep(animation,usedStyleKeys, unstyledAnimations);
             });
           }
           else {
-            this.parseAnimationStep(amd.animation,usedStyleKeys);
+            this.parseAnimationStep(amd.animation,usedStyleKeys, unstyledAnimations);
           }
           break;
         }
@@ -447,10 +440,6 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
   
         default: { break; }
       }
-
-    return {
-      unStyledAnimations: [...unstyledAnimations],
-    }
   }
 
   /**

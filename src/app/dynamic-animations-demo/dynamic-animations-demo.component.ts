@@ -1,4 +1,4 @@
-import { transition, animate, state } from '@angular/animations';
+import { transition, animate, state, sequence } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { style } from '@angular/animations';
 import { AnimationTransitionsMap, dvkLeave } from '@uat/dvk';
@@ -91,6 +91,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
     transition('open=>closed',
       animate('500ms')), 
    
+      /*
     transition('closed=>open',
       animate('500ms' //)), 
       
@@ -99,6 +100,25 @@ export class DynamicAnimationsDemoComponent implements OnInit {
         'transform-origin': 'top',
         'background-color': 'green' 
       }))),
+      */
+
+     transition('closed=>open',sequence([
+      animate('500ms', style({
+        'transform-origin': 'top',
+        'transform': `scaleY(2.0)`,
+        'background-color': 'green'
+      })),
+      animate('3000ms'),
+      sequence([
+        animate('2000ms'),
+        animate('500ms', style({
+          'transform-origin': 'top',
+          'transform': `scaleY(1.5)`,
+          'background-color': 'blue'
+        }))
+        ]),
+      ])),
+
 
     transition(':enter',
       animate('500ms' )), 
