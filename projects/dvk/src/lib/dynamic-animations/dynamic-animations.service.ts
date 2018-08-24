@@ -1,5 +1,5 @@
 import { StateCSSMap } from './state-css-map/state-css-map.model';
-import { AnimationTransitions } from './animation-transitions/animation-transitions.model';
+import { AnimationTransitionsMap, AnimationStylesMap } from './animation-transitions/animation-transitions.model';
 import { Injectable, Inject } from '@angular/core';
 import { DynamicAnimationsHandlerConstructor } from './dynamic-animations-handler/dynamic-animations-handler.constructor';
 import { DynamicAnimationsHandlerConstructorToken } from './dynamic-animations-handler/dynamic-animations-handler.token';
@@ -38,8 +38,10 @@ import { DynamicAnimationsHandler } from './dynamic-animations-handler/dynamic-a
  *     this.animationsHandler.nextState(toState);
  *   }
  * 
- *   `@Input()` set transitions(transitions: AnimationTransitions) {
- *     this.animationsHandler.setTransitions(transitions);
+ *   `@Input()` set animations(
+ *      transitions: AnimationTransitionsMap, 
+ *      styles: AnimationStylesMap ) {
+ *     this.animationsHandler.setAnimations(transitions, styles);
  *   }
  * 
  *   constructor(
@@ -81,20 +83,23 @@ export class DynamicAnimationsService {
    * handler to. 
    * 
    * @param initialState The initial state of the {@link AnimationStateMachine}
-   * @param transitions The {@link AnimationTransitions} for the {@link AnimationStateMachine}
+   * @param transitions The {@link AnimationTransitionsMap} for the {@link AnimationStateMachine}
+   * @param styles The {@link AnimationStylesMap} for the {@link AnimationStateMachine}
    * @param cssMap The {@link StateCSSMap} for the {@link AnimationStateMachine}
    * 
    */
   createAnimationsHandler(
     element: any, 
     initialState: string, 
-    transitions: AnimationTransitions, 
+    transitions: AnimationTransitionsMap, 
+    styles: AnimationStylesMap,
     cssMap: StateCSSMap = {}) {
 
       return new this.animationsHandlerConstructor(
         element,
         initialState,
         transitions,
+        styles,
         cssMap,
         this.cssMapperService,
         this.animationStatesBuilder);

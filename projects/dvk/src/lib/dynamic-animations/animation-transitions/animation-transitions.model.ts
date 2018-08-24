@@ -56,7 +56,7 @@ export interface AnimationTransitionsMap {
  *   })
  * }
  */
-export interface AnimationInitialStylesMap {
+export interface AnimationStylesMap {
   [state: string]: AnimationStyleMetadata; 
 }
 
@@ -106,7 +106,9 @@ export interface AnimationInitialStylesMap {
  *    }
  *  };
  */
+/*
 export interface AnimationTransitions {
   initialStyles?: AnimationInitialStylesMap;
   onTransitions?: AnimationTransitionsMap;
 }
+*/

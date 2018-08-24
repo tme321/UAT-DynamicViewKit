@@ -2,7 +2,7 @@ import { Input, OnInit, OnDestroy } from '@angular/core';
 import { DynamicAnimationsService } from './dynamic-animations.service';
 import { DynamicAnimationsHandler } from './dynamic-animations-handler/dynamic-animations-handler.model';
 import { StateCSSMap } from './state-css-map/state-css-map.model';
-import { AnimationTransitions } from './animation-transitions/animation-transitions.model';
+import { AnimationTransitionsMap, AnimationStylesMap } from './animation-transitions/animation-transitions.model';
 
 /**
  * This base class uses the {@link DynamicAnimationsService} to generate
@@ -21,7 +21,9 @@ import { AnimationTransitions } from './animation-transitions/animation-transiti
  * {@link StateCSSMap}.
  * @member state An `@Input` for the state as a string.
  * @member transitions An `@Input` for the map of state transitions to 
- * animations as a {@link AnimationTransitions}.
+ * animations as a {@link AnimationTransitionsMap}.
+ * @member styles An `@Input` for the map of state transitions to 
+ * styles as a {@link AnimationStylesMap}.
  * 
  * @example
  * `@Component()`
@@ -39,7 +41,8 @@ export abstract class DynamicAnimationsBase implements OnInit, OnDestroy {
 
     private cssMapCache: StateCSSMap;
     private stateCache: string;
-    private transitionsCache: AnimationTransitions;
+    private transitionsCache: AnimationTransitionsMap;
+    private stylesCache: AnimationStylesMap;
 
     @Input() set cssMap (map: StateCSSMap) {
         this.cssMapCache = map;
@@ -55,13 +58,20 @@ export abstract class DynamicAnimationsBase implements OnInit, OnDestroy {
         }
     }
     
-    @Input() set transitions(transitions: AnimationTransitions) {
+    @Input() set transitions(transitions: AnimationTransitionsMap) {
         this.transitionsCache = transitions;
         if(this.animationsHandler) {
-            this.animationsHandler.setTransitions(this.transitionsCache);
+            this.animationsHandler.setAnimations(this.transitionsCache, this.stylesCache);
         }
     }
-     
+
+    @Input() set styles(styles: AnimationStylesMap) {
+        this.stylesCache = styles;
+        if(this.animationsHandler) {
+            this.animationsHandler.setAnimations(this.transitionsCache, this.stylesCache);
+        }
+    }
+
     /**
      * DynamicAnimationsBase constructor
      * @param element The element, not ElementRef, to apply the animations to.
@@ -110,6 +120,7 @@ export abstract class DynamicAnimationsBase implements OnInit, OnDestroy {
                 this.element,
                 this.stateCache,
                 this.transitionsCache,
+                this.stylesCache,
                 this.cssMapCache);
     }
 

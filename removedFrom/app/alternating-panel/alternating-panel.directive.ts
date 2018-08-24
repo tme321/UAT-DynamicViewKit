@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef } from '@angular/core';
-import { DynamicAnimationsService, AnimationTransitions, DynamicAnimationsHandler, StateCSSMap } from '@uat/dvk';
+import { DynamicAnimationsService, AnimationTransitionsMap, AnimationStylesMap, DynamicAnimationsHandler, StateCSSMap } from '@uat/dvk';
 
 /**
  * Example directive that manually uses the DynamicAnimationsService
@@ -12,7 +12,8 @@ export class AlternatingPanelDirective {
 
   private cssMapCache: StateCSSMap;
   private stateCache: string;
-  private transitionsCache: AnimationTransitions;
+  private transitionsCache: AnimationTransitionsMap;
+  private stylesCache: AnimationStylesMap;
 
   @Input() set cssMap (map: StateCSSMap) {
     this.cssMapCache = map;
@@ -28,10 +29,13 @@ export class AlternatingPanelDirective {
     }
   }
 
-  @Input() set transitions(transitions: AnimationTransitions) {
-    this.transitionsCache = transitions;
+  @Input() set animations(animations: {
+    transitions: AnimationTransitionsMap, 
+    styles: AnimationStylesMap }) {
+    this.transitionsCache = animations.transitions;
+    this.stylesCache = animations.styles;
     if(this.animationsHandler) {
-      this.animationsHandler.setTransitions(this.transitionsCache);
+      this.animationsHandler.setAnimations(this.transitionsCache, this.stylesCache);
     }
   }
 
@@ -46,6 +50,7 @@ export class AlternatingPanelDirective {
         this.elRef.nativeElement,
         this.stateCache,
         this.transitionsCache,
+        this.stylesCache,
         this.cssMapCache
       );
   }

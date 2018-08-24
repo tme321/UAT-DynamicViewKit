@@ -1,4 +1,4 @@
-import { AnimationTransitions } from '../animation-transitions/animation-transitions.model';
+import { AnimationTransitionsMap, AnimationStylesMap } from '../animation-transitions/animation-transitions.model';
 import { StateCSSMap } from '../state-css-map/state-css-map.model';
 
 /**
@@ -16,6 +16,6 @@ import { StateCSSMap } from '../state-css-map/state-css-map.model';
 export interface DynamicAnimationsHandler {
     setCSSMap: (map: StateCSSMap) =>void;
     nextState: (toState:string) => void;
-    setTransitions: (transitions: AnimationTransitions) => void;
+    setAnimations: (transitions: AnimationTransitionsMap, styles: AnimationStylesMap) => void;
     destroy: () => void;
 }

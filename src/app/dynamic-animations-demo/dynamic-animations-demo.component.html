@@ -1,25 +1,22 @@
 <h3>Dynamic Animations Demo</h3>
 <div class="content">
 	<div>
-		<h4>Animated Directive</h4>
-		<button (click)="toggleDirective()">Toggle</button>
-		<div aternating-panel
-			class="dad-panel"
-			[transitions]="transitions" 
-			[state]="directiveState"
-			[cssMap]="cssMap"
-			>
+		<h4>New Directive</h4>
+		<button (click)="toggleNewState()">Toggle</button>
+		<button (click)="newShow = !newShow">Hide</button>
+		<button (click)="addDiv()">Add Div</button>
+		<div *ngIf="newShow"
+			dvk-da
+			@dvkLeave
+			class="dad-panel" 
+			[state]="newState"
+			[animations]="newTrans">
+			<div style="background-color:blue" *ngFor="let divs of divs$ | async">
+				A new div
+			</div>
 		</div>
 	</div>
-	<div>
-		<h4>Animated Component</h4>
-		<button (click)="toggleComponent()">Toggle</button>
-		<div alt-panel
-			class="dad-panel"
-			[transitions]="transitions" 
-			[state]="componentState"
-			[cssMap]="cssMap"
-			>
-		</div>
-	</div>
+
+	<app-static-animations-test></app-static-animations-test>
+	
 </div>

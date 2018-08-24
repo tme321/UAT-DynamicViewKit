@@ -1,5 +1,5 @@
 import { DynamicAnimationsHandler } from '../dynamic-animations-handler/dynamic-animations-handler.model';
-import { AnimationTransitions } from '../animation-transitions/animation-transitions.model';
+import { AnimationTransitionsMap, AnimationStylesMap } from '../animation-transitions/animation-transitions.model';
 import { StateCSSMap } from '../state-css-map/state-css-map.model';
 import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
 import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
@@ -14,13 +14,14 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
   constructor(
     private element: any,
     private state: string,
-    private transitions: AnimationTransitions,
+    private transitions: AnimationTransitionsMap,
+    private styles: AnimationStylesMap, 
     private cssMap: StateCSSMap,
     private cssMapperService: StateCssMapperService,
     private animationStatesBuilder: AnimationStatesService
   ) {
     this.createCSSMapper(cssMap);
-    this.createStateMachine(this.transitions);
+    this.createStateMachine(this.transitions, this.styles);
   }
   
   setCSSMap(map: StateCSSMap) {
@@ -39,8 +40,8 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
     }
   }
 
-  setTransitions(transitions: AnimationTransitions) {
-    this.createStateMachine(transitions);
+  setAnimations(transitions: AnimationTransitionsMap, styles: AnimationStylesMap) {
+    this.createStateMachine(transitions, styles);
   }
 
   destroy() {
@@ -51,7 +52,9 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
     this.transitions = null;
   }
 
-  private createStateMachine(transitions: AnimationTransitions) {
+  private createStateMachine(
+    transitions: AnimationTransitionsMap, 
+    styles: AnimationStylesMap) {
     if(this.animationsStateMachine) {
       this.animationsStateMachine.destroy();
     }
@@ -63,7 +66,8 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
         this.animationStatesBuilder
           .createAnimationStateMachine(
             this.element,
-            this.transitions);
+            this.transitions,
+            styles);
 
       this.animationsStateMachine.init(
         this.state,
