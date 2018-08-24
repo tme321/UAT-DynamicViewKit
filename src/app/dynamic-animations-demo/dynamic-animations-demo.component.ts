@@ -90,21 +90,29 @@ export class DynamicAnimationsDemoComponent implements OnInit {
     */
     transition('open=>closed',
       animate('500ms')), 
-    /*
-      style({
-        'background-color': 'red'
-      })),
-    */
+   
     transition('closed=>open',
-      animate('500ms' )), 
-      /*
+      animate('500ms' //)), 
+      
       , style({
         transform: `scaleY(1.5)`,
         'transform-origin': 'top',
         'background-color': 'green' 
       }))),
-      
-    */
+
+    transition(':enter',
+      animate('500ms' )), 
+
+    transition(':leave',
+      animate('500ms' )), 
+
+
+    state('void', style({ 
+        transform: `scaleY(1.0)`,
+        'transform-origin': 'top' 
+    })),
+        
+    
     state('closed', style({ 
       transform: `scaleY(0.0)`,
       'transform-origin': 'top' 
