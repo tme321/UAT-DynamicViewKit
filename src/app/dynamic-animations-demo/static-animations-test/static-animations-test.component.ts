@@ -20,7 +20,7 @@ import { sequenceEqual } from '../../../../node_modules/rxjs/operators';
           'transform': `scaleY(0.0)`,
         })),
       //transition('*<=>*',animate('500ms')),      
-      transition('closed=>open',sequence([
+      transition('closed=>open',[ //sequence([
         animate('500ms', style({
           'transform-origin': 'top',
           'transform': `scaleY(2.0)`,
@@ -35,7 +35,7 @@ import { sequenceEqual } from '../../../../node_modules/rxjs/operators';
             'background-color': 'blue'
           }))
         ]),
-      ])),
+      ]),//),
       transition('open=>closed',
         style({
           'background-color': 'red'

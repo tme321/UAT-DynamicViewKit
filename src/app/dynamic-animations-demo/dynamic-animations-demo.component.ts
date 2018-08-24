@@ -21,65 +21,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    /*
-    console.log(style({
-      transform: `scaleY(0.0)`,
-      'transform-origin': 'top'       
-    }));
-
-    console.log(state('a', 
-      style({
-        transform: `scaleY(0.0)`,
-        'transform-origin': 'top'       
-      })));
-    */
-    //console.log(transTest);
-    /*
-    console.log('stateTest',stateTest);
-    console.log('upSlide',upSlide);
-    console.log('keyframesSlideDown', keyframesSlideDown);
-    console.log('animate', animate('500ms'));
-    console.log('triggerTest',triggerTest);
-    console.log('animStyle',animStyle);
-    console.log('style',style({
-      transform: `scaleY(0.0)`,
-      'transform-origin': 'top' 
-    }));
-    console.log('groupSlideDown',groupSlideDown);
-
-    console.log('transition', 
-    transition('closed=>open',
-      animate('500ms',style({
-        transform: `scaleY(0.0)`,
-        'transform-origin': 'top' 
-      }))));
-
-    console.log('seqSlideUp',seqSlideUp);
-    */
   }
-
-  /*
-   * Ignore this for the moment: 
-   * Works:
-   * transition, animate, style, group, keyframes, sequence
-   * 
-   * 
-   * state?
-   * 
-   * 
-   * stagger seems to work, maybe, but needs more testing.
-   * animateChild not sure, maybe?
-  *
-   * query can't tell, definitely doesn't support triggers
-   * 
-   * trigger not sure how to support the state member of the
-   * animation directive is the same thing as the trigger?
-   * 
-   * animation - don't need to support because it returns 
-   * animation metadata? 
-   */
-
-   
 
   newState = 'closed';
   newShow = true;
@@ -102,7 +44,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
       }))),
       */
 
-     transition('closed=>open',sequence([
+     transition('closed=>open', [//sequence([
       animate('500ms', style({
         'transform-origin': 'top',
         'transform': `scaleY(2.0)`,
@@ -117,7 +59,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
           'background-color': 'blue'
         }))
         ]),
-      ])),
+      ]), //),
 
 
     transition(':enter',
