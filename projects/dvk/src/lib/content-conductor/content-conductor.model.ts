@@ -2,15 +2,16 @@ import { ViewRef } from '@angular/core';
 import { ContentContainer } from './content-container/content-container.model';
 
 /**
- * This is the shape of the object returned by the injectable 
- * {@link ContentConductorService} that allows content in the 
- * form of {@link TemplateRef}s supplied by a {@link QueryList} to  
+ * This is the shape of the object returned by the injectable
+ * {@link ContentConductorService} that allows content in the
+ * form of TemplateRefs supplied by a QueryList to
  * be moved between multiple containers. 
  * 
  * The number of containers and the number of views to move between
  * them is not limited.
  * 
- * @example
+ * ## Example
+ * 
  * Define multiple ContentContainers in a template:
  * 
  * <ng-container dvk-content-container="one"></ng-container>
@@ -19,46 +20,58 @@ import { ContentContainer } from './content-container/content-container.model';
  * Inside the component controller define queries for both the 
  * TemplateRefs and the ContentContainer implementors:
  * 
- * `@ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true })` 
+ * ```ts
+ * \@ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true })` 
  * contents: QueryList<TemplateRef<any>>;
- *
- * `@ViewChildren(ContentContainerDirective)`
+ * 
+ * \@ViewChildren(ContentContainerDirective)`
  * containers: QueryList<ContentContainerDirective>;
+ * ```
  * 
  * Inject the ContentConductorService service:
  * 
+ * ```ts
  *   constructor(
  *      private ccService: ContentConductorService) {}
+ * ```
  * 
  * And then create the Content Conductor once the queries are ready,
  * usually inside ngAfterViewInit:
  * 
+ * ```ts
  *   ngAfterViewInit() {
  *     this.conductor = this.ccService
  *       .createContentConductor(this.containers, this.contents);
  *     this.conductor.init(this.cont);
  *   }
+ * ```
  * 
  * And then move the content around with string names mapped to the
  * names of the dvk-content-container directives:
  * 
+ * ```ts
  *   moveToTwo() {
  *     this.conductor.moveViews("one","two");
  *   }
+ * ```
  * 
  * Or back again:
  *
+ * ```ts
  *   moveToOne() {
  *     this.conductor.moveViews("two","one");
  *   }
- *
+ * ```
+ * 
  * And then instantiate the component or directive and put the views to
  * move around inside the element:
  * 
+ * ```html
  * <div dvk-content-conductor-example>
  *	<span *dvk-content>Content 1</span>
  *	<span *dvk-content>Content 2</span>
  * </div>
+ * ```
  */
 export interface ContentConductor<T extends ContentContainer> {
 

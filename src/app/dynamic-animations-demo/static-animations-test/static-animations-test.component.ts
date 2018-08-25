@@ -1,7 +1,6 @@
 import { sequence } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { sequenceEqual } from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-static-animations-test',

@@ -15,7 +15,7 @@ import { DynamicAnimationsHandler } from './dynamic-animations-handler/dynamic-a
 
 /**
  * This service is used to create a {@link DynamicAnimationsHandler} 
- * with the {@link DynamicAnimationsService.createAnimationsHandler} method.
+ * with the {@link DynamicAnimationsService#createAnimationsHandler} method.
  * 
  * The {@link DynamicAnimationsHandler} 
  * can be used to handle animations based on state transitions
@@ -24,43 +24,7 @@ import { DynamicAnimationsHandler } from './dynamic-animations-handler/dynamic-a
  * The {@link DynamicAnimationsHandler} can be wired up to a 
  * particular component or directive to automatically handle 
  * the animations for the specified element.
- * 
- * @example
- * `@Directive()`
- * export class AnimatedDirective {
- *   private animationsHandler: DynamicAnimationsHandler;
- * 
- *   `@Input()` set cssMap (map: StateCSSMap) {
- *     this.animationsHandler.setCSSMap(map);
- *   }
- * 
- *   `@Input()` set state(toState: string) {
- *     this.animationsHandler.nextState(toState);
- *   }
- * 
- *   `@Input()` set animations(
- *      transitions: AnimationTransitionsMap, 
- *      styles: AnimationStylesMap ) {
- *     this.animationsHandler.setAnimations(transitions, styles);
- *   }
- * 
- *   constructor(
- *     private elRef: ElementRef,
- *     private daService: DynamicAnimationsService,
- *   ) {
- *     this.animationsHandler = this.daService
- *       .createAnimationsHandler(this.elRef.nativeElement);
- *   }
- * 
- *   ngOnInit() {  
- *     this.animationsHandler.init();
- *   }
- * 
- *   ngOnDestroy() {
- *     this.animationsHandler.destroy();
- *   }
- * }
- * 
+ *
  */
 @Injectable()
 export class DynamicAnimationsService {
@@ -82,10 +46,10 @@ export class DynamicAnimationsService {
    * @param element The element to attach the animations
    * handler to. 
    * 
-   * @param initialState The initial state of the {@link AnimationStateMachine}
-   * @param transitions The {@link AnimationTransitionsMap} for the {@link AnimationStateMachine}
-   * @param styles The {@link AnimationStylesMap} for the {@link AnimationStateMachine}
-   * @param cssMap The {@link StateCSSMap} for the {@link AnimationStateMachine}
+   * @param initialState The initial state of the AnimationStateMachine
+   * @param transitions The AnimationTransitionsMap for the AnimationStateMachine
+   * @param styles The AnimationStylesMap for the AnimationStateMachine
+   * @param cssMap The StateCSSMap for the AnimationStateMachine
    * 
    */
   createAnimationsHandler(

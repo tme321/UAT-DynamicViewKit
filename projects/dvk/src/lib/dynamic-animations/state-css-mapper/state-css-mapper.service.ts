@@ -17,7 +17,7 @@ export class StateCssMapperService {
    * Get the css class for the given state.
    * 
    * @param state The state.
-   * @param map The {@link StateCSSMap} to look the state up in.
+   * @param map The StateCSSMap to look the state up in.
    */
   getCSSClass(state:string, map: StateCSSMap) {
     return map && map[state];
@@ -27,7 +27,7 @@ export class StateCssMapperService {
    * Create the {@link StateCSSMapper} to apply to the given element.
    * 
    * @param element The element to apply the css classes to.
-   * @param map The {@link StateCSSMap} that defines the css classes and states.
+   * @param map The StateCSSMap that defines the css classes and states.
    */
   createStateCSSMapper(element: any, map: StateCSSMap) {
     let renderer = this.rendererFactory.createRenderer(element,null);

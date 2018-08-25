@@ -2,6 +2,11 @@ import { DynamicComponentSerializerMap } from '../dynamic-component-serializer-m
 import { DynamicComponentSerializer } from '../dynamic-component-serializer/dynamic-component-serializer.model';
 import { ComponentConstructor } from '../component-constructor/component-constructor.model';
 
+/**
+ * The default implementation of {@link DynamicComponentSerializer} that
+ * provides the serialization methods for the specified 
+ * {@link DynamicComponentSerializerMap}. 
+ */
 export class DefaultDynamicComponentSerializer implements DynamicComponentSerializer {
 
     constructor(private serializerMap: DynamicComponentSerializerMap) {}
