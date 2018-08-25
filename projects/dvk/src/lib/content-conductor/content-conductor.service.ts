@@ -11,13 +11,10 @@ import { ContentConductorConstructor } from './content-conductor-constructor/con
 import { ContentConductor } from './content-conductor.model';
 
 /**
- * This is the service to inject into a component in order to
- * create {@link ContentConductor}s.
+ * This service can be injected into a component in order to
+ * create a {@link ContentConductor}.
  * 
  * See {@link ContentConductor} for the details.
- * 
- * @method createContentConductor Create a {@link ContentConductor}
- * for moving content around a component's template,
  * 
  * @example
  * constructor(private conductorService: ContentConductorService) {}
@@ -29,6 +26,13 @@ export class ContentConductorService {
     @Inject(ContentConductorConstructorToken) 
     private conductorConstructor: ContentConductorConstructor) { }
 
+  /**
+   * Create a {@link ContentConductor}
+   * for moving content around a component's template.
+   * @param containersQueryList A query list of ContentContainers
+   * @param contentsQueryList A query list of TemplateRefs.
+   * @return The ContentConductor
+   */
   createContentConductor<T extends ContentContainer>(
     containersQueryList: QueryList<T>,
     contentsQueryList : QueryList<TemplateRef<any>>) {

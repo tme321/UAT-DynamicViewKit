@@ -17,8 +17,72 @@ import { InitialValues } from './initial-values/initial-values.model';
 import { InputStreams } from './input-streams/input-streams.model';
 import { OutputCallbacks } from './output-callbacks/output-callbacks.model';
 
+/**
+ * The Dynamic Component Directive is the interface to using
+ * dvk dynamic components.
+ * 
+ * The directive lifecycle will track any streams specified by
+ * the model and handle change detection in the same way the 
+ * async pipe does.
+ *  
+ * ### **Directions**
+ * 
+ * Provide a {@link DynamicComponentSerializerService} 
+ * for the directive to use.
+ * 
+ * ```ts
+ * constructor(private dsService: DynamicComponentSerializerService) { 
+ *     this.serializer = this.dsService.createSerializer({
+ *         'textComponent':TextComponent
+ *     });
+ * }
+ * ```
+ * 
+ * And define a {@link DynamicComponentModel} for the DynamicComponentDirective
+ * to initialize with:
+ * 
+ * ```ts
+ * text$ = new Subject<string>();
+ * 
+ * onClick = (e: MouseEvent) => {
+ *     console.log('Dynamic component was clicked');
+ * }
+ * 
+ * model: DynamicComponentModel<TextComponent> = {
+ *     name: 'textComponent',
+ *     initialValues:{ 
+ *         text: 'Initial Text',
+ *     },
+ *     outputCallbacks: {
+ *         onClicked: this.onClick
+ *     },
+ *     inputs$: {
+ *         text: this.text$.asObservable()
+ *     }
+ * };
+ * ```
+ * 
+ * And in the template for the Component attach the dynamic 
+ * component directive to the desired element.
+ * 
+ * ```html
+ *  <ng-container 
+ *    [dvk-dc]="model"
+ *    [serializer]="serializer">
+ *  </ng-container>
+ * ``` 
+ * 
+ * ###### **Note**
+ * 
+ * The {@link DynamicComponentSerializer} was intentionally made
+ * to be passed in rather than created internally so that the same
+ * serialzer could be reused for multiple instances of the 
+ * DynamicComponentDirective.  This allows a developer to create 
+ * a single serializer at one point and feed it into all desired 
+ * instances of DynamicComponentDirectives.
+ */
 @Directive({
-  selector: '[dvk-dynamic-component]',
+  selector: '[dvk-dc]',
   exportAs:'dynamicComp2',
 })
 export class DynamicComponentDirective<T> implements OnDestroy {
@@ -26,9 +90,17 @@ export class DynamicComponentDirective<T> implements OnDestroy {
     private inputSubscriptions: Subscription[] = [];
     private outputSubscriptions: Subscription[] = [];
 
+    /**
+     * The serialzer this instance of the directive should use
+     * to resolve Components.
+     */
     @Input() serializer: DynamicComponentSerializer;
 
-    @Input('dvk-dynamic-component') 
+    /**
+     * The model for this dynamic component to instantiate 
+     * with.
+     */
+    @Input('dvk-dc') 
     set componentModel(compModel: DynamicComponentModel<T>) {
       this.initializeComponent(compModel);
     }

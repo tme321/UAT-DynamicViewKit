@@ -1,43 +1,37 @@
-# UATDynamicViewKit
+# @UAT/DynamicViewKit
+The Dynamic View Kit is a library for building components
+and directives with dynamic capabilities.
 
-This project contains the @uat/dvk library which provides tools 
-for building full featured but unopinioanted components.
+The goal is to provide a set of tools that allow component and
+directive authors to create feature rich components whose 
+functionality can be modified by end users.
 
-The dvk project must be compiled before the demo will work.  To
-run the demo first execute:
+## Features
+
+Currently the dvk offers 3 features for building components and 
+directives.
+
+* [Content Conductor](./additional-documentation/content-conductor.html)
+* [Dynamic Animations](./additional-documentation/dynamic-animations.html)
+* [Dynamic Components](./additional-documentation/dynamic-components.html)
+
+## Installation
+
+Coming soon...
+
+## Building
+
+The dvk library can be compiled with the command:
 
     ng build dvk
 
-Then execute:
+## Demo Application
+
+The development environment and demo application can then be 
+started with the command:
   
     ng serve
 
-as normal.
-
-It is still under development at this time.
+## Angular CLI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.2.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

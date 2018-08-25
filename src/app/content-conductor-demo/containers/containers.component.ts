@@ -1,4 +1,4 @@
-import { Component, OnInit, ContentChildren, ViewChildren, TemplateRef, QueryList, ViewContainerRef, AfterViewInit } from '@angular/core';
+import { Component, ContentChildren, ViewChildren, TemplateRef, QueryList, AfterViewInit } from '@angular/core';
 import { ContentDirective, ContentContainerDirective, ContentConductorService, ContentConductor, ContentContainer } from '@uat/dvk';
 
 @Component({
@@ -18,8 +18,7 @@ export class ContainersComponent implements AfterViewInit {
   conductor: ContentConductor<ContentContainer>;
 
   constructor(
-    private ccService: ContentConductorService,
-    private vcRef: ViewContainerRef) { }
+    private ccService: ContentConductorService) { }
 
   ngAfterViewInit() {
     this.conductor = this.ccService

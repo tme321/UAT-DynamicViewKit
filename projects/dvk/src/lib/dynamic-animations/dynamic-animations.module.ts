@@ -9,15 +9,32 @@ import { AnimationStateMachineConstructorToken } from './animation-state-machine
 import { DefaultAnimationsStateMachine } from './default-animations-state-machine/default-animations-state-machine.service';
 import { AnimationStateMachineConstructor } from './animation-state-machine/animation-state-machine.constructor';
 import { DynamicAnimationsDirective } from './dynamic-animations.directive';
-import { NgTransitionService } from './ng-transition/ng-transition.service';
 import { LeaveDirective } from './leave/leave.directive';
+import { NgTransitionService } from './ng-transition/ng-transition.service';
+import { NgStateService } from './ng-state/ng-state.service';
 
+/**
+ * The Dynamic Animations Module provides support for allowing Angular
+ * Animations to be passed in at runtime dynamically instead of 
+ * described statically in the Component's metadata.
+ * 
+ * This functionality is handled through the exported 
+ * {@link DynamicAnimationsDirective}.
+ * 
+ * The forRoot method must be called to provide the {@link DynamicAnimationsHandler}
+ * and the {@link AnimationStateMachine} that are used by the directive.
+ * 
+ * The implementations are handled by default by the {@link DefaultDynamicAnimationsHandlerService}
+ * and the {@link DefaultAnimationsStateMachine} respectively but can be 
+ * overriden with custom implementations if desired.
+ */
 @NgModule({
   providers: [
     DynamicAnimationsService,
     AnimationStatesService, 
     StateCssMapperService,
-    NgTransitionService
+    NgTransitionService,
+    NgStateService
   ],
   declarations: [DynamicAnimationsDirective, LeaveDirective],
   exports: [DynamicAnimationsDirective, LeaveDirective]

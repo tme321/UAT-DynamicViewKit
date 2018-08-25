@@ -12,9 +12,7 @@ import { AnimationStateMachineConstructor } from '../animation-state-machine/ani
  * and {@link AnimationStylesMap} objects.
  * 
  * The returned state machine is in the shape of 
- * [AnimationStateMachine]{@link AnimationStateMachine} which consists of 3 
- * methods:
- * 
+ * {@link AnimationStateMachine}.
  */
 @Injectable()
 export class AnimationStatesService {
@@ -25,12 +23,11 @@ export class AnimationStatesService {
     private stateMachineConstructor: AnimationStateMachineConstructor) {}
 
   /**
-   * Create a {@link AnimationStateMachine} to apply to an
+   * Create an {@link AnimationStateMachine} to apply to an
    * element when the state is transitioned.
    * @param element The element to apply the animations to.
-   * @param transitions The {@link AnimationTransitionsMap} map of 
-   * @param styles The {@link AnimationStylesMap} map of 
-   * the state transition animations to play.
+   * @param transitions The AnimationTransitionsMap to play. 
+   * @param styles The AnimationStylesMap to apply.
    */
   createAnimationStateMachine(
     element: any, 

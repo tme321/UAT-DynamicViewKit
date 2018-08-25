@@ -6,6 +6,11 @@ import { AnimationStateMachine } from '../animation-state-machine/animation-stat
 import { AnimationStatesService } from '../animation-states/animation-states.service';
 import { StateCssMapperService } from '../state-css-mapper/state-css-mapper.service';
 
+/**
+ * The default implementation of {@link DynamicAnimationsHandler}
+ * that provides the {@link DynamicAnimationsDirective} with 
+ * animations capabllities.  
+ */
 export class DefaultDynamicAnimationsHandlerService implements DynamicAnimationsHandler {
 
   private animationsStateMachine: AnimationStateMachine;

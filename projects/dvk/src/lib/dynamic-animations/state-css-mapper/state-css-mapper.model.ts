@@ -1,16 +1,30 @@
 
 /**
- * @method remove Remove the css class defined by the {@link StateCSSMap} 
- * for the given state. 
- * @method removeAll Remove all css classes defined by the {@link StateCSSMap}
- * @method add Add the css class defined by the {@link StateCSSMap} 
- * for the given state. 
- * @method destroy Release the references used by the closure.
+ * The shape of an object that can map string state names 
+ * to CSS classes.
  */
 export interface StateCSSMapper {
-    remove: (state:string)=>void;
-    removeAll: ()=>void;
-    add: (state:string)=> void;
-    destroy: ()=> void;
-  }
+
+  /**
+   * Remove the css class defined by the {@link StateCSSMap} 
+   * for the given state. 
+   */
+  remove: (state:string)=>void;
+
+  /**
+   * Remove all css classes defined by the {@link StateCSSMap}
+   */
+  removeAll: ()=>void;
+
+  /**
+   * Add the css class defined by the {@link StateCSSMap} 
+   * for the given state.
+   */
+  add: (state:string)=> void;
+
+  /**
+   * Release the references used by the closure.
+   */
+  destroy: ()=> void;
+}
   

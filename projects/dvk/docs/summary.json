@@ -1,0 +1,14 @@
+[
+    {
+        "title": "Content Conductor",
+        "file": "ContentConductor.md"
+    },
+    {
+        "title": "Dynamic Animations",
+        "file": "DynamicAnimations.md"
+    },
+    {
+        "title": "Dynamic Components",
+        "file": "DynamicComponents.md"
+    }
+]

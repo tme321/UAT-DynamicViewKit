@@ -5,21 +5,36 @@ import { StateCSSMapper } from '../state-css-mapper/state-css-mapper.model';
 import { AnimationTransitionsMap, AnimationStylesMap } from '../animation-transitions/animation-transitions.model';
 import { NgTransitionStates } from '../ng-transition/ng-transition.states';
 
+/**
+ * @ignore
+ */
 interface DvkAnimationStepMetadata {
   unStyledAnimations: AnimationAnimateMetadata[];
 }
 
+/**
+ * @ignore
+ */
 interface DvkAnimationMetadata extends DvkAnimationStepMetadata {
   animation: AnimationMetadata[],
   usedKeys: { [key:string]:string }
 }
 
+/**
+ * @ignore
+ */
 interface DvkTransitionsAnimationMetadata {
   [fromState: string]: {
     [toState:string]: DvkAnimationMetadata
   }
 }
 
+/**
+ * The default implementation of the {@link AnimationStateMachine} 
+ * interface.  This class is provided to the {@link DynamicAnimationsHandler}
+ * in order to handle the animations based on string state transitions
+ * in the same way that the standard Angular Animations work. 
+ */
 export class DefaultAnimationsStateMachine implements AnimationStateMachine {
   private currentState: string;
   private currentTransition: AnimationPlayer;
@@ -118,8 +133,8 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * and the [StateCSSMapper]{@link StateCSSMapper}.
    * 
    * @param state The string that represents the state.
-   * @param mapper The [StateCSSMapper]{@link StateCSSMapper}
-   * that modifies the css of an element.
+   * @param mapper The StateCSSMapper that modifies the 
+   * css of an element.
    */
   onAnimationStart = (
     state: string, 
@@ -137,8 +152,8 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * and the [StateCSSMapper]{@link StateCSSMapper}.
    * 
    * @param state The string that represents the state.
-   * @param mapper The [StateCSSMapper]{@link StateCSSMapper}
-   * that modifies the css of an element.
+   * @param mapper The StateCSSMapper that modifies the 
+   * css of an element.
    */
   onAnimationDone = (
     state: string, 
@@ -197,7 +212,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * 
    * @param fromState The state to transition from.
    * @param toState The state to transition to.
-   * @returns An {@link AnimationFactory} representing the desired 
+   * @returns An AnimationFactory representing the desired 
    * transition animation.
    */
   buildPlayer(
@@ -258,7 +273,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * Build metadata necessary to create animations dynamically
    * that have the same behavior (I hope) of static Angular animations.
    * 
-   * @param transitions A {@link AnimationTransitionsMap} of transitions
+   * @param transitions An AnimationTransitionsMap of transitions
    * to build metadata from.
    */
   buildTransitionAnimationMetadata(transitions: AnimationTransitionsMap) {
@@ -278,9 +293,9 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
   /**
    * Parse valid transition metadata into {@link DvkAnimationMetadata}
    *  
-   * @param metadata The {@link AnimationMetadata} or array of {@link AnimationMetadata}
-   * that specifies the animation of a {@link transition}.
-   * @returns Metadata as {@link DvkAnimationMetadata}
+   * @param metadata The AnimationMetadata or array of AnimationMetadata
+   * that specifies the animation of a transition.
+   * @returns Metadata as DvkAnimationMetadata
    */
   parseAnimationMetadata(
     metadata: AnimationMetadata | AnimationMetadata[]): DvkAnimationMetadata {
@@ -308,8 +323,8 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
 
   /**
    * Parse an animation function recursively for any
-   * [style()]{@link style} or [keyframe]{@link keyframe}[]s and 
-   * map all keys of those styles to the usedStyleKeys object.
+   * style or keyframe[] and map all keys of those styles 
+   * to the usedStyleKeys object.
    * 
    * Call itself recursively and return the animation normalized 
    * into a {@link DvkAnimationStepMetadata} object.
@@ -448,7 +463,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * 
    * The style keys are set to the value of '*'.
    * 
-   * @param metadata The {@link AnimationStyleMetadata} or {@link AnimationKeyframesSequenceMetadata}
+   * @param metadata The AnimationStyleMetadata or AnimationKeyframesSequenceMetadata
    * containing the styles to add.
    * @param styleKeys The object of style keys to add to.
    */
@@ -472,7 +487,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
 
   /**
    * Merge a set of style keys into a passed {@link AnimationStyleMetadata}
-   * @param style The {@link AnimationStyleMetadata} to merge into
+   * @param style The AnimationStyleMetadata to merge into
    * @param usedKeys The keys to merge in
    */
   mergeStyleKeys(
@@ -503,18 +518,30 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
    * Metadata type constraint functions. 
    */
 
+  /**
+   * @ignore
+   */
   isStyle(metadata: AnimationStyleMetadata | AnimationKeyframesSequenceMetadata): metadata is AnimationStyleMetadata {
     return metadata.type === AnimationMetadataType.Style;
   }
 
+  /**
+   * @ignore
+   */
   isAnimate(metadata: AnimationMetadata): metadata is AnimationAnimateMetadata {
     return metadata.type === AnimationMetadataType.Animate;
   }
 
+  /**
+   * @ignore
+   */
   isSequence(metadata: AnimationMetadata): metadata is AnimationSequenceMetadata {
     return metadata.type === AnimationMetadataType.Sequence;
   } 
 
+  /**
+   * @ignore
+   */
   isGroup(metadata: AnimationMetadata): metadata is AnimationGroupMetadata {
     return metadata.type === AnimationMetadataType.Group;
   } 

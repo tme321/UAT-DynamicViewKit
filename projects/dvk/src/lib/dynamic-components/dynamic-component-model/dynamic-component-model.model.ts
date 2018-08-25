@@ -6,7 +6,7 @@ import { DynamicComponentData } from '../dynamic-component-data/dynamic-componen
 /**
  * This model combines {@link DynamicComponentData} with 
  * an optional set of observable streams to tie to inputs
- * and callbacks to tie to {@link EventEmitter}s in the 
+ * and callbacks to tie to EventEmitters in the 
  * dynamically created component.
  */
 export interface DynamicComponentModel<T> extends DynamicComponentData<T> {

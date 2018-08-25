@@ -4,11 +4,21 @@ import { AnimationTransitionsMap } from '../animation-transitions/animation-tran
 import { NgTransitionSymbols } from './ng-transition.symbols';
 import { NgTransitionStates } from './ng-transition.states';
 
+/**
+ * Provides the ability to convert an array of AnimationTransitionMetadata
+ * into an {@link AnimationTransitionsMap}.
+ */
 @Injectable()
 export class NgTransitionService {
   
   constructor() { }
 
+  /**
+   * Build an {@link AnimationTransitionsMap} from an array of 
+   * AnimationTransitionMetadata objects.
+   * 
+   * @param transitions The AnimationTransitionMetadata[] to convert.
+   */
   buildAnimationTransitions(transitions: AnimationTransitionMetadata[]) {
     return transitions.reduce<AnimationTransitionsMap>((transMap: AnimationTransitionsMap, transition)=>{
       let newTransitions = this.parseTransitionExpression(transition);
@@ -18,18 +28,17 @@ export class NgTransitionService {
           transMap[fromState][toState] = newTransitions[fromState][toState];
         })
       });
-      /*
-      transMap = { 
-        //...transMap,
-        ...transMap, 
-        ...this.parseTransitionExpression(transition) 
-      };
-      */
       return transMap;
     },{});
   }
 
-  parseTransitionExpression(transition: AnimationTransitionMetadata) {
+  /**
+   * Parse an individual AnimationTransitionMetadata for the transition
+   * expression and convert that to a valid entry in an 
+   * {@link AnimationTransitionsMap}.
+   * @param transition The AnimationTransitionMetadata to convert.
+   */
+  private parseTransitionExpression(transition: AnimationTransitionMetadata) {
     const expressions = transition.expr;
     let transitions: AnimationTransitionsMap = {};
 
@@ -94,6 +103,9 @@ export class NgTransitionService {
     return transitions;
   }
   
+  /**
+   * @ignore
+   */
   private isString(expression: any): expression is string {
     return expression.length !== null && expression.length !== undefined;
   }

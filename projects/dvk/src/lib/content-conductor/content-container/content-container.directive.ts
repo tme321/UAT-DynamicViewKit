@@ -17,8 +17,15 @@ import { ContentContainer } from './content-container.model';
   selector: '[dvk-content-container]'
 })
 export class ContentContainerDirective implements ContentContainer {
+
+  /**
+   * The string used to refer to this container.
+   */
   @Input('dvk-content-container') containerName: string;
 
+  /**
+   * The ViewContainerRef of this directive.
+   */
   get viewContainer() { return this.vcRef; }
 
   constructor(
