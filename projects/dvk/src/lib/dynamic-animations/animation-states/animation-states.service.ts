@@ -4,6 +4,12 @@ import { AnimationTransitionsMap, AnimationStylesMap } from '../animation-transi
 import { AnimationStateMachineConstructorToken } from '../animation-state-machine/animation-state-machine.token';
 import { AnimationStateMachineConstructor } from '../animation-state-machine/animation-state-machine.constructor';
 
+/*
+ * This import is necessary for proper compilation even though
+ * the type isn't used in this file.
+ */
+import { AnimationStateMachine } from '../animation-state-machine/animation-state-machine.model';
+
 /**
  * This service creates an animation transition 
  * state machine with the method 

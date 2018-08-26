@@ -5,6 +5,13 @@ import { DynamicComponentSerializerMap } from '../dynamic-component-serializer-m
 import { DynamicComponentSerializerConstructorToken } from './dynamic-component-serializer.token';
 import { DynamicComponentSerializerConstructor } from './dynamic-component-serializer.constructor';
 
+/*
+ * This import is necessary for proper compilation even though
+ * the type isn't used in this file.
+ */
+
+import { DynamicComponentSerializer } from './dynamic-component-serializer.model';
+
 /**
  * Create a serializer for dynamic components to be resolved from 
  * string names.
