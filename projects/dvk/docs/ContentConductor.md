@@ -95,6 +95,11 @@ ngOnDestroy() {
 }
 ```
 
+###### **Note**
+
+All of the methods that insert views into containers also have an optional index parameter at the end that is the index to insert at.
+If it is not specified the items are inserted to the end of the containers views.
+
 ## **Content**
 
 Content is added to the containers by creating it inside the element that has containers in it's view and creates the conductor.  The pieces of content should be marked with the structural directive [ContentDirective](../directives/ContentDirective.html).

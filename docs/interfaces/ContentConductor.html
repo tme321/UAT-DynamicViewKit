@@ -836,37 +836,7 @@ form of TemplateRefs supplied by a QueryList to
 be moved between multiple containers. </p>
 <p>The number of containers and the number of views to move between
 them is not limited.</p>
-<h2 id="example">Example</h2>
-<p>Define multiple ContentContainers in a template:</p>
-<p><ng-container dvk-content-container="one"></ng-container></p>
-<p><ng-container dvk-content-container="two"></ng-container></p>
-<p>Inside the component controller define queries for both the 
-TemplateRefs and the ContentContainer implementors:</p>
-<div><pre class="line-numbers"><code class="language-ts">\&#64;ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true })` 
-contents: QueryList&lt;TemplateRef&lt;any&gt;&gt;;
 
-\&#64;ViewChildren(ContentContainerDirective)`
-containers: QueryList&lt;ContentContainerDirective&gt;;</code></pre></div><p>Inject the ContentConductorService service:</p>
-<div><pre class="line-numbers"><code class="language-ts">   constructor(
-      private ccService: ContentConductorService) {}</code></pre></div><p>And then create the Content Conductor once the queries are ready,
-usually inside ngAfterViewInit:</p>
-<div><pre class="line-numbers"><code class="language-ts">   ngAfterViewInit() {
-     this.conductor = this.ccService
-       .createContentConductor(this.containers, this.contents);
-     this.conductor.init(this.cont);
-   }</code></pre></div><p>And then move the content around with string names mapped to the
-names of the dvk-content-container directives:</p>
-<div><pre class="line-numbers"><code class="language-ts">   moveToTwo() {
-     this.conductor.moveViews(&quot;one&quot;,&quot;two&quot;);
-   }</code></pre></div><p>Or back again:</p>
-<div><pre class="line-numbers"><code class="language-ts">   moveToOne() {
-     this.conductor.moveViews(&quot;two&quot;,&quot;one&quot;);
-   }</code></pre></div><p>And then instantiate the component or directive and put the views to
-move around inside the element:</p>
-<div><pre class="line-numbers"><code class="language-html">&lt;div dvk-content-conductor-example&gt;
-&lt;span *dvk-content&gt;Content 1&lt;/span&gt;
-&lt;span *dvk-content&gt;Content 2&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
             </p>
 
 
@@ -933,21 +903,21 @@ move around inside the element:</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>attachView(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, view: <a href="https://angular.io/api/core/ViewRef" target="_blank">ViewRef</a>)</code>
+<code>attachView(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, view: <a href="https://angular.io/api/core/ViewRef" target="_blank">ViewRef</a>, toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:144</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:91</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Attach a {@link ViewRef} to a {@link ContentContainerDirective}.</p>
+                            <div class="io-description"><p>Attach a ViewRef to a <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>.</p>
 </div>
 
                             <div class="io-description">
@@ -974,7 +944,8 @@ move around inside the element:</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The {</p>
+                                                                <code><p>The ContentContainerDirective 
+to attach the ViewRef to.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -990,7 +961,24 @@ move around inside the element:</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The {</p>
+                                                                <code><p>The ViewRef to attach.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>The index in the container to attach the view.
+If ommitted the view is attached to the end.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1025,21 +1013,21 @@ move around inside the element:</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>attachViews(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, views?: ViewRef[])</code>
+<code>attachViews(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, views?: ViewRef[], toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:152</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:101</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Attach an array of {@link ViewRef}s to a {@link ContentContainerDirective}.</p>
+                            <div class="io-description"><p>Attach an array of ViewRefs to a <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>.</p>
 </div>
 
                             <div class="io-description">
@@ -1066,7 +1054,8 @@ move around inside the element:</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The {</p>
+                                                                <code><p>The ContentContainerDirective 
+to attach the ViewRefs array to.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1082,7 +1071,24 @@ move around inside the element:</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The {</p>
+                                                                <code><p>The ViewRefs array to attach.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>The index in the container to attach the views.
+If ommitted the views are attached to the end.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1124,7 +1130,7 @@ move around inside the element:</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:90</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -1132,7 +1138,7 @@ move around inside the element:</p>
                 <tr>
                     <td class="col-md-4">
                             <div class="io-description"><p>Clean up, should be called by the component or directive&#39;s
-{@link ngOnDestroy} method that is displaying the content. </p>
+ngOnDestroy method that is displaying the content. </p>
 </div>
 
                             <div class="io-description">
@@ -1165,15 +1171,15 @@ move around inside the element:</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:114</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:56</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Detach a {@link ViewRef} from a {@link ContentContainerDirective}
-specified by it&#39;s index inside the {@link ViewContainerRef}</p>
+                            <div class="io-description"><p>Detach a ViewRef from a <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>
+specified by it&#39;s index inside the ViewContainerRef</p>
 </div>
 
                             <div class="io-description">
@@ -1200,7 +1206,8 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The string name of the {</p>
+                                                                <code><p>The string name of the ContentContainerDirective
+to remove the ViewRef from.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1216,7 +1223,8 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The index of the {</p>
+                                                                <code><p>The index of the ViewRef to remove. If ommitted the
+last ViewRef is removed.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1230,7 +1238,7 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
 
                             </div>
                                 <div class="io-description">
-                                    <p>The detached {</p>
+                                    <p>The detached ViewRef.</p>
 
                                 </div>
                     </td>
@@ -1259,14 +1267,14 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:136</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:81</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Remove all {@link ViewRef}s from a {@link ContentContainerDirective}.</p>
+                            <div class="io-description"><p>Remove all ViewRefs from a <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>.</p>
 </div>
 
                             <div class="io-description">
@@ -1293,7 +1301,8 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The name of the {</p>
+                                                                <code><p>The name of the ContentContainerDirective 
+to remove the ViewRefs from.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1307,7 +1316,7 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
 
                             </div>
                                 <div class="io-description">
-                                    <p>An array of the {</p>
+                                    <p>An array of the ViewRefs removed.</p>
 
                                 </div>
                     </td>
@@ -1336,7 +1345,7 @@ specified by it&#39;s index inside the {@link ViewContainerRef}</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:84</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -1407,22 +1416,22 @@ to create the content initially inside of.  </p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>moveView(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>moveView(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, fromIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:101</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:41</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Move a single {@link ViewRef} identified by it&#39;s index 
-from one {@link ContentContainerDirective} to the another.</p>
+                            <div class="io-description"><p>Move a single ViewRef identified by it&#39;s index 
+from one <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a> to the another.</p>
 </div>
 
                             <div class="io-description">
@@ -1449,7 +1458,8 @@ from one {@link ContentContainerDirective} to the another.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The source {</p>
+                                                                <code><p>The source ContentContainerDirective&#39;s name
+where the ViewRef is currently located.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1465,12 +1475,13 @@ from one {@link ContentContainerDirective} to the another.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The destination {</p>
+                                                                <code><p>The destination ContentContainerDirective&#39;s name
+where the ViewRef will be moved to.</p>
 </code>
                                                         </td>
                                                 </tr>
                                                 <tr>
-                                                        <td>index</td>
+                                                        <td>fromIndex</td>
                                                         <td>
                                                                     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                                         </td>
@@ -1481,7 +1492,22 @@ from one {@link ContentContainerDirective} to the another.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The index of the {</p>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>The index inside the nextContainer to insert the ViewRef.
+If not specified the ViewRef is added to the end of the container.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1516,21 +1542,21 @@ from one {@link ContentContainerDirective} to the another.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>moveViews(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>moveViews(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:126</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.model.ts:70</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Move all of the {@link ViewRef}s from one {@link ContentContainerDirective}
+                            <div class="io-description"><p>Move all of the ViewRefs from one <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>
 to another.</p>
 </div>
 
@@ -1558,7 +1584,8 @@ to another.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The {</p>
+                                                                <code><p>The ContentContainerDirective 
+to remove the ViewRef from.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1574,7 +1601,25 @@ to another.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>The {</p>
+                                                                <code><p>The ContentContainerDirective 
+to add the ViewRef to.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>The index inside nextContainer to insert
+the views, if ommitted the views are inserted at the end.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1613,68 +1658,6 @@ import { ContentContainer } from &#x27;./content-container/content-container.mod
  * The number of containers and the number of views to move between
  * them is not limited.
  * 
- * ## Example
- * 
- * Define multiple ContentContainers in a template:
- * 
- * &lt;ng-container dvk-content-container&#x3D;&quot;one&quot;&gt;&lt;/ng-container&gt;
- * &lt;ng-container dvk-content-container&#x3D;&quot;two&quot;&gt;&lt;/ng-container&gt;
- * 
- * Inside the component controller define queries for both the 
- * TemplateRefs and the ContentContainer implementors:
- * 
- * &#x60;&#x60;&#x60;ts
- * \@ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true })&#x60; 
- * contents: QueryList&lt;TemplateRef&lt;any&gt;&gt;;
- * 
- * \@ViewChildren(ContentContainerDirective)&#x60;
- * containers: QueryList&lt;ContentContainerDirective&gt;;
- * &#x60;&#x60;&#x60;
- * 
- * Inject the ContentConductorService service:
- * 
- * &#x60;&#x60;&#x60;ts
- *   constructor(
- *      private ccService: ContentConductorService) {}
- * &#x60;&#x60;&#x60;
- * 
- * And then create the Content Conductor once the queries are ready,
- * usually inside ngAfterViewInit:
- * 
- * &#x60;&#x60;&#x60;ts
- *   ngAfterViewInit() {
- *     this.conductor &#x3D; this.ccService
- *       .createContentConductor(this.containers, this.contents);
- *     this.conductor.init(this.cont);
- *   }
- * &#x60;&#x60;&#x60;
- * 
- * And then move the content around with string names mapped to the
- * names of the dvk-content-container directives:
- * 
- * &#x60;&#x60;&#x60;ts
- *   moveToTwo() {
- *     this.conductor.moveViews(&quot;one&quot;,&quot;two&quot;);
- *   }
- * &#x60;&#x60;&#x60;
- * 
- * Or back again:
- *
- * &#x60;&#x60;&#x60;ts
- *   moveToOne() {
- *     this.conductor.moveViews(&quot;two&quot;,&quot;one&quot;);
- *   }
- * &#x60;&#x60;&#x60;
- * 
- * And then instantiate the component or directive and put the views to
- * move around inside the element:
- * 
- * &#x60;&#x60;&#x60;html
- * &lt;div dvk-content-conductor-example&gt;
- *	&lt;span *dvk-content&gt;Content 1&lt;/span&gt;
- *	&lt;span *dvk-content&gt;Content 2&lt;/span&gt;
- * &lt;/div&gt;
- * &#x60;&#x60;&#x60;
  */
 export interface ContentConductor&lt;T extends ContentContainer&gt; {
 
@@ -1688,71 +1671,82 @@ export interface ContentConductor&lt;T extends ContentContainer&gt; {
 
     /**
      *  Clean up, should be called by the component or directive&#x27;s
-     * {@link ngOnDestroy} method that is displaying the content. 
+     *  ngOnDestroy method that is displaying the content. 
      */
     destroy():void;
 
     /**
-     * Move a single {@link ViewRef} identified by it&#x27;s index 
+     * Move a single ViewRef identified by it&#x27;s index 
      * from one {@link ContentContainerDirective} to the another.
-     * @param previousContainer The source {@link ContentContainerDirective}&#x27;s name
-     * where the {@link ViewRef} is currently located.
-     * @param nextContainer The destination {@link ContentContainerDirective}&#x27;s name
-     * where the {@link ViewRef} will be moved to.
-     * @param index The index of the {@link ViewRef} to move.
+     * @param previousContainer The source ContentContainerDirective&#x27;s name
+     * where the ViewRef is currently located.
+     * @param nextContainer The destination ContentContainerDirective&#x27;s name
+     * where the ViewRef will be moved to.
+     * @param fomrIndex The index of the ViewRef to move from previousContainer.
+     * @param toIndex The index inside the nextContainer to insert the ViewRef.
+     * If not specified the ViewRef is added to the end of the container.
      */
     moveView( 
         previousContainer: string,
         nextContainer:string, 
-        index: number):void;
+        fromIndex: number,
+        toIndex?: number):void;
 
     /**
-     * Detach a {@link ViewRef} from a {@link ContentContainerDirective}
-     * specified by it&#x27;s index inside the {@link ViewContainerRef}
-     * @param container The string name of the {@link ContentContainerDirective}
-     * to remove the {@link ViewRef} from.
-     * @param index The index of the {@link ViewRef} to remove.
-     * @returns The detached {@link ViewRef}.
+     * Detach a ViewRef from a {@link ContentContainerDirective}
+     * specified by it&#x27;s index inside the ViewContainerRef
+     * @param container The string name of the ContentContainerDirective
+     * to remove the ViewRef from.
+     * @param index The index of the ViewRef to remove. If ommitted the
+     * last ViewRef is removed.
+     * @returns The detached ViewRef.
      */
     detachView(
         container:string,
         index?: number):ViewRef;
 
     /**
-     * Move all of the {@link ViewRef}s from one {@link ContentContainerDirective}
+     * Move all of the ViewRefs from one {@link ContentContainerDirective}
      * to another.
-     * @param previousContainer The {@link ContentContainerDirective} 
-     * to remove the {@link ViewRef} from.
-     * @param nextContainer The {@link ContentContainerDirective} 
-     * to add the {@link ViewRef} to.
+     * @param previousContainer The ContentContainerDirective 
+     * to remove the ViewRef from.
+     * @param nextContainer The ContentContainerDirective 
+     * to add the ViewRef to.
+     * @param toIndex The index inside nextContainer to insert
+     * the views, if ommitted the views are inserted at the end.
      */
     moveViews(
         previousContainer: string, 
-        nextContainer: string):void;
+        nextContainer: string,
+        toIndex?: number):void;
 
     /**
-     * Remove all {@link ViewRef}s from a {@link ContentContainerDirective}.
-     * @param container The name of the {@link ContentContainerDirective} 
-     * to remove the {@link ViewRef}s from.
-     * @returns An array of the {@link ViewRef}s removed.
+     * Remove all ViewRefs from a {@link ContentContainerDirective}.
+     * @param container The name of the ContentContainerDirective 
+     * to remove the ViewRefs from.
+     * @returns An array of the ViewRefs removed.
      */
     detachViews(container: string):ViewRef[];
 
     /**
-     * Attach a {@link ViewRef} to a {@link ContentContainerDirective}.
-     * @param container The {@link ContentContainerDirective} 
-     * to attach the {@link ViewRef} to.
-     * @param view The {@link ViewRef} to attach.
+     * Attach a ViewRef to a {@link ContentContainerDirective}.
+     * @param container The ContentContainerDirective 
+     * to attach the ViewRef to.
+     * @param view The ViewRef to attach.
+     * @param toIndex The index in the container to attach the view.
+     * If ommitted the view is attached to the end.
      */
-    attachView(container:string, view: ViewRef):void;
+    attachView(container:string, view: ViewRef, toIndex?: number):void;
 
     /**
-     * Attach an array of {@link ViewRef}s to a {@link ContentContainerDirective}.
-     * @param container The {@link ContentContainerDirective} 
-     * to attach the {@link ViewRef}s array to.
-     * @param views The {@link ViewRef}s array to attach.
+     * Attach an array of ViewRefs to a {@link ContentContainerDirective}.
+     * @param container The ContentContainerDirective 
+     * to attach the ViewRefs array to.
+     * @param views The ViewRefs array to attach.
+     * @param toIndex The index in the container to attach the views.
+     * If ommitted the views are attached to the end.
      */
-    attachViews(container:string, views?: ViewRef[]):void;
+    attachViews(container:string, views?: ViewRef[], toIndex?: number):void;
 }</code></pre>
     </div>
 </div>

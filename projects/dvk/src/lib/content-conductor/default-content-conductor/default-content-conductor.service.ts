@@ -76,10 +76,15 @@ export class DefaultContentConductorService<T extends ContentContainer> implemen
   moveView( 
     previousContainer: string,
     nextContainer:string, 
-    index: number ) {
-      index = index || this.containersMap[previousContainer].length;
-      const view = this.containersMap[previousContainer].detach(index);
-      this.containersMap[nextContainer].insert(view);
+    fromIndex: number,
+    toIndex?: number) {
+      fromIndex = fromIndex || this.containersMap[previousContainer].length;
+      const insertIndex = toIndex === null || toIndex === undefined? 
+        this.containersMap[nextContainer].length : 
+        toIndex;
+
+      const view = this.containersMap[previousContainer].detach(fromIndex);
+      this.containersMap[nextContainer].insert(view, insertIndex);
   }
 
   detachView(
@@ -88,18 +93,24 @@ export class DefaultContentConductorService<T extends ContentContainer> implemen
       return this.containersMap[container].detach(index);
   }
 
-  moveViews(previousContainer: string, nextContainer: string) {
+  moveViews(previousContainer: string, nextContainer: string, toIndex?: number) {
     const length = this.containersMap[previousContainer].length;
     const viewsCache: ViewRef[] = [];
+
     for(let i=0; i<length; i++) {
       viewsCache.push(
         this.containersMap[previousContainer].detach(0));
     }
-    
+
+    let insertIndex = toIndex === null || toIndex === undefined? 
+      this.containersMap[nextContainer].length : 
+      toIndex;
+
     viewsCache.forEach(view=>{
       this.containersMap[nextContainer].insert(
         view,
-        this.containersMap[nextContainer].length);
+        insertIndex);
+      insertIndex++
     });
   }
 
@@ -114,12 +125,22 @@ export class DefaultContentConductorService<T extends ContentContainer> implemen
     return detachedViews;
   }
 
-  attachViews(container:string, views: ViewRef[]) {
-    views.forEach(view=>
-      this.containersMap[container].insert(view));
+  attachViews(container:string, views: ViewRef[], toIndex?: number) {
+    let insertIndex = toIndex === null || toIndex === undefined? 
+      this.containersMap[container].length : 
+      toIndex;
+
+    views.forEach(view=>{
+      this.containersMap[container].insert(view, insertIndex);
+      insertIndex++;
+    });
   }
 
-  attachView(container: string, view: ViewRef) {
-    this.containersMap[container].insert(view);
+  attachView(container: string, view: ViewRef, toIndex?: number) {
+    const insertIndex = toIndex === null || toIndex === undefined? 
+      this.containersMap[container].length : 
+      toIndex;
+
+    this.containersMap[container].insert(view, insertIndex);
   }
 }

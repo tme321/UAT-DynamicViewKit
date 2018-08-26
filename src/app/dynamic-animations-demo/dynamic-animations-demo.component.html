@@ -10,19 +10,11 @@
 			@dvkLeave
 			class="dad-panel" 
 			[state]="newState"
-			[animations]="newTrans">
+			[animations]="animations">
 			<div style="background-color:blue" *ngFor="let divs of divs$ | async">
 				A new div
 			</div>
 		</div>
 	</div>
-
 	<app-static-animations-test></app-static-animations-test>
-	
-</div>
-
-<div dvk-da
-	@dvkLeave
-	[state]="state"
-	[animations]="animations">
 </div>

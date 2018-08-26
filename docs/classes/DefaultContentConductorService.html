@@ -1196,14 +1196,14 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>attachView(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, view: <a href="https://angular.io/api/core/ViewRef" target="_blank">ViewRef</a>)</code>
+<code>attachView(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, view: <a href="https://angular.io/api/core/ViewRef" target="_blank">ViewRef</a>, toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:122</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:139</a></div>
                             </td>
                         </tr>
 
@@ -1246,6 +1246,18 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                                                     
 
                                                 </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
+                                                    </td>
+                                                    
+
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -1277,14 +1289,14 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>attachViews(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, views: ViewRef[])</code>
+<code>attachViews(container: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, views: ViewRef[], toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:117</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:128</a></div>
                             </td>
                         </tr>
 
@@ -1323,6 +1335,18 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                                                     
                                                     <td>
                                                             no
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
                                                     </td>
                                                     
 
@@ -1403,7 +1427,7 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:85</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -1484,7 +1508,7 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:106</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:117</a></div>
                             </td>
                         </tr>
 
@@ -1694,7 +1718,7 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>moveView(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>moveView(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, fromIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
@@ -1745,13 +1769,25 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
 
                                                 </tr>
                                                 <tr>
-                                                        <td>index</td>
+                                                        <td>fromIndex</td>
                                                         <td>
                                                                     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                                         </td>
                                                     
                                                     <td>
                                                             no
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
                                                     </td>
                                                     
 
@@ -1787,14 +1823,14 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>moveViews(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>moveViews(previousContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, nextContainer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, toIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:91</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/dvk/src/lib/content-conductor/default-content-conductor/default-content-conductor.service.ts:96</a></div>
                             </td>
                         </tr>
 
@@ -1833,6 +1869,18 @@ for the <a href="../miscellaneous/variables.html#ContentConductorConstructorToke
                                                     
                                                     <td>
                                                             no
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>toIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            yes
                                                     </td>
                                                     
 
@@ -1942,10 +1990,15 @@ export class DefaultContentConductorService&lt;T extends ContentContainer&gt; im
   moveView( 
     previousContainer: string,
     nextContainer:string, 
-    index: number ) {
-      index &#x3D; index || this.containersMap[previousContainer].length;
-      const view &#x3D; this.containersMap[previousContainer].detach(index);
-      this.containersMap[nextContainer].insert(view);
+    fromIndex: number,
+    toIndex?: number) {
+      fromIndex &#x3D; fromIndex || this.containersMap[previousContainer].length;
+      const insertIndex &#x3D; toIndex &#x3D;&#x3D;&#x3D; null || toIndex &#x3D;&#x3D;&#x3D; undefined? 
+        this.containersMap[nextContainer].length : 
+        toIndex;
+
+      const view &#x3D; this.containersMap[previousContainer].detach(fromIndex);
+      this.containersMap[nextContainer].insert(view, insertIndex);
   }
 
   detachView(
@@ -1954,18 +2007,24 @@ export class DefaultContentConductorService&lt;T extends ContentContainer&gt; im
       return this.containersMap[container].detach(index);
   }
 
-  moveViews(previousContainer: string, nextContainer: string) {
+  moveViews(previousContainer: string, nextContainer: string, toIndex?: number) {
     const length &#x3D; this.containersMap[previousContainer].length;
     const viewsCache: ViewRef[] &#x3D; [];
+
     for(let i&#x3D;0; i&lt;length; i++) {
       viewsCache.push(
         this.containersMap[previousContainer].detach(0));
     }
-    
+
+    let insertIndex &#x3D; toIndex &#x3D;&#x3D;&#x3D; null || toIndex &#x3D;&#x3D;&#x3D; undefined? 
+      this.containersMap[nextContainer].length : 
+      toIndex;
+
     viewsCache.forEach(view&#x3D;&gt;{
       this.containersMap[nextContainer].insert(
         view,
-        this.containersMap[nextContainer].length);
+        insertIndex);
+      insertIndex++
     });
   }
 
@@ -1980,13 +2039,23 @@ export class DefaultContentConductorService&lt;T extends ContentContainer&gt; im
     return detachedViews;
   }
 
-  attachViews(container:string, views: ViewRef[]) {
-    views.forEach(view&#x3D;&gt;
-      this.containersMap[container].insert(view));
+  attachViews(container:string, views: ViewRef[], toIndex?: number) {
+    let insertIndex &#x3D; toIndex &#x3D;&#x3D;&#x3D; null || toIndex &#x3D;&#x3D;&#x3D; undefined? 
+      this.containersMap[container].length : 
+      toIndex;
+
+    views.forEach(view&#x3D;&gt;{
+      this.containersMap[container].insert(view, insertIndex);
+      insertIndex++;
+    });
   }
 
-  attachView(container: string, view: ViewRef) {
-    this.containersMap[container].insert(view);
+  attachView(container: string, view: ViewRef, toIndex?: number) {
+    const insertIndex &#x3D; toIndex &#x3D;&#x3D;&#x3D; null || toIndex &#x3D;&#x3D;&#x3D; undefined? 
+      this.containersMap[container].length : 
+      toIndex;
+
+    this.containersMap[container].insert(view, insertIndex);
   }
 }
 </code></pre>
