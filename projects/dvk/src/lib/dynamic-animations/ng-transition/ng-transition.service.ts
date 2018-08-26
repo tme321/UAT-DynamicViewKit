@@ -45,12 +45,11 @@ export class NgTransitionService {
     if(this.isString(expressions)) {
       expressions.split(',').forEach(expression=>{
         if(expression.includes(NgTransitionSymbols.Either)) {
-          const states = expression.split(NgTransitionSymbols.To);
+          const states = expression.split(NgTransitionSymbols.Either);
           const state1 = states[0].trim();
           const state2 = states[1].trim();
 
           transitions = {
-            ...transitions,
             [state1]: {
               ...transitions[state1],
               [state2]:transition.animation
@@ -67,7 +66,6 @@ export class NgTransitionService {
           const toState = states[1].trim();
 
           transitions = {
-            ...transitions,
             [fromState]: {
               ...transitions[fromState],
               [toState]:transition.animation
@@ -76,7 +74,6 @@ export class NgTransitionService {
         }
         else if(expression.includes(NgTransitionSymbols.Enter)) {
           transitions = {
-            ...transitions,
             [NgTransitionStates.Void]: {
               ...transitions[NgTransitionStates.Void],
               [NgTransitionStates.WildCard]:transition.animation
@@ -85,7 +82,6 @@ export class NgTransitionService {
         }
         else if(expression.includes(NgTransitionSymbols.Leave)) {
           transitions = {
-            ...transitions,
             [NgTransitionStates.WildCard]: {
               ...transitions[NgTransitionStates.WildCard],
               [NgTransitionStates.Void]:transition.animation

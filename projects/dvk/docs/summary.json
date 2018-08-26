@@ -1,14 +1,32 @@
 [
     {
         "title": "Content Conductor",
-        "file": "ContentConductor.md"
+        "file": "ContentConductor.md",
+        "children": [
+            {
+                "title": "Example",
+                "file": "ContentConductorExample.md"
+            }
+        ]
     },
     {
         "title": "Dynamic Animations",
-        "file": "DynamicAnimations.md"
+        "file": "DynamicAnimations.md",
+        "children": [
+            {
+                "title": "Example",
+                "file": "DynamicAnimationsExample.md"
+            }
+        ]
     },
     {
         "title": "Dynamic Components",
-        "file": "DynamicComponents.md"
+        "file": "DynamicComponents.md",
+        "children": [
+            {
+                "title": "Example",
+                "file": "DynamicComponentsExample.md"
+            }
+        ]
     }
 ]

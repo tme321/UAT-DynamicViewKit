@@ -16,6 +16,11 @@ import { ContentConductor } from './content-conductor.model';
  * 
  * See {@link ContentConductor} for the details.
  * 
+ *  
+ * Example of usage:
+ * <example-url>../../docs/examples/index.html#/ContentConductor</example-url>
+ *
+ * 
  * @example
  * constructor(private conductorService: ContentConductorService) {}
  */

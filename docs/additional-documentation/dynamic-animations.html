@@ -76,11 +76,20 @@
                     <li class="link ">
                         <a href="additional-documentation/content-conductor.html" data-type="entity-link" data-context-id="additional">Content Conductor</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/content-conductor/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-animations.html" data-type="entity-link" data-context-id="additional">Dynamic Animations</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-animations/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-components.html" data-type="entity-link" data-context-id="additional">Dynamic Components</a>
+                    </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-components/example.html" data-type="entity-link" data-context-id="additional">Example</a>
                     </li>
             </ul>
         </li>
@@ -464,11 +473,20 @@
                     <li class="link ">
                         <a href="additional-documentation/content-conductor.html" data-type="entity-link" data-context-id="additional">Content Conductor</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/content-conductor/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-animations.html" data-type="entity-link" data-context-id="additional">Dynamic Animations</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-animations/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-components.html" data-type="entity-link" data-context-id="additional">Dynamic Components</a>
+                    </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-components/example.html" data-type="entity-link" data-context-id="additional">Example</a>
                     </li>
             </ul>
         </li>
@@ -812,7 +830,7 @@
 <p>The Dynamic Animations module provides a directive that allow animations to be specified in the same format as standard Angular animations.  These animations are supplied at run time instead of statically in the Component decorator so a component developer can expose the animations specification and a consumer of the component can supply their own animations.</p>
 <h2 id="defining-a-set-of-animations"><strong>Defining a set of Animations</strong></h2>
 <p>Animations are defined using the same functions that normal Angular animations use with a few exceptions.  The animations are defined as an array containing <code>state</code> and <code>transition</code> definitions from <code>@angular/animations</code>.  A <code>trigger</code> definition is not recognized as the <a href="./directives/DynamicAnimationsDirective.html">DynamicAnimationsDirective</a> supplies an <code>@Input</code> member <code>state</code> that works in the same way as a <code>trigger</code> does.</p>
-<p>Other constraints are that no part of an animation can refer to a defined <code>trigger</code> such as one type of <code>query</code> and no part can refer to a specific <code>state</code>.  The concept of states is implemented fully by the <a href="./interfaces/AnimationStateMachine.html">AnimationStateMachine</a> as the Angular AnimationBuilder does not have the same concept of states as the standard static Angular Animations.</p>
+<p>Other constraints are that no part of an animation can refer to a defined <code>trigger</code>, such as some forms of <code>query</code>, and no part can refer to a specific <code>state</code>.  The concept of states is implemented fully by the <a href="./interfaces/AnimationStateMachine.html">AnimationStateMachine</a> as the Angular AnimationBuilder does not have the same concept of states as the standard static Angular animations.</p>
 <p>A simple animation looks like this.</p>
 <div><pre class="line-numbers"><code class="language-ts">animations = [
     state(&#39;open&#39;,style({
@@ -842,13 +860,13 @@
 <div><pre class="line-numbers"><code class="language-ts">this.currentState = &#39;open&#39;;</code></pre></div><p>The transition that matches the change in state with the most specificity will be played when the value of the bound state is changed.</p>
 <h2 id="leave-transition"><strong>Leave Transition</strong></h2>
 <p>The leave transition is partially supported at the moment.</p>
-<p>If a <code>:leave</code> animation, or <code>*=&gt;void</code>, is speciied you must also both
+<p>If a <code>:leave</code> animation, or <code>*=&gt;void</code>, is specified you must also both
 add the <code>@dvkLeave</code> directive to the element and add <code>dvkLeave</code> to 
 the component as a static animation.  This step is only necessary
 for the leave animation. </p>
 <p>This is due to the fact that Angular will remove an element before a dynamic animation has a chance to play.  A static leave animation must be used to keep the element around long enough for the dynamic animation to actually play.</p>
 <p>Currently the <code>dvkLeave</code> directive is set to a constant time of 500ms.  In the future this value will be made dynamic to match the dynamic animation supplied.</p>
-<p>So in order to use a leave animation first attach the animation to the component metadata</p>
+<p>So in order to use a leave animation first attach the animation to the component metadata.</p>
 <div><pre class="line-numbers"><code class="language-ts">&#64;Component({
     animations: [dvkLeave]
 })</code></pre></div><p>Then add it as a trigger to the element containing the <a href="./directives/DynamicAnimationsDirective.html">DynamicAnimationsDirective</a>.</p>

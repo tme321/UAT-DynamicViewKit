@@ -1,0 +1,18 @@
+<div class="container">
+  <div>
+    <ng-container 
+        [dvk-dc]="model"
+        [serializer]="serializer">
+    </ng-container>
+  </div>
+  <div>
+    <div>
+      <span>The text component was clicked {{clickedCounter}} times.</span>
+    </div>
+    <div>
+      <label>Change the text:</label>
+      <input (change)="setText($event)"/>
+      <button (click)="emitText()">Set Text</button>
+    </div>
+  </div>
+</div>

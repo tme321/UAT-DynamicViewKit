@@ -10,68 +10,6 @@ import { ContentContainer } from './content-container/content-container.model';
  * The number of containers and the number of views to move between
  * them is not limited.
  * 
- * ## Example
- * 
- * Define multiple ContentContainers in a template:
- * 
- * <ng-container dvk-content-container="one"></ng-container>
- * <ng-container dvk-content-container="two"></ng-container>
- * 
- * Inside the component controller define queries for both the 
- * TemplateRefs and the ContentContainer implementors:
- * 
- * ```ts
- * \@ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true })` 
- * contents: QueryList<TemplateRef<any>>;
- * 
- * \@ViewChildren(ContentContainerDirective)`
- * containers: QueryList<ContentContainerDirective>;
- * ```
- * 
- * Inject the ContentConductorService service:
- * 
- * ```ts
- *   constructor(
- *      private ccService: ContentConductorService) {}
- * ```
- * 
- * And then create the Content Conductor once the queries are ready,
- * usually inside ngAfterViewInit:
- * 
- * ```ts
- *   ngAfterViewInit() {
- *     this.conductor = this.ccService
- *       .createContentConductor(this.containers, this.contents);
- *     this.conductor.init(this.cont);
- *   }
- * ```
- * 
- * And then move the content around with string names mapped to the
- * names of the dvk-content-container directives:
- * 
- * ```ts
- *   moveToTwo() {
- *     this.conductor.moveViews("one","two");
- *   }
- * ```
- * 
- * Or back again:
- *
- * ```ts
- *   moveToOne() {
- *     this.conductor.moveViews("two","one");
- *   }
- * ```
- * 
- * And then instantiate the component or directive and put the views to
- * move around inside the element:
- * 
- * ```html
- * <div dvk-content-conductor-example>
- *	<span *dvk-content>Content 1</span>
- *	<span *dvk-content>Content 2</span>
- * </div>
- * ```
  */
 export interface ContentConductor<T extends ContentContainer> {
 
@@ -85,69 +23,80 @@ export interface ContentConductor<T extends ContentContainer> {
 
     /**
      *  Clean up, should be called by the component or directive's
-     * {@link ngOnDestroy} method that is displaying the content. 
+     *  ngOnDestroy method that is displaying the content. 
      */
     destroy():void;
 
     /**
-     * Move a single {@link ViewRef} identified by it's index 
+     * Move a single ViewRef identified by it's index 
      * from one {@link ContentContainerDirective} to the another.
-     * @param previousContainer The source {@link ContentContainerDirective}'s name
-     * where the {@link ViewRef} is currently located.
-     * @param nextContainer The destination {@link ContentContainerDirective}'s name
-     * where the {@link ViewRef} will be moved to.
-     * @param index The index of the {@link ViewRef} to move.
+     * @param previousContainer The source ContentContainerDirective's name
+     * where the ViewRef is currently located.
+     * @param nextContainer The destination ContentContainerDirective's name
+     * where the ViewRef will be moved to.
+     * @param fomrIndex The index of the ViewRef to move from previousContainer.
+     * @param toIndex The index inside the nextContainer to insert the ViewRef.
+     * If not specified the ViewRef is added to the end of the container.
      */
     moveView( 
         previousContainer: string,
         nextContainer:string, 
-        index: number):void;
+        fromIndex: number,
+        toIndex?: number):void;
 
     /**
-     * Detach a {@link ViewRef} from a {@link ContentContainerDirective}
-     * specified by it's index inside the {@link ViewContainerRef}
-     * @param container The string name of the {@link ContentContainerDirective}
-     * to remove the {@link ViewRef} from.
-     * @param index The index of the {@link ViewRef} to remove.
-     * @returns The detached {@link ViewRef}.
+     * Detach a ViewRef from a {@link ContentContainerDirective}
+     * specified by it's index inside the ViewContainerRef
+     * @param container The string name of the ContentContainerDirective
+     * to remove the ViewRef from.
+     * @param index The index of the ViewRef to remove. If ommitted the
+     * last ViewRef is removed.
+     * @returns The detached ViewRef.
      */
     detachView(
         container:string,
         index?: number):ViewRef;
 
     /**
-     * Move all of the {@link ViewRef}s from one {@link ContentContainerDirective}
+     * Move all of the ViewRefs from one {@link ContentContainerDirective}
      * to another.
-     * @param previousContainer The {@link ContentContainerDirective} 
-     * to remove the {@link ViewRef} from.
-     * @param nextContainer The {@link ContentContainerDirective} 
-     * to add the {@link ViewRef} to.
+     * @param previousContainer The ContentContainerDirective 
+     * to remove the ViewRef from.
+     * @param nextContainer The ContentContainerDirective 
+     * to add the ViewRef to.
+     * @param toIndex The index inside nextContainer to insert
+     * the views, if ommitted the views are inserted at the end.
      */
     moveViews(
         previousContainer: string, 
-        nextContainer: string):void;
+        nextContainer: string,
+        toIndex?: number):void;
 
     /**
-     * Remove all {@link ViewRef}s from a {@link ContentContainerDirective}.
-     * @param container The name of the {@link ContentContainerDirective} 
-     * to remove the {@link ViewRef}s from.
-     * @returns An array of the {@link ViewRef}s removed.
+     * Remove all ViewRefs from a {@link ContentContainerDirective}.
+     * @param container The name of the ContentContainerDirective 
+     * to remove the ViewRefs from.
+     * @returns An array of the ViewRefs removed.
      */
     detachViews(container: string):ViewRef[];
 
     /**
-     * Attach a {@link ViewRef} to a {@link ContentContainerDirective}.
-     * @param container The {@link ContentContainerDirective} 
-     * to attach the {@link ViewRef} to.
-     * @param view The {@link ViewRef} to attach.
+     * Attach a ViewRef to a {@link ContentContainerDirective}.
+     * @param container The ContentContainerDirective 
+     * to attach the ViewRef to.
+     * @param view The ViewRef to attach.
+     * @param toIndex The index in the container to attach the view.
+     * If ommitted the view is attached to the end.
      */
-    attachView(container:string, view: ViewRef):void;
+    attachView(container:string, view: ViewRef, toIndex?: number):void;
 
     /**
-     * Attach an array of {@link ViewRef}s to a {@link ContentContainerDirective}.
-     * @param container The {@link ContentContainerDirective} 
-     * to attach the {@link ViewRef}s array to.
-     * @param views The {@link ViewRef}s array to attach.
+     * Attach an array of ViewRefs to a {@link ContentContainerDirective}.
+     * @param container The ContentContainerDirective 
+     * to attach the ViewRefs array to.
+     * @param views The ViewRefs array to attach.
+     * @param toIndex The index in the container to attach the views.
+     * If ommitted the views are attached to the end.
      */
-    attachViews(container:string, views?: ViewRef[]):void;
+    attachViews(container:string, views?: ViewRef[], toIndex?: number):void;
 }

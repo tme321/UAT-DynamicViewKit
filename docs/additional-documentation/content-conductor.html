@@ -76,11 +76,20 @@
                     <li class="link ">
                         <a href="additional-documentation/content-conductor.html" data-type="entity-link" data-context-id="additional">Content Conductor</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/content-conductor/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-animations.html" data-type="entity-link" data-context-id="additional">Dynamic Animations</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-animations/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-components.html" data-type="entity-link" data-context-id="additional">Dynamic Components</a>
+                    </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-components/example.html" data-type="entity-link" data-context-id="additional">Example</a>
                     </li>
             </ul>
         </li>
@@ -464,11 +473,20 @@
                     <li class="link ">
                         <a href="additional-documentation/content-conductor.html" data-type="entity-link" data-context-id="additional">Content Conductor</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/content-conductor/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-animations.html" data-type="entity-link" data-context-id="additional">Dynamic Animations</a>
                     </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-animations/example.html" data-type="entity-link" data-context-id="additional">Example</a>
+                    </li>
                     <li class="link ">
                         <a href="additional-documentation/dynamic-components.html" data-type="entity-link" data-context-id="additional">Dynamic Components</a>
+                    </li>
+                    <li class="link for-chapter2">
+                        <a href="additional-documentation/dynamic-components/example.html" data-type="entity-link" data-context-id="additional">Example</a>
                     </li>
             </ul>
         </li>
@@ -848,7 +866,10 @@ the container string names.</p>
 ngOnDestroy method in order to free up the resources it uses.</p>
 <div><pre class="line-numbers"><code class="language-ts">ngOnDestroy() {
   this.conductor.destroy();
-}</code></pre></div><h2 id="content"><strong>Content</strong></h2>
+}</code></pre></div><h6 id="note"><strong>Note</strong></h6>
+<p>All of the methods that insert views into containers also have an optional index parameter at the end that is the index to insert at.
+If it is not specified the items are inserted to the end of the containers views.</p>
+<h2 id="content"><strong>Content</strong></h2>
 <p>Content is added to the containers by creating it inside the element that has containers in it&#39;s view and creates the conductor.  The pieces of content should be marked with the structural directive <a href="../directives/ContentDirective.html">ContentDirective</a>.</p>
 <div><pre class="line-numbers"><code class="language-html">&lt;my-component-with-containers&gt;
     &lt;span *dvk-content&gt;Some Content To Display In A Container&lt;/span&gt;

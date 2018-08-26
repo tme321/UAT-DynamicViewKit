@@ -25,7 +25,7 @@ export class DynamicAnimationsDemoComponent implements OnInit {
 
   newState = 'closed';
   newShow = true;
-  newTrans = [
+  animations = [
     /*
     transition('open=>closed', 
       animate('500ms')),

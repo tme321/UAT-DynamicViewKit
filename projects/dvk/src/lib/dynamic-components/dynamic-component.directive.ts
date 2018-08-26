@@ -80,6 +80,9 @@ import { OutputCallbacks } from './output-callbacks/output-callbacks.model';
  * DynamicComponentDirective.  This allows a developer to create 
  * a single serializer at one point and feed it into all desired 
  * instances of DynamicComponentDirectives.
+ * 
+ * <example-url>../../docs/examples/index.html#/DynamicComponents</example-url>
+ *
  */
 @Directive({
   selector: '[dvk-dc]',

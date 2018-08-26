@@ -161,6 +161,147 @@
           }
         }
       }
+    },
+    "DvkExamples": {
+      "root": "projects/DvkExamples/",
+      "sourceRoot": "projects/DvkExamples/src",
+      "projectType": "application",
+      "prefix": "dex",
+      "schematics": {
+        "@schematics/angular:class": {
+          "spec": false
+        },
+        "@schematics/angular:component": {
+          "spec": false
+        },
+        "@schematics/angular:directive": {
+          "spec": false
+        },
+        "@schematics/angular:guard": {
+          "spec": false
+        },
+        "@schematics/angular:module": {
+          "spec": false
+        },
+        "@schematics/angular:pipe": {
+          "spec": false
+        },
+        "@schematics/angular:service": {
+          "spec": false
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/DvkExamples",
+            "index": "projects/DvkExamples/src/index.html",
+            "main": "projects/DvkExamples/src/main.ts",
+            "polyfills": "projects/DvkExamples/src/polyfills.ts",
+            "tsConfig": "projects/DvkExamples/tsconfig.app.json",
+            "assets": [
+              "projects/DvkExamples/src/favicon.ico",
+              "projects/DvkExamples/src/assets"
+            ],
+            "styles": [
+              "projects/DvkExamples/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/DvkExamples/src/environments/environment.ts",
+                  "with": "projects/DvkExamples/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "DvkExamples:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "DvkExamples:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "DvkExamples:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/DvkExamples/src/test.ts",
+            "polyfills": "projects/DvkExamples/src/polyfills.ts",
+            "tsConfig": "projects/DvkExamples/tsconfig.spec.json",
+            "karmaConfig": "projects/DvkExamples/karma.conf.js",
+            "styles": [
+              "projects/DvkExamples/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/DvkExamples/src/favicon.ico",
+              "projects/DvkExamples/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/DvkExamples/tsconfig.app.json",
+              "projects/DvkExamples/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "DvkExamples-e2e": {
+      "root": "projects/DvkExamples-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/DvkExamples-e2e/protractor.conf.js",
+            "devServerTarget": "DvkExamples:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "DvkExamples:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/DvkExamples-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "UAT-DynamicViewKit"

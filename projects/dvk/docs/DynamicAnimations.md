@@ -6,7 +6,7 @@ The Dynamic Animations module provides a directive that allow animations to be s
 
 Animations are defined using the same functions that normal Angular animations use with a few exceptions.  The animations are defined as an array containing `state` and `transition` definitions from `@angular/animations`.  A `trigger` definition is not recognized as the [DynamicAnimationsDirective](./directives/DynamicAnimationsDirective.html) supplies an `@Input` member `state` that works in the same way as a `trigger` does.
 
-Other constraints are that no part of an animation can refer to a defined `trigger` such as one type of `query` and no part can refer to a specific `state`.  The concept of states is implemented fully by the [AnimationStateMachine](./interfaces/AnimationStateMachine.html) as the Angular AnimationBuilder does not have the same concept of states as the standard static Angular Animations.
+Other constraints are that no part of an animation can refer to a defined `trigger`, such as some forms of `query`, and no part can refer to a specific `state`.  The concept of states is implemented fully by the [AnimationStateMachine](./interfaces/AnimationStateMachine.html) as the Angular AnimationBuilder does not have the same concept of states as the standard static Angular animations.
 
 A simple animation looks like this.
 
@@ -69,7 +69,7 @@ The transition that matches the change in state with the most specificity will b
 
 The leave transition is partially supported at the moment.
 
-If a `:leave` animation, or `*=>void`, is speciied you must also both
+If a `:leave` animation, or `*=>void`, is specified you must also both
 add the `@dvkLeave` directive to the element and add `dvkLeave` to 
 the component as a static animation.  This step is only necessary
 for the leave animation. 
@@ -78,7 +78,7 @@ This is due to the fact that Angular will remove an element before a dynamic ani
 
 Currently the `dvkLeave` directive is set to a constant time of 500ms.  In the future this value will be made dynamic to match the dynamic animation supplied.
 
-So in order to use a leave animation first attach the animation to the component metadata
+So in order to use a leave animation first attach the animation to the component metadata.
 
 ```ts
 @Component({
