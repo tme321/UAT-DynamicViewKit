@@ -889,7 +889,7 @@ string names.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/dvk/src/lib/dynamic-components/dynamic-component-serializer/dynamic-component-serializer.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/dvk/src/lib/dynamic-components/dynamic-component-serializer/dynamic-component-serializer.service.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -954,7 +954,7 @@ string names.</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/dvk/src/lib/dynamic-components/dynamic-component-serializer/dynamic-component-serializer.service.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/dvk/src/lib/dynamic-components/dynamic-component-serializer/dynamic-component-serializer.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -1014,6 +1014,13 @@ import { DynamicComponentsMap } from &#x27;../dynamic-component-map/dynamic-comp
 import { DynamicComponentSerializerMap } from &#x27;../dynamic-component-serializer-map/dynamic-component-serializer-map.model&#x27;;
 import { DynamicComponentSerializerConstructorToken } from &#x27;./dynamic-component-serializer.token&#x27;;
 import { DynamicComponentSerializerConstructor } from &#x27;./dynamic-component-serializer.constructor&#x27;;
+
+/*
+ * This import is necessary for proper compilation even though
+ * the type isn&#x27;t used in this file.
+ */
+
+import { DynamicComponentSerializer } from &#x27;./dynamic-component-serializer.model&#x27;;
 
 /**
  * Create a serializer for dynamic components to be resolved from 
