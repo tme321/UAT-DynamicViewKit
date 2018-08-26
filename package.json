@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "noJekyll": "touch ./docs/.nojekyll",
-    "genDocs": "./node_modules/.bin/compodoc -p ./projects/dvk/tsconfig.lib.json  -d ./docs --includes ./projects/dvk/docs && npm run noJekyll"
+    "genDocs": "./node_modules/.bin/compodoc -p ./projects/dvk/tsconfig.lib.json  -d ./docs --includes ./projects/dvk/docs && npm run noJekyll",
+    "genExamples": "ng build DvkExamples --prod --build-optimizer --output-path ./docs/examples"
   },
   "private": true,
   "dependencies": {

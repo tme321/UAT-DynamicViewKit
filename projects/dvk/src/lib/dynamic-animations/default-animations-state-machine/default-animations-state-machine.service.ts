@@ -91,7 +91,7 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
 
         player.onStart(this.onAnimationStart(this.currentState, mapper));
         player.onDone(this.onAnimationDone(nextState,mapper,player));
-        player.onDestroy(()=>{console.log('destroying player')});
+        player.onDestroy(()=>{});
         player.play();
         
       }
@@ -223,8 +223,6 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
     const newStyle = this.getStyle(toState);
     const parsedMetadata = this.getParseAnimationMetadata(fromState,toState);
 
-    console.log('preparsed metadata:', parsedMetadata);
-
     if(parsedMetadata) {
       const usedStyleKeys = { ...parsedMetadata.usedKeys }; 
       this.addStyleKeys(prevStyle, usedStyleKeys);
@@ -245,11 +243,6 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
       parsedMetadata.unStyledAnimations.forEach(animation=>{
         animation.styles = null;
       });
-
-      console.log('Animations built, old values should be unchanged:');
-      console.log('prevStyle', prevStyle);
-      console.log('newStyle', newStyle);
-      console.log('parsedMetadata',parsedMetadata);
 
       return factory;
     }
@@ -510,7 +503,6 @@ export class DefaultAnimationsStateMachine implements AnimationStateMachine {
         //unimplemented, style.styles is '*'
         console.error('Error: Styles as "*" currently not supported');
       }
-      console.log('new merged style:',newStyle)
       return newStyle;
   }
 

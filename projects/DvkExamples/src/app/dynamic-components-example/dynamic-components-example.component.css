@@ -1,0 +1,6 @@
+div.container {
+    display: flex;
+    flex-direction: column;
+    height: 10em;
+    justify-content: space-between;
+}

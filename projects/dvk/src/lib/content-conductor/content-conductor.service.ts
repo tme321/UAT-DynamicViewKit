@@ -18,7 +18,7 @@ import { ContentConductor } from './content-conductor.model';
  * 
  *  
  * Example of usage:
- * <example-url>../../docs/injectables/ContentConductorService.html</example-url>
+ * <example-url>../../docs/examples/index.html#/ContentConductor</example-url>
  *
  * 
  * @example
