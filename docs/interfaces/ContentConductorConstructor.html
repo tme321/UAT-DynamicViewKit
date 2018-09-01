@@ -327,6 +327,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -724,6 +727,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -861,25 +867,27 @@ of <a href="../interfaces/ContentConductor.html">ContentConductor</a>.  </p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryList, TemplateRef } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryList } from &#x27;@angular/core&#x27;;
 import { ContentConductor } from &quot;../content-conductor.model&quot;;
 import { ContentContainer } from &#x27;../content-container/content-container.model&#x27;;
+import { Content } from &#x27;../content/content.model&#x27;;
 
 /**
  * A constructor that returns an implementation 
  * of {@link ContentConductor}.  
  * 
- * @param containersQueryList Should be a QueryList 
- * of containers that views can be put into.  
+ * @param containersQueryList A QueryList or an array of  
+ * QueryLists of ContentContainer directives or directives 
+ * that extend ContentContainer the view will be put in.  
  * 
- * @param contentsQueryList Should be a QueryList of 
- * the TemplateRefs representing the content to 
- * display inside the containers.
+ * @param contentsQueryList A QueryList or an array of  
+ * QueryLists of Content directives or directives that
+ * extends Content
  */
 export interface ContentConductorConstructor {
-  new&lt;T extends ContentContainer&gt;(
-    containersQueryList: QueryList&lt;T&gt;,
-    contentsQueryList : QueryList&lt;TemplateRef&lt;any&gt;&gt;
+  new&lt;T extends ContentContainer, U extends Content&gt;(
+    containersQueryLists: QueryList&lt;T&gt; | QueryList&lt;T&gt;[],
+    contentsQueryLists : QueryList&lt;U&gt; | QueryList&lt;U&gt;[]
   ):ContentConductor&lt;T&gt;;
 }
   

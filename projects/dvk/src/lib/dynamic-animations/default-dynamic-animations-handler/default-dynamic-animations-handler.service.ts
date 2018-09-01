@@ -13,7 +13,14 @@ import { StateCssMapperService } from '../state-css-mapper/state-css-mapper.serv
  */
 export class DefaultDynamicAnimationsHandlerService implements DynamicAnimationsHandler {
 
+  /**
+   * @ignore
+   */
   private animationsStateMachine: AnimationStateMachine;
+
+  /**
+   * @ignore
+   */
   private cssMapper: StateCSSMapper;
 
   constructor(
@@ -57,6 +64,9 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
     this.transitions = null;
   }
 
+  /**
+   * @ignore
+   */
   private createStateMachine(
     transitions: AnimationTransitionsMap, 
     styles: AnimationStylesMap) {
@@ -80,6 +90,9 @@ export class DefaultDynamicAnimationsHandlerService implements DynamicAnimations
     }
   }
 
+  /**
+   * @ignore
+   */
   private createCSSMapper(map: StateCSSMap = {}) {
     if(this.cssMap !== map || !this.cssMapper) {
       this.cssMap = map;

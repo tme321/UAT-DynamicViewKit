@@ -327,6 +327,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -724,6 +727,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -866,10 +872,6 @@ into an <a href="../interfaces/AnimationTransitionsMap.html">AnimationTransition
                             <li>
                                 <a href="#buildAnimationTransitions">buildAnimationTransitions</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#parseTransitionExpression">parseTransitionExpression</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -983,86 +985,6 @@ AnimationTransitionMetadata objects.</p>
                 </tr>
             </tbody>
         </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="parseTransitionExpression"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            parseTransitionExpression
-                            </b>
-                            <a href="#parseTransitionExpression"><span class="fa fa-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                            <span class="modifier-icon fa fa-reset"></span>
-                        <code>parseTransitionExpression(transition: <a href="https://angular.io/api/core/AnimationTransitionMetadata" target="_blank">AnimationTransitionMetadata</a>)</code>
-                    </td>
-                </tr>
-
-
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/dvk/src/lib/dynamic-animations/ng-transition/ng-transition.service.ts:41</a></div>
-                            </td>
-                        </tr>
-
-
-                <tr>
-                    <td class="col-md-4">
-                            <div class="io-description"><p>Parse an individual AnimationTransitionMetadata for the transition
-expression and convert that to a valid entry in an 
-<a href="../interfaces/AnimationTransitionsMap.html">AnimationTransitionsMap</a>.</p>
-</div>
-
-                            <div class="io-description">
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                                    <td>Description</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>transition</td>
-                                                        <td>
-                                                                    <code><a href="https://angular.io/api/core/AnimationTransitionMetadata" target="_blank" >AnimationTransitionMetadata</a></code>
-                                                        </td>
-                                                    
-                                                    <td>
-                                                            no
-                                                    </td>
-                                                    
-
-                                                        <td>
-                                                                <code><p>The AnimationTransitionMetadata to convert.</p>
-</code>
-                                                        </td>
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div>
-                            </div>
-                            <div class="io-description">
-                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                            </div>
-                                <div class="io-description">
-                                    
-                                </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
 </section>
 
 
@@ -1105,6 +1027,7 @@ export class NgTransitionService {
   }
 
   /**
+   * @ignore
    * Parse an individual AnimationTransitionMetadata for the transition
    * expression and convert that to a valid entry in an 
    * {@link AnimationTransitionsMap}.

@@ -327,6 +327,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -724,6 +727,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -903,7 +909,7 @@ create a <a href="../interfaces/ContentConductor.html">ContentConductor</a>.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -961,14 +967,14 @@ create a <a href="../interfaces/ContentConductor.html">ContentConductor</a>.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>createContentConductor(containersQueryList: QueryList<T>, contentsQueryList: QueryList<TemplateRef<any>>)</code>
+<code>createContentConductor(containersQueryList: QueryList<T> | QueryList<T>[], contentsQueryList: QueryList<U> | QueryList<U>[])</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.service.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/dvk/src/lib/content-conductor/content-conductor.service.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -977,6 +983,7 @@ create a <a href="../interfaces/ContentConductor.html">ContentConductor</a>.</p>
                                 <b>Type parameters :</b>
                                 <ul class="type-parameters">
                                         <li>T</li>
+                                        <li>U</li>
                                 </ul>
                             </td>
                         </tr>
@@ -1002,7 +1009,7 @@ for moving content around a component&#39;s template.</p>
                                                 <tr>
                                                         <td>containersQueryList</td>
                                                         <td>
-                                                                    <code>QueryList&lt;T&gt;</code>
+                                                                    <code>QueryList&lt;T&gt; | QueryList&lt;T&gt;[]</code>
                                                         </td>
                                                     
                                                     <td>
@@ -1011,14 +1018,15 @@ for moving content around a component&#39;s template.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>A query list of ContentContainers</p>
+                                                                <code><p>A QueryList or array of QueryLists of 
+ContentContainers or directives extending ContentContainer.</p>
 </code>
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>contentsQueryList</td>
                                                         <td>
-                                                                    <code>QueryList&lt;TemplateRef&lt;any&gt;&gt;</code>
+                                                                    <code>QueryList&lt;U&gt; | QueryList&lt;U&gt;[]</code>
                                                         </td>
                                                     
                                                     <td>
@@ -1027,7 +1035,8 @@ for moving content around a component&#39;s template.</p>
                                                     
 
                                                         <td>
-                                                                <code><p>A query list of TemplateRefs.</p>
+                                                                <code><p>A QueryList or array of QueryLists of Content 
+directives or directives extending Content.</p>
 </code>
                                                         </td>
                                                 </tr>
@@ -1055,10 +1064,11 @@ for moving content around a component&#39;s template.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, QueryList, TemplateRef, Inject } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, QueryList, Inject } from &#x27;@angular/core&#x27;;
 import { ContentContainer } from &#x27;./content-container/content-container.model&#x27;;
 import { ContentConductorConstructorToken } from &#x27;./content-conductor-constructor/content-conductor-constructor.token&#x27;;
 import { ContentConductorConstructor } from &#x27;./content-conductor-constructor/content-conductor-constructor.model&#x27;;
+import { Content } from &#x27;./content/content.model&#x27;;
 
 /*
  * Even though this import is not used it is required for typescript
@@ -1091,20 +1101,21 @@ export class ContentConductorService {
   /**
    * Create a {@link ContentConductor}
    * for moving content around a component&#x27;s template.
-   * @param containersQueryList A query list of ContentContainers
-   * @param contentsQueryList A query list of TemplateRefs.
+   * @param containersQueryList A QueryList or array of QueryLists of 
+   * ContentContainers or directives extending ContentContainer.
+   * @param contentsQueryList A QueryList or array of QueryLists of Content 
+   * directives or directives extending Content.
    * @return The ContentConductor
    */
-  createContentConductor&lt;T extends ContentContainer&gt;(
-    containersQueryList: QueryList&lt;T&gt;,
-    contentsQueryList : QueryList&lt;TemplateRef&lt;any&gt;&gt;) {
+  createContentConductor&lt;T extends ContentContainer, U extends Content&gt;(
+    containersQueryList: QueryList&lt;T&gt; | QueryList&lt;T&gt;[],
+    contentsQueryList : QueryList&lt;U&gt; | QueryList&lt;U&gt;[]) {
     
     return  new this.conductorConstructor(
       containersQueryList,
       contentsQueryList
     );
   }
-  
 }
 </code></pre>
     </div>

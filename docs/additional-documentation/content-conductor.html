@@ -327,6 +327,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -724,6 +727,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -832,17 +838,66 @@ TemplateRefs between multiple ViewContainerRefs referenced with
 string name values.</p>
 <h2 id="creating-containers"><strong>Creating Containers</strong></h2>
 <p>Containers can be defined inside a Component template with the 
-<a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>.</p>
+<a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>
+or a custom directive that extends <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a>.</p>
 <div><pre class="line-numbers"><code class="language-html">&lt;ng-container dvk-content-container=&quot;one&quot;&gt;&lt;/ng-container&gt;
 &lt;ng-container dvk-content-container=&quot;two&quot;&gt;&lt;/ng-container&gt;</code></pre></div><p>The string names provided to the directive can be used to reference
 that container through an instance of <a href="../interfaces/ContentConductor.html">ContentConductor</a>.</p>
-<h2 id="creating-a-conductor"><strong>Creating a Conductor</strong></h2>
+<h2 id="creating-content"><strong>Creating Content</strong></h2>
+<p>Content is supplied through either the <a href="../directives/ContentDirective.html">ContentDirective</a> or a custom directive that extends it.  This is a structural directive so when used it must be prefixed with a <code>*</code> like <code>*ngIf</code> or <code>*ngFor</code>.</p>
+<p>The <a href="../directives/ContentDirective.html">ContentDirective</a> takes an input which represents the string name of the <a href="../directives/ContentContainerDirective.html">ContentContainerDirective</a> to initially attach the view to.</p>
+<div><pre class="line-numbers"><code class="language-ts">  dynamicContents = [];
+  dContainerName = &#39;one&#39;;
+
+  addContentToAlternatingContainer() {
+    this.dynamicContents.push(0);
+    this.dContainerName = this.dContainerName === &#39;one&#39;? &#39;two&#39;:&#39;one&#39;;
+  }</code></pre></div><div><pre class="line-numbers"><code class="language-html">&lt;app-containers&gt;
+  &lt;div *dvk-content=&quot;&#39;one&#39;&quot;&gt;Conductor Content 1&lt;/div&gt;
+  &lt;div *dvk-content=&quot;&#39;two&#39;&quot;&gt;Conductor Content 2&lt;/div&gt;
+  &lt;ng-container *ngFor=&quot;let c of dynamicContents&quot;&gt;
+    &lt;div *dvk-content=&quot;dContainerName&quot;&gt;New Content&lt;/div&gt;
+  &lt;/ng-container&gt;
+&lt;/app-containers&gt;</code></pre></div><h6 id="note"><strong>Note</strong></h6>
+<p>Structural directive inputs are bindings.  So the value given to the directive must either be a bound variable, <code>*dvk-content=&quot;containerName&quot;</code>, or an anyonmous string variable, <code>*dvk-content=&quot;&#39;one&#39;&quot;</code>.  Providing a bare string, <code>*dvk-content=&quot;one&quot;</code> will result in the template attempting to bind to the component controller member <code>one</code>.</p>
+<h2 id="extending-contentdirective"><strong>Extending ContentDirective</strong></h2>
+<p>The <a href="../directives/ContentDirective.html">ContentDirective</a> can also be extended in order to provide preset initial container names or other functionality.</p>
+<div><pre class="line-numbers"><code class="language-ts">&#64;Directive({
+  selector: &#39;[one-content]&#39;
+})
+export class OneContentDirective extends ContentDirective {
+  readonly initialContainerName = &#39;one&#39;;
+
+  constructor(private tRef: TemplateRef&lt;any&gt;) { super(tRef) }
+}</code></pre></div><div><pre class="line-numbers"><code class="language-ts">&#64;Directive({
+  selector: &#39;[two-content]&#39;
+})
+export class TwoContentDirective extends ContentDirective {
+  readonly initialContainerName = &#39;two&#39;;
+
+  constructor(private tRef: TemplateRef&lt;any&gt;) { super(tRef); }
+}</code></pre></div><div><pre class="line-numbers"><code class="language-ts">  oneContents = [];
+  twoContents = [];
+
+  addToOne() {
+    this.oneContents.push(0);
+  }
+
+  addToTwo() {
+    this.twoContents.push(0);
+  }</code></pre></div><div><pre class="line-numbers"><code class="language-html">&lt;app-containers&gt;  
+  &lt;ng-container *ngFor=&quot;let c of oneContents&quot;&gt;
+    &lt;div *one-content&gt;One Content&lt;/div&gt;
+  &lt;/ng-container&gt;
+  &lt;ng-container *ngFor=&quot;let c of twoContents&quot;&gt;
+    &lt;div *two-content&gt;Two Content&lt;/div&gt;
+  &lt;/ng-container&gt;
+&lt;/app-containers&gt;</code></pre></div><h2 id="creating-a-conductor"><strong>Creating a Conductor</strong></h2>
 <p>The <a href="../interfaces/ContentConductor.html">ContentConductor</a> can be created by injecting the <a href="../injectables/ContentConductorService.html">ContentConductorService</a> into a component&#39;s constructor.</p>
-<div><pre class="line-numbers"><code class="language-ts">  constructor(private ccService: ContentConductorService) { }</code></pre></div><p>And then calling the <a href="../injectables/ContentConductorService.html#createContentConductor">createContentConductor</a> method with the QueryLists for the <a href="../directives/ContentContainerDirective.html">ContentContainerDirectives</a> and the TemplateRefs.  These QueryLists should both be available during ngAfterViewInit.</p>
-<p>The init method specifies which container any initial content should
-be in.</p>
-<div><pre class="line-numbers"><code class="language-ts">  &#64;ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true }) 
-  contents: QueryList&lt;TemplateRef&lt;any&gt;&gt;;
+<div><pre class="line-numbers"><code class="language-ts">  constructor(private ccService: ContentConductorService) { }</code></pre></div><p>And then calling the <a href="../injectables/ContentConductorService.html#createContentConductor">createContentConductor</a> method with the QueryLists for the <a href="../directives/ContentContainerDirective.html">ContentContainerDirectives</a> and the <a href="../directives/ContentDirective.html">ContentDirectives</a> or their derivatives.  Generally, these QueryLists should be available during a components&#39; ngAfterViewInit lifecycle method.</p>
+<p>The init method starts listening to the QueryLists for changes.</p>
+<div><pre class="line-numbers"><code class="language-ts">  &#64;ContentChildren(ContentDirective,{ descendants: true }) 
+  contents: QueryList&lt;ContentDirective&lt;any&gt;&gt;;
 
   &#64;ViewChildren(ContentContainerDirective)
   containers: QueryList&lt;ContentContainerDirective&gt;;
@@ -854,6 +909,32 @@ be in.</p>
       .createContentConductor(this.containers, this.contents);
 
     this.conductor.init(&#39;one&#39;);
+  }</code></pre></div><p>Or provide multiple <a href="../directives/ContentDirective.html">ContentDirectives</a> or <a href="../directives/ContentContainerDirective.html">ContentContainerDirectives</a>.</p>
+<div><pre class="line-numbers"><code class="language-ts">  &#64;ContentChildren(ContentDirective,{ descendants: true }) 
+  contents: QueryList&lt;ContentDirective&gt;;
+
+  &#64;ContentChildren(OneContentDirective,{ descendants: true }) 
+  oneContents: QueryList&lt;OneContentDirective&gt;;
+
+  &#64;ContentChildren(TwoContentDirective,{ descendants: true }) 
+  twoContents: QueryList&lt;TwoContentDirective&gt;;
+
+
+  &#64;ViewChildren(ContentContainerDirective)
+  containers: QueryList&lt;ContentContainerDirective&gt;;
+
+  conductor: ContentConductor&lt;ContentContainer&gt;;
+
+  constructor(
+    private ccService: ContentConductorService) { }
+
+  ngAfterViewInit() {
+    this.conductor = this.ccService
+      .createContentConductor(
+        [this.containers], 
+        [this.contents,this.oneContents,this.twoContents]);
+
+    this.conductor.init();
   }</code></pre></div><h2 id="using-the-conductor"><strong>Using the Conductor</strong></h2>
 <p>Then content can be moved from one container to another by specifying
 the container string names.</p>

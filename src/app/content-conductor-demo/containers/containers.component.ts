@@ -1,5 +1,7 @@
 import { Component, ContentChildren, ViewChildren, TemplateRef, QueryList, AfterViewInit } from '@angular/core';
 import { ContentDirective, ContentContainerDirective, ContentConductorService, ContentConductor, ContentContainer } from '@uat/dvk';
+import { OneContentDirective } from '../one-content/one-content.directive';
+import { TwoContentDirective } from '../two-content/two-content.directive';
 
 @Component({
   selector: 'app-containers',
@@ -7,8 +9,15 @@ import { ContentDirective, ContentContainerDirective, ContentConductorService, C
   styleUrls: ['./containers.component.css']
 })
 export class ContainersComponent implements AfterViewInit {
-  @ContentChildren(ContentDirective,{ read: TemplateRef, descendants: true }) 
-  contents: QueryList<TemplateRef<any>>;
+  @ContentChildren(ContentDirective,{ descendants: true }) 
+  contents: QueryList<ContentDirective>;
+
+  @ContentChildren(OneContentDirective,{ descendants: true }) 
+  oneContents: QueryList<OneContentDirective>;
+
+  @ContentChildren(TwoContentDirective,{ descendants: true }) 
+  twoContents: QueryList<TwoContentDirective>;
+
 
   @ViewChildren(ContentContainerDirective)
   containers: QueryList<ContentContainerDirective>;
@@ -22,9 +31,9 @@ export class ContainersComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.conductor = this.ccService
-      .createContentConductor(this.containers, this.contents);
+      .createContentConductor(this.containers, [this.contents,this.oneContents,this.twoContents]);
 
-    this.conductor.init(this.cont);
+    this.conductor.init();
   }
 
   onToggle() {

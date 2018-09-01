@@ -11,7 +11,8 @@
     "noJekyll": "touch ./docs/.nojekyll",
     "genDocs": "./node_modules/.bin/compodoc -p ./projects/dvk/tsconfig.lib.json  -d ./docs --includes ./projects/dvk/docs && npm run noJekyll",
     "genExamples": "ng build DvkExamples --prod --build-optimizer --output-path ./docs/examples",
-    "publishDvk": "cd dist/dvk && npm publish --access=public"
+    "publishDvk": "cd dist/dvk && npm publish --access=public",
+    "prepublish": "ng build dvk && npm run genExamples && npm run genDocs"
   },
   "private": true,
   "dependencies": {

@@ -1,58 +1,57 @@
-import { QueryList, TemplateRef, ViewRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { QueryList, ViewRef } from '@angular/core';
+import { Subscription, Observable, of, combineLatest } from 'rxjs';
 import { ContentConductor } from '../content-conductor.model';
 import { ContentContainer } from '../content-container/content-container.model';
 import { ContainersMap } from '../containers-map/containers-map.model';
+import { Content } from '../content/content.model';
+import { merge, map } from 'rxjs/operators';
 
 /**
  * The default implementation of a {@link ContentConductor}.
  * This version can be overriden by providing a different class
  * for the {@link ContentConductorConstructorToken} token.
  */
-export class DefaultContentConductorService<T extends ContentContainer> implements ContentConductor<T> {
+export class DefaultContentConductorService<T extends ContentContainer, U extends Content> implements ContentConductor<T> {
 
   constructor(
-    private containersQueryList: QueryList<T>,
-    private contentsQueryList : QueryList<TemplateRef<any>>
+    private containersQueryLists: QueryList<T> | QueryList<T>[],
+    private contentsQueryLists : QueryList<U> | QueryList<U>[]
   ) {}
     
-  private containers: T[];
-  private templates: TemplateRef<any>[];
+  /**
+   * @ignore
+   */
+  private containers: T[] = [];
+
+  /**
+   * @ignore
+   */
+  private contents: U[] = [];
+
+  /**
+   * @ignore
+   */
   private containersMap: ContainersMap = {};
+
+  /**
+   * @ignore
+   */
   private containersSub: Subscription;
+
+  /**
+   * @ignore
+   */
   private contentsSub: Subscription;
 
-  private mapContainers<T extends ContentContainer>(
-    containers: T[]) {
-      return containers.reduce((map,container)=>{
-        map[container.containerName] = container.viewContainer;
-        return map;
-      },{});
-  }
-  
-  init(initialContainer: string) {
-    this.containers = this.containersQueryList.toArray();
-    this.templates = this.contentsQueryList.toArray();
+  init() {
+    const normalizedContainers = 
+      this.normalizeQueryLists(this.containersQueryLists)
 
-    this.containersMap = this.mapContainers(this.containers);
-    this.containersSub = this.containersQueryList
-      .changes
-      .subscribe((c: T[])=>{
-        this.containers = c;
-        this.mapContainers(this.containers);
-      });
+    const normalizedContents = 
+      this.normalizeQueryLists(this.contentsQueryLists);
 
-    this.contentsSub = this.contentsQueryList
-      .changes
-      .subscribe((t: TemplateRef<any>[])=>{
-        this.templates = t;
-      });
-
-    if(initialContainer && this.templates) {
-      this.templates.map(template=>
-        this.containersMap[initialContainer]
-          .createEmbeddedView(template));
-    }
+    this.listenToContainersChanges(normalizedContainers);
+    this.listenToContentsChanges(normalizedContents);
   }
 
   destroy() {
@@ -64,10 +63,10 @@ export class DefaultContentConductorService<T extends ContentContainer> implemen
       this.contentsSub.unsubscribe();
     }
 
-    this.containersQueryList = null;
-    this.contentsQueryList = null;
+    this.containersQueryLists = null;
+    this.contentsQueryLists = null;
     this.containers = null;
-    this.templates = null;
+    this.contents = null;
     this.containersMap = null;
     this.containersSub = null;
     this.contentsSub = null;
@@ -143,4 +142,79 @@ export class DefaultContentConductorService<T extends ContentContainer> implemen
 
     this.containersMap[container].insert(view, insertIndex);
   }
+
+  /**
+   * @ignore
+   */
+  private mapContainers<T extends ContentContainer>(
+    containers: T[]) {
+      return containers.reduce((map,container)=>{
+        map[container.containerName] = container.viewContainer;
+        return map;
+      },{});
+  }
+
+  /**
+   * @ignore
+   */
+  private normalizeQueryLists<T>(ql: QueryList<T>|QueryList<T>[]) {
+    if(!Array.isArray(ql)) {
+      return [ql];
+    }
+    return ql;
+  }
+
+  /**
+   * @ignore
+   */
+  private flattenArrays<T>(arrays: T[][]) {
+    return arrays.reduce((flattened,array)=>{
+      flattened.push(...array);
+      return flattened;
+    },[])
+  }
+
+  /**
+   * @ignore
+   */
+  private listenToContainersChanges(containers: QueryList<T>[]) {
+    this.containersSub =
+      combineLatest(
+        containers.map<Observable<T[]>>(c=>
+          of(c.toArray()).pipe(
+            merge(c.changes.pipe(
+              map(
+                (ql:QueryList<T>)=>ql.toArray()
+              ))))))
+      .subscribe(containers=>{
+        this.containers = this.flattenArrays(containers);
+        this.containersMap = this.mapContainers(this.containers);
+      });
+  }
+
+  /**
+   * @ignore
+   */
+  private listenToContentsChanges(contents: QueryList<U>[]) {
+    this.contentsSub = 
+      combineLatest(
+        contents.map<Observable<U[]>>(c=>
+        of(c.toArray()).pipe(
+          merge(c.changes.pipe(
+            map((ql:QueryList<U>)=>ql.toArray())
+          )))))
+      .subscribe(contents=>{
+          const oldContents = this.contents;
+          this.contents = this.flattenArrays(contents);
+          this.contents.forEach(content=>{
+            if(!(oldContents.indexOf(content) >= 0)) {
+              if(content.initialContainerName) {
+                this.containersMap[content.initialContainerName]
+                  .createEmbeddedView(content.template);
+              }
+            }
+          })
+        });
+  }
+    
 }

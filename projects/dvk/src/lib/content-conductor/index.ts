@@ -2,6 +2,7 @@ export * from './content-conductor-constructor/content-conductor-constructor.mod
 export * from './content-conductor-constructor/content-conductor-constructor.token';
 export * from './containers-map/containers-map.model';
 export * from './content/content.directive';
+export * from './content/content.model';
 export * from './content-container/content-container.model';
 export * from './content-container/content-container.directive';
 export * from './content-conductor.service';

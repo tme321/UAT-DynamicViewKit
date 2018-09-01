@@ -33,6 +33,7 @@ export class NgTransitionService {
   }
 
   /**
+   * @ignore
    * Parse an individual AnimationTransitionMetadata for the transition
    * expression and convert that to a valid entry in an 
    * {@link AnimationTransitionsMap}.
