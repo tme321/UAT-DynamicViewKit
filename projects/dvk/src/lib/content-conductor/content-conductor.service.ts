@@ -19,7 +19,7 @@ import { ContentConductor } from './content-conductor.model';
  * 
  *  
  * Example of usage:
- * <example-url>../../docs/examples/index.html#/ContentConductor</example-url>
+ * <example-url>../examples/index.html#/ContentConductor</example-url>
  *
  * 
  * @example
