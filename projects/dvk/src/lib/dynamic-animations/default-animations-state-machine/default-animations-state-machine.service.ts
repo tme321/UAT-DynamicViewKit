@@ -36,9 +36,24 @@ interface DvkTransitionsAnimationMetadata {
  * in the same way that the standard Angular Animations work. 
  */
 export class DefaultAnimationsStateMachine implements AnimationStateMachine {
+  /**
+   * @ignore
+   */
   private currentState: string;
+
+  /**
+   * @ignore
+   */
   private currentTransition: AnimationPlayer;
+
+  /**
+   * @ignore
+   */
   private currentPlayer: AnimationPlayer;
+
+  /**
+   * @ignore
+   */
   private parsedMetadata:DvkTransitionsAnimationMetadata;
 
   constructor(

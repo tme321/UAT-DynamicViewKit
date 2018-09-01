@@ -1,22 +1,24 @@
-import { QueryList, TemplateRef } from '@angular/core';
+import { QueryList } from '@angular/core';
 import { ContentConductor } from "../content-conductor.model";
 import { ContentContainer } from '../content-container/content-container.model';
+import { Content } from '../content/content.model';
 
 /**
  * A constructor that returns an implementation 
  * of {@link ContentConductor}.  
  * 
- * @param containersQueryList Should be a QueryList 
- * of containers that views can be put into.  
+ * @param containersQueryList A QueryList or an array of  
+ * QueryLists of ContentContainer directives or directives 
+ * that extend ContentContainer the view will be put in.  
  * 
- * @param contentsQueryList Should be a QueryList of 
- * the TemplateRefs representing the content to 
- * display inside the containers.
+ * @param contentsQueryList A QueryList or an array of  
+ * QueryLists of Content directives or directives that
+ * extends Content
  */
 export interface ContentConductorConstructor {
-  new<T extends ContentContainer>(
-    containersQueryList: QueryList<T>,
-    contentsQueryList : QueryList<TemplateRef<any>>
+  new<T extends ContentContainer, U extends Content>(
+    containersQueryLists: QueryList<T> | QueryList<T>[],
+    contentsQueryLists : QueryList<U> | QueryList<U>[]
   ):ContentConductor<T>;
 }
   

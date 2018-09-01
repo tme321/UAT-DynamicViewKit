@@ -1,7 +1,8 @@
-import { Injectable, QueryList, TemplateRef, Inject } from '@angular/core';
+import { Injectable, QueryList, Inject } from '@angular/core';
 import { ContentContainer } from './content-container/content-container.model';
 import { ContentConductorConstructorToken } from './content-conductor-constructor/content-conductor-constructor.token';
 import { ContentConductorConstructor } from './content-conductor-constructor/content-conductor-constructor.model';
+import { Content } from './content/content.model';
 
 /*
  * Even though this import is not used it is required for typescript
@@ -34,18 +35,19 @@ export class ContentConductorService {
   /**
    * Create a {@link ContentConductor}
    * for moving content around a component's template.
-   * @param containersQueryList A query list of ContentContainers
-   * @param contentsQueryList A query list of TemplateRefs.
+   * @param containersQueryList A QueryList or array of QueryLists of 
+   * ContentContainers or directives extending ContentContainer.
+   * @param contentsQueryList A QueryList or array of QueryLists of Content 
+   * directives or directives extending Content.
    * @return The ContentConductor
    */
-  createContentConductor<T extends ContentContainer>(
-    containersQueryList: QueryList<T>,
-    contentsQueryList : QueryList<TemplateRef<any>>) {
+  createContentConductor<T extends ContentContainer, U extends Content>(
+    containersQueryList: QueryList<T> | QueryList<T>[],
+    contentsQueryList : QueryList<U> | QueryList<U>[]) {
     
     return  new this.conductorConstructor(
       containersQueryList,
       contentsQueryList
     );
   }
-  
 }

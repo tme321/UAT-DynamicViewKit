@@ -1,4 +1,20 @@
-<app-containers>
-  <div *dvk-content>Conductor Content 1</div>
-  <div *dvk-content>Conductor Content 2</div>
-</app-containers>
+<div class="contents">
+  <app-containers>
+    <div *dvk-content="'one'">Conductor Content 1</div>
+    <div *dvk-content="'two'">Conductor Content 2</div>
+    <ng-container *ngFor="let c of dynamicContents">
+      <div *dvk-content="dContainerName">New Content</div>
+    </ng-container>
+    <ng-container *ngFor="let c of oneContents">
+      <div *one-content>One Content</div>
+    </ng-container>
+    <ng-container *ngFor="let c of twoContents">
+      <div *two-content>Two Content</div>
+    </ng-container>
+  </app-containers>
+  <div class="list-controls">
+    <button (click)="onClick()">Add Content</button>
+    <button (click)="onClickOne()">Add OneContent</button>
+    <button (click)="onClickTwo()">Add TwoContent</button>
+  </div>
+</div>

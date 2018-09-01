@@ -1,4 +1,6 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, Input, AfterViewInit } from '@angular/core';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { Content } from './content.model';
 
 /**
  * A directive that must be used as a structural 
@@ -10,6 +12,12 @@ import { Directive, TemplateRef } from '@angular/core';
 @Directive({
   selector: '[dvk-content]'
 })
-export class ContentDirective {
-  constructor(private templateRef: TemplateRef<any>) {}
+export class ContentDirective implements Content {
+  @Input('dvk-content') initialContainerName: string;
+
+  get template() { return this.templateRef; }
+
+  constructor(private templateRef: TemplateRef<any>) {
+    
+  }
 }

@@ -90,8 +90,20 @@ import { NgStateService } from './ng-state/ng-state.service';
   selector: '[dvk-da]'
 })
 export class DynamicAnimationsDirective implements OnInit, OnDestroy {
+
+  /**
+   * @ignore
+   */
   private stateMode: 'string' | 'number' = 'string';
+
+  /**
+   * @ignore
+   */
   private animationsHandler: DynamicAnimationsHandler;
+
+  /**
+   * @ignore
+   */
   private strState: string;
 
   /**
@@ -107,7 +119,14 @@ export class DynamicAnimationsDirective implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * @ignore
+   */
   private transitions: AnimationTransitionMetadata[];
+
+  /**
+   * @ignore
+   */
   private states: AnimationStateMetadata[];
 
   /**
@@ -127,10 +146,16 @@ export class DynamicAnimationsDirective implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * @ignore
+   */
   private isTransition(metaData: AnimationMetadata): metaData is AnimationTransitionMetadata {
     return !!(metaData as AnimationTransitionMetadata).animation;
   }
 
+  /**
+   * @ignore
+   */
   private isState(metaData: AnimationMetadata): metaData is AnimationStateMetadata {
     return !!(metaData as AnimationStateMetadata).styles;
   }

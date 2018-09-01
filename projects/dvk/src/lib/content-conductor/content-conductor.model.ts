@@ -14,12 +14,10 @@ import { ContentContainer } from './content-container/content-container.model';
 export interface ContentConductor<T extends ContentContainer> {
 
     /**
-     * Initialize the content into the container of the given
-     * string name.
-     * @param initialContainer the string name of the container
-     * to create the content initially inside of.  
+     * Initialize the contents into the containers specified
+     * by the directives.
      */
-    init(initialContainer: string):void;
+    init():void;
 
     /**
      *  Clean up, should be called by the component or directive's

@@ -829,7 +829,7 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>DynamicComponentData</li>
+  <li>Content</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -847,18 +847,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/dvk/src/lib/dynamic-components/dynamic-component-data/dynamic-component-data.model.ts</code>
+            <code>projects/dvk/src/lib/content-conductor/content/content.model.ts</code>
         </p>
 
             <p class="comment">
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Represent the data necessary for a dynamic 
-component that is suitable for serialization.</p>
-<p>This part of the model is separate so that it
-could be put inside a store or some other 
-use case where serialization matters.</p>
+                <p>A wrapper around a TemplateRef
+and a string name identifier
+for the initial container to put
+the content in.</p>
 
             </p>
 
@@ -876,11 +875,10 @@ use case where serialization matters.</p>
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#initialValues">initialValues</a>
+                                        <a href="#initialContainerName">initialContainerName</a>
                                 </li>
                                 <li>
-                                        <a href="#name">name</a>
+                                        <a href="#template">template</a>
                                 </li>
                             </ul>
                         </td>
@@ -897,47 +895,13 @@ use case where serialization matters.</p>
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="initialValues"></a>
-                                        <span class="name"><b>initialValues</b><a href="#initialValues"><span class="fa fa-link"></span></a></span>
+                                        <a name="initialContainerName"></a>
+                                        <span class="name"><b>initialContainerName</b><a href="#initialContainerName"><span class="fa fa-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>initialValues:     <code><a href="../miscellaneous/typealiases.html#InitialValues" target="_self" >InitialValues&lt;T&gt;</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code><a href="../miscellaneous/typealiases.html#InitialValues" target="_self" >InitialValues&lt;T&gt;</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="name"></a>
-                                        <span class="name"><b>name</b><a href="#name"><span class="fa fa-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>name:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>initialContainerName:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -956,24 +920,53 @@ use case where serialization matters.</p>
 
                         </tbody>
                     </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="template"></a>
+                                        <span class="name"><b>template</b><a href="#template"><span class="fa fa-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>template:     <code>TemplateRef&lt;any&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
             </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InitialValues } from &quot;../initial-values/initial-values.model&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { TemplateRef } from &#x27;@angular/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 
 /**
- * Represent the data necessary for a dynamic 
- * component that is suitable for serialization.
- * 
- * This part of the model is separate so that it
- * could be put inside a store or some other 
- * use case where serialization matters.
+ * A wrapper around a TemplateRef
+ * and a string name identifier
+ * for the initial container to put
+ * the content in.
  */
-export interface DynamicComponentData&lt;T&gt; {
-    name: string;
-    initialValues?: InitialValues&lt;T&gt;;
+export interface Content {
+    readonly template: TemplateRef&lt;any&gt;;
+    initialContainerName: string;
+
 }</code></pre>
     </div>
 </div>
@@ -1008,7 +1001,7 @@ export interface DynamicComponentData&lt;T&gt; {
         <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'DynamicComponentData.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'Content.html';
         </script>
 
        <script src="../js/search/search.js"></script>

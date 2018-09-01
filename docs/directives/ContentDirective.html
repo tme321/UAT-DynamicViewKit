@@ -327,6 +327,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -724,6 +727,9 @@
                         <a href="interfaces/ContainersMap.html" data-type="entity-link">ContainersMap</a>
                     </li>
                     <li class="link">
+                        <a href="interfaces/Content.html" data-type="entity-link">Content</a>
+                    </li>
+                    <li class="link">
                         <a href="interfaces/ContentConductor.html" data-type="entity-link">ContentConductor</a>
                     </li>
                     <li class="link">
@@ -848,6 +854,12 @@ directive so that the TemplateRef is injected.</p>
 
             </p>
 
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/Content.html" target="_self" >Content</a></code>
+            </p>
 
             <p class="comment">
                 <h3>Example</h3>
@@ -872,6 +884,33 @@ directive so that the TemplateRef is injected.</p>
             </table>
         </section>
 
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#dvk-content">dvk-content</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
 
             <section>
     <h3 id="constructor">Constructor</h3>
@@ -884,7 +923,7 @@ directive so that the TemplateRef is injected.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/dvk/src/lib/content-conductor/content/content.directive.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/dvk/src/lib/content-conductor/content/content.directive.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -922,18 +961,70 @@ directive so that the TemplateRef is injected.</p>
         </table>
 </section>
 
+            <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="dvk-content"></a>
+                        <code>dvk-content</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type:</em>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/dvk/src/lib/content-conductor/content/content.directive.ts:16</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
 
 
 
 
 
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="template"></a>
+                        <span class="name"><b>template</b><a href="#template"><span class="fa fa-link"></span></a></span>
+                    </td>
+                </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>template()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/dvk/src/lib/content-conductor/content/content.directive.ts:18</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, TemplateRef } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, TemplateRef, Input, AfterViewInit } from &#x27;@angular/core&#x27;;
+import { Subject, BehaviorSubject } from &#x27;rxjs&#x27;;
+import { Content } from &#x27;./content.model&#x27;;
 
 /**
  * A directive that must be used as a structural 
@@ -945,8 +1036,14 @@ directive so that the TemplateRef is injected.</p>
 @Directive({
   selector: &#x27;[dvk-content]&#x27;
 })
-export class ContentDirective {
-  constructor(private templateRef: TemplateRef&lt;any&gt;) {}
+export class ContentDirective implements Content {
+  @Input(&#x27;dvk-content&#x27;) initialContainerName: string;
+
+  get template() { return this.templateRef; }
+
+  constructor(private templateRef: TemplateRef&lt;any&gt;) {
+    
+  }
 }
 </code></pre>
     </div>
