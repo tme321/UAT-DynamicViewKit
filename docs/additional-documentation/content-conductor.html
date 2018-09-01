@@ -950,18 +950,7 @@ ngOnDestroy method in order to free up the resources it uses.</p>
 }</code></pre></div><h6 id="note"><strong>Note</strong></h6>
 <p>All of the methods that insert views into containers also have an optional index parameter at the end that is the index to insert at.
 If it is not specified the items are inserted to the end of the containers views.</p>
-<h2 id="content"><strong>Content</strong></h2>
-<p>Content is added to the containers by creating it inside the element that has containers in it&#39;s view and creates the conductor.  The pieces of content should be marked with the structural directive <a href="../directives/ContentDirective.html">ContentDirective</a>.</p>
-<div><pre class="line-numbers"><code class="language-html">&lt;my-component-with-containers&gt;
-    &lt;span *dvk-content&gt;Some Content To Display In A Container&lt;/span&gt;
-    &lt;other-component *dvk-content&gt;&lt;/other-component&gt;
-    &lt;ng-container *ngFor=&quot;let item of items&quot;&gt;
-        &lt;item-component 
-            [item]=&quot;item&quot;
-            *dvk-content&gt;
-        &lt;/item-component&gt;
-    &lt;/ng-container&gt;
-&lt;/my-component-with-containers&gt;</code></pre></div>
+
                    </div><div class="search-results">
     <div class="has-results">
         <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
