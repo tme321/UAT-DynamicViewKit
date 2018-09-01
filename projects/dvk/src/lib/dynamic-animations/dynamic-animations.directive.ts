@@ -84,7 +84,7 @@ import { NgStateService } from './ng-state/ng-state.service';
  * }
  * ```
  * 
- * <example-url>../../docs/examples/index.html#/DynamicAnimations</example-url>
+ * <example-url>../examples/index.html#/DynamicAnimations</example-url>
  */
 @Directive({
   selector: '[dvk-da]'

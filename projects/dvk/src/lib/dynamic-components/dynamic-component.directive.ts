@@ -81,7 +81,7 @@ import { OutputCallbacks } from './output-callbacks/output-callbacks.model';
  * a single serializer at one point and feed it into all desired 
  * instances of DynamicComponentDirectives.
  * 
- * <example-url>../../docs/examples/index.html#/DynamicComponents</example-url>
+ * <example-url>../examples/index.html#/DynamicComponents</example-url>
  *
  */
 @Directive({
